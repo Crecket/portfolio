@@ -1,7 +1,6 @@
-.landing {
-    $redPrimary: #fc3565;
-    $greySecondary: #bbbbc4;
+@import "../styles/variables.scss";
 
+.landing {
     position: relative;
     display: flex;
     justify-content: center;
@@ -11,86 +10,53 @@
     background: #282931;
     height: 100vh;
 
-    .text-wrapper {
-        width: 95vw;
-        @media (min-width: 550px) {
-            width: 70vw;
-        }
-        @media (min-width: 750px) {
-            width: 60vw;
-        }
-        @media (min-width: 1000px) {
-            width: 50vw;
-        }
-        @media (min-width: 1200px) {
-            width: 42vw;
-        }
+    a {
+        font-size: 1rem;
+        color: $greySecondary;
 
-        h1 {
-            font-size: 2.75rem;
+        transition: 0.5s;
+        -o-transition: 0.5s;
+        -ms-transition: 0.5s;
+        -moz-transition: 0.5s;
+        -webkit-transition: 0.5s;
+
+        &:hover {
             color: $redPrimary;
-            margin-bottom: 10px;
+        }
+    }
+
+    a,
+    svg {
+        display: flex;
+        align-items: center;
+
+        text-decoration: none;
+        margin-right: 16px;
+
+        svg {
+            fill: currentColor;
+            width: 20px;
+            margin-right: 4px;
+        }
+    }
+
+    h1 {
+        font-size: 2.75rem;
+        color: $redPrimary;
+        margin-bottom: 10px;
+    }
+    h2 {
+        font-size: 2rem;
+        color: $greySecondary;
+        margin-top: 10px;
+    }
+
+    @media (min-width: 1200px) {
+        h1 {
+            font-size: 4rem;
         }
         h2 {
-            font-size: 2rem;
-            color: $greySecondary;
-            margin-top: 10px;
-        }
-
-        @media (min-width: 1200px) {
-            h1 {
-                font-size: 4rem;
-            }
-            h2 {
-                font-size: 3rem;
-            }
-            .links {
-                a {
-                    font-size: 1.5rem !important;
-                    svg {
-                        width: 32px !important;
-                    }
-                }
-            }
-        }
-
-        .links {
-            display: flex;
-            flex-wrap: wrap;
-
-            a,
-            svg {
-                font-size: 1rem;
-                color: $greySecondary;
-
-                transition: 0.5s;
-                -o-transition: 0.5s;
-                -ms-transition: 0.5s;
-                -moz-transition: 0.5s;
-                -webkit-transition: 0.5s;
-
-                &:hover {
-                    color: $redPrimary;
-                    svg {
-                        // so it becomes red if A is hovered aswell
-                        color: $redPrimary;
-                    }
-                }
-            }
-
-            a {
-                display: flex;
-                align-items: center;
-
-                text-decoration: none;
-                margin-right: 16px;
-
-                svg {
-                    fill: currentColor;
-                    width: 20px;
-                    margin-right: 4px;
-                }
-            }
+            font-size: 2.5rem;
         }
     }
 

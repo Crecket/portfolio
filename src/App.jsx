@@ -13,6 +13,7 @@ const App = () => {
             <BrowserRouter basename={siteConfig.baseName} forceRefresh={false}>
                 <Switch>
                     <Route exact path="/" component={Home} />
+                    <Route path="/404" component={NotFound} />
                     <Route component={NotFound} />
                 </Switch>
             </BrowserRouter>

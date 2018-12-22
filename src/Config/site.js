@@ -2,10 +2,10 @@ import ConfigParser from "./ConfigParser";
 
 const site = {
     development: {
-        baseName: "localhost:3000/"
+        baseName: "/"
     },
     production: {
-        baseName: "localhost/"
+        baseName: "/"
     }
 };
 

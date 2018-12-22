@@ -1,14 +1,41 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import "./Home.scss";
 
-import Landing from "./Landing";
-// import Projects from "./Projects";
+import LandingSection from "../../Components/LandingSection";
+import Github from "./images/Github";
+import LinkedIn from "./images/Linkedin";
 
 const Home = () => {
     return (
         <div className="home">
-            <Landing />
-            {/*<Projects />*/}
+            <Helmet>
+                <title>GregDev - Home</title>
+                <link rel="canonical" href="http://mysite.com/" />
+            </Helmet>
+
+            <LandingSection>
+                <div className="text-wrapper">
+                    <h1>Gregory Goijaerts</h1>
+                    <h2>Web Developer</h2>
+
+                    <div className="links">
+                        <a target="_blank" rel="noopener noreferrer" href="https://github.com/Crecket">
+                            <Github /> Github
+                        </a>
+                        <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href="https://www.linkedin.com/in/gregory-goijaerts/"
+                        >
+                            <LinkedIn /> LinkedIn
+                        </a>
+                        <a href="/404" rel="noopener noreferrer" style={{ display: "none" }}>
+                            404
+                        </a>
+                    </div>
+                </div>
+            </LandingSection>
         </div>
     );
 };
