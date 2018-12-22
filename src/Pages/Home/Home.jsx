@@ -1,14 +1,14 @@
 import React from "react";
 import "./Home.scss";
 
+import Landing from "./Landing";
+// import Projects from "./Projects";
+
 const Home = () => {
     return (
         <div className="home">
-            <div className="landing">
-                <div id="stars" />
-                <div id="stars2" />
-                <div id="stars3" />
-            </div>
+            <Landing />
+            {/*<Projects />*/}
         </div>
     );
 };
