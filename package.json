@@ -18,14 +18,14 @@
         "react-router-dom": "^4.3.1",
         "react-scripts": "2.1.1",
         "react-snap": "^1.23.0",
-        "sw-precache": "^5.2.1",
-        "typeface-roboto": "^0.0.54"
+        "sw-precache": "^5.2.1"
     },
     "devDependencies": {
         "prettier": "^1.15.3"
     },
     "scripts": {
         "start": "react-scripts start",
+        "server": "nodemon server.js",
         "build": "react-scripts build",
         "postbuild": "react-snap && yarn run sw-precache",
         "sw-precache": "sw-precache --config=src/ServiceWorker/sw-precache-config.js",
