@@ -1733,11 +1733,6 @@ block-stream@*:
   dependencies:
     inherits "~2.0.0"
 
-bloomfilter@^0.0.16:
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/bloomfilter/-/bloomfilter-0.0.16.tgz#42602390c7466bdd39048494782d3e1a6a0f2af3"
-  integrity sha1-QmAjkMdGa905BISUeC0+GmoPKvM=
-
 bluebird@^3.5.1:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.2.tgz#1be0908e054a751754549c270489c1505d4ab15a"
@@ -2492,7 +2487,7 @@ cookie-signature@1.0.6:
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
   integrity sha1-4wOogrNCzD7oylE6eZmXNNqzriw=
 
-cookie@0.3.1, cookie@^0.3.1:
+cookie@0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
   integrity sha1-5+Ch+e9DtMi6klxcWpboBtFoc7s=
@@ -3886,16 +3881,6 @@ fast-safe-stringify@^1.0.8, fast-safe-stringify@^1.2.3:
   resolved "https://registry.yarnpkg.com/fast-safe-stringify/-/fast-safe-stringify-1.2.3.tgz#9fe22c37fb2f7f86f06b8f004377dbf8f1ee7bc1"
   integrity sha512-QJYT/i0QYoiZBQ71ivxdyTqkwKkQ0oxACXHYxH2zYHJEgzi2LsbjgvtzTbLi1SZcF190Db2YP7I7eTsU2egOlw==
 
-fastify-auto-push@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/fastify-auto-push/-/fastify-auto-push-0.4.0.tgz#68aa565090efd2d362bbfecb456281fe3a0d98b2"
-  integrity sha512-UMOkqy0O2DYgX84vH0A0luLXTxmAkjySToohalVLOfVT/5pmRkavPB06+TDmZN+1v0k0DVV+hWSmZlP/qR/kJA==
-  dependencies:
-    cookie "^0.3.1"
-    fastify-plugin "^1.0.0"
-    fastify-static "^0.10.1"
-    h2-auto-push "^0.4.0"
-
 fastify-compress@^0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/fastify-compress/-/fastify-compress-0.7.1.tgz#6a92437d12fc7e8ed53dc20172c2dfcec301688b"
@@ -3933,15 +3918,6 @@ fastify-plugin@^1.0.0, fastify-plugin@^1.2.0, fastify-plugin@^1.2.1:
   integrity sha512-l6uqDyBp3gBjLQRAi3j2NwSvlbe9LuqULZugnO9iRFfYHWd2SpsZBLI1l4Jakk0VMGfYlB322JPIPYh/2qSHig==
   dependencies:
     semver "^5.5.0"
-
-fastify-static@^0.10.1:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/fastify-static/-/fastify-static-0.10.1.tgz#9142ec38db5fdb075db2c0b81fce08de448a05f1"
-  integrity sha512-O6N1E0WMibBDWhbJydeORq/iPNkcrYsZB/PV+6YkMsMyr5eUmgX7oh4xnqPiNF0htP9Grsq0e/9lC8HZzcJAeg==
-  dependencies:
-    fastify-plugin "^1.0.0"
-    readable-stream "^2.3.6"
-    send "^0.16.0"
 
 fastify-static@^1.0.0:
   version "1.0.0"
@@ -4548,13 +4524,6 @@ gzip-size@5.0.0:
   dependencies:
     duplexer "^0.1.1"
     pify "^3.0.0"
-
-h2-auto-push@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/h2-auto-push/-/h2-auto-push-0.4.0.tgz#bc56fda8d595ad50a53bbef73b1d7071f287772d"
-  integrity sha512-xA+SX6l4jccQyRSi07bvSqnnafTPVEvhBtkkC8W4EBmioR5IeMAmIvnExxIU+vTMPJ97ys188IiVT5PLdr6K3Q==
-  dependencies:
-    bloomfilter "^0.0.16"
 
 h2x-core@^1.1.0:
   version "1.1.1"
