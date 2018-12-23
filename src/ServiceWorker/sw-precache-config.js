@@ -1,11 +1,7 @@
 const path = require("path");
 
 module.exports = {
-    staticFileGlobs: [
-        "build/static/css/**.css",
-        "build/static/js/**.js",
-        "build/*@(png|jpg|ico|gif)"
-    ],
+    staticFileGlobs: ["build/static/css/**.css", "build/static/js/**.js"],
     swFilePath: "./build/service-worker.js",
     stripPrefix: "build/",
     navigateFallback: "/200.html",
@@ -20,20 +16,12 @@ module.exports = {
             handler: "networkFirst"
         },
         {
-            urlPattern: /^https\:\/\/fonts\.gstatic\.com\/.*/,
+            urlPattern: /.*(png|jpg|ico|woff|woff2)/,
             handler: "cacheFirst"
         },
         {
-            urlPattern: /^https\:\/\/fonts\.googleapis\.com\/css.*/,
-            handler: "cacheFirst"
-        },
-        {
-            urlPattern: /^https\:\/\/fonts\.googleapis\.com\/css.*/,
-            handler: "cacheFirst"
-        },
-        // {
-        //     urlPattern: /^https?.*/,
-        //     handler: "cacheFirst"
-        // }
+            urlPattern: /^https?.*/,
+            handler: "networkFirst"
+        }
     ]
 };

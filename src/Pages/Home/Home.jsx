@@ -11,7 +11,6 @@ const Home = () => {
         <div className="home">
             <Helmet>
                 <title>GregDev - Home</title>
-                <link rel="canonical" href="http://mysite.com/" />
             </Helmet>
 
             <LandingSection>
