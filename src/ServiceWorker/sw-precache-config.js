@@ -12,6 +12,10 @@ module.exports = {
     },
     runtimeCaching: [
         {
+            urlPattern: /^https\:\/\/ajax\.googleapis\.com\/ajax\/libs\/webfont.*/,
+            handler: "cacheFirst"
+        },
+        {
             urlPattern: /\/api\//,
             handler: "networkFirst"
         },

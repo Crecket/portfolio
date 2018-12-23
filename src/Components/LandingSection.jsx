@@ -2,10 +2,12 @@ import React from "react";
 
 import "./LandingSection.scss";
 
-const LandingSection = ({ children }) => {
+const LandingSection = ({ children, className = "" }) => {
     return (
         <div className="landing">
-            {children}
+            <div className={`content fadeIn ${className}`}>
+                {children}
+            </div>
 
             <div className="stars-wrapper">
                 <div className="stars-section1" />

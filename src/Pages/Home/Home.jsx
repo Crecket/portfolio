@@ -13,26 +13,20 @@ const Home = () => {
                 <title>GregDev - Home</title>
             </Helmet>
 
-            <LandingSection>
-                <div className="text-wrapper">
-                    <h1>Gregory Goijaerts</h1>
-                    <h2>Web Developer</h2>
+            <LandingSection className="text-wrapper">
+                <h1>Gregory Goijaerts</h1>
+                <h2>Web Developer</h2>
 
-                    <div className="links">
-                        <a target="_blank" rel="noopener noreferrer" href="https://github.com/Crecket">
-                            <Github /> Github
-                        </a>
-                        <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href="https://www.linkedin.com/in/gregory-goijaerts/"
-                        >
-                            <LinkedIn /> LinkedIn
-                        </a>
-                        <a href="/404" rel="noopener noreferrer" style={{ display: "none" }}>
-                            404
-                        </a>
-                    </div>
+                <div className="links">
+                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/Crecket">
+                        <Github /> Github
+                    </a>
+                    <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/gregory-goijaerts/">
+                        <LinkedIn /> LinkedIn
+                    </a>
+                    <a href="/404" rel="noopener noreferrer" style={{ display: "none" }}>
+                        404
+                    </a>
                 </div>
             </LandingSection>
         </div>
