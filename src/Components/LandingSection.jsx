@@ -1,13 +1,18 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 import "./LandingSection.scss";
 
-const LandingSection = ({ children, className = "" }) => {
+const LandingSection = ({ children, className = "", height = "100vh", displayHomeLink = false }) => {
     return (
-        <div className="landing">
-            <div className={`content fadeIn ${className}`}>
-                {children}
-            </div>
+        <div className="landing" style={{ height: height }}>
+            <div className={`content fadeIn ${className}`}>{children}</div>
+
+            {displayHomeLink && (
+                <div className="site-url">
+                    <NavLink to="/">Home</NavLink>
+                </div>
+            )}
 
             <div className="stars-wrapper">
                 <div className="stars-section1" />

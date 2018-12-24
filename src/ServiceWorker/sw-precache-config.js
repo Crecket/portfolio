@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-    staticFileGlobs: ["build/static/css/**.css", "build/static/js/**.js"],
+    staticFileGlobs: ["build/static/css/**.css", "build/static/js/**.js", "build/*.ico"],
     swFilePath: "./build/service-worker.js",
     stripPrefix: "build/",
     navigateFallback: "/200.html",

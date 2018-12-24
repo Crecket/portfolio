@@ -7,7 +7,7 @@
     align-items: center;
     overflow: hidden;
 
-    background: #282931;
+    background: $darkBackgroundColor;
     height: 100vh;
 
     a {
@@ -45,9 +45,14 @@
         color: $redPrimary;
         margin-bottom: 10px;
     }
+    h2,
+    h3,
+    h4,
+    h5 {
+        color: $greySecondary;
+    }
     h2 {
         font-size: 2rem;
-        color: $greySecondary;
         margin-top: 10px;
     }
 
@@ -68,6 +73,12 @@
         to {
             transform: translateY(-2000px);
         }
+    }
+
+    .site-url {
+        position: absolute;
+        top: 16px;
+        left: 16px;
     }
 
     .stars-wrapper {

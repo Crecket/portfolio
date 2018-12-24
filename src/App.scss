@@ -1,7 +1,10 @@
+@import "./styles/main";
+
 html,
 body {
     margin: 0px;
     font-family: "Roboto", sans-serif;
+    background-color: $darkBackgroundColor;
 }
 
 .fadeIn {

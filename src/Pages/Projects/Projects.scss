@@ -1,0 +1,38 @@
+@import "../../styles/main.scss";
+
+.projects {
+    .landing {
+        h1 {
+            margin: auto;
+        }
+    }
+
+    .project-section {
+        color: white;
+        display: flex;
+        justify-content: center;
+
+        padding: 8px;
+
+        .project-item {
+            width: 100%;
+            max-width: 100%;
+
+            @media (min-width: 768px) {
+                width: 750px;
+            }
+
+            @media (min-width: 992px) {
+                width: 970px;
+            }
+
+            @media (min-width: 1200px) {
+                width: 1170px;
+            }
+
+            padding: 8px;
+            margin: 8px;
+            background-color: $lighterBackgroundColor;
+        }
+    }
+}
