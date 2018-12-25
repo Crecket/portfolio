@@ -5,9 +5,9 @@ import "./Home.scss";
 
 import LandingSection from "../../Components/LandingSection";
 
-import Github from "../../Images/Github";
-import LinkedIn from "../../Images/Linkedin";
-import CellphoneLinkSvg from "../../Images/CellphoneLinkSvg";
+import Github from "../../SVGImages/Github";
+import LinkedIn from "../../SVGImages/Linkedin";
+import CellphoneLinkSvg from "../../SVGImages/CellphoneLinkSvg";
 
 const Home = () => {
     return (

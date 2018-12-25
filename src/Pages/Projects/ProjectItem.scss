@@ -1,0 +1,43 @@
+@import "../../styles/main.scss";
+
+.projects {
+    .project-section {
+        .project-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 100%;
+            max-width: 100%;
+            min-height: 100vh;
+
+            .project-content {
+                position: relative;
+                padding: 8px;
+                margin: 8px;
+                background-color: $lighterBackgroundColor;
+                box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+                    0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+                height: auto;
+                width: 300px ;
+
+                img {
+                    height: auto;
+                    width: 300px;
+                    margin: -8px;
+                }
+
+                .text-content {
+                    background-color: $lighterBackgroundColor;
+                    position: absolute;
+                    display: none;
+                    top: 0;
+                    left: 0;
+                }
+                :hover + .text-content {
+                    display: block;
+                }
+            }
+        }
+    }
+}

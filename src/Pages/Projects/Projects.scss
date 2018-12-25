@@ -10,29 +10,8 @@
     .project-section {
         color: white;
         display: flex;
-        justify-content: center;
-
+        align-items: center;
+        flex-direction: column;
         padding: 8px;
-
-        .project-item {
-            width: 100%;
-            max-width: 100%;
-
-            @media (min-width: 768px) {
-                width: 750px;
-            }
-
-            @media (min-width: 992px) {
-                width: 970px;
-            }
-
-            @media (min-width: 1200px) {
-                width: 1170px;
-            }
-
-            padding: 8px;
-            margin: 8px;
-            background-color: $lighterBackgroundColor;
-        }
     }
 }
