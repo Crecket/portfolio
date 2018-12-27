@@ -15,6 +15,10 @@ body {
     animation: fadeIn 1s;
 }
 
+svg {
+    fill: currentColor;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;

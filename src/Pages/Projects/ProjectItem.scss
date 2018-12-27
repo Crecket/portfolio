@@ -2,27 +2,69 @@
 
 .projects {
     .project-section {
-        .project-item {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: center;
 
+        .project-item {
             width: 100%;
-            max-width: 100%;
-            min-height: 100vh;
+            max-width: 375px;
+            max-height: 300px;
+
+            @media (min-width: 800px) {
+                width: 375px;
+            }
+            @media (min-width: 1000px) {
+                width: 450px;
+                max-height: 400px;
+            }
+            @media (min-width: 1200px) {
+                width: 500px;
+            }
 
             .project-content {
-                background-color: $lighterBackgroundColor;
                 position: relative;
+                height: 100%;
                 padding: 8px;
                 margin: 8px;
-                box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
-                    0px 2px 1px -1px rgba(0, 0, 0, 0.12);
-                height: 300px;
-                width: 250px;
+
+                &:hover {
+                    .bottom-content,
+                    .text-content {
+                        opacity: 1;
+                    }
+                    img {
+                        opacity: 0.05;
+                    }
+                }
 
                 img {
-                    width: 100%;
+                    max-width: 100%;
+                }
+
+                img,
+                .bottom-content,
+                .text-content {
+                    -webkit-transition: opacity 0.3s ease-in-out;
+                    -moz-transition: opacity 0.3s ease-in-out;
+                    -ms-transition: opacity 0.3s ease-in-out;
+                    -o-transition: opacity 0.3s ease-in-out;
+                    transition: opacity 0.3s ease-in-out;
+                }
+
+                .text-content,
+                .bottom-content {
+                    position: absolute;
+                    opacity: 0;
+                    left: 16px;
+                    padding: 16px;
+                }
+                .text-content {
+                    top: 0px;
+                }
+                .bottom-content {
+                    bottom: 0px;
                 }
             }
         }
