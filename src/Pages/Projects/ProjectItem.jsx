@@ -3,7 +3,7 @@ import "./ProjectItem.scss";
 
 import DownloadIcon from "../../SVGImages/Download";
 import AccountGroupIcon from "../../SVGImages/AccountGroup";
-import AccountMultipleIcon from "../../SVGImages/AccountMultiple";
+// import AccountMultipleIcon from "../../SVGImages/AccountMultiple";
 
 const DownloadCount = ({ downloads }) => {
     if (!downloads) return null;
@@ -12,7 +12,7 @@ const DownloadCount = ({ downloads }) => {
 
     return (
         <p>
-            <DownloadIcon /> ~ {formattedDownloads} Downloads
+            <DownloadIcon /> {formattedDownloads} Downloads
         </p>
     );
 };
@@ -23,14 +23,13 @@ const ViewCount = ({ views }) => {
 
     return (
         <p>
-            <AccountGroupIcon /> ~ {formattedViews} views/month
+            <AccountGroupIcon /> {formattedViews} views/month
         </p>
     );
 };
 
 const ProjectItem = ({ title, description, image, url, downloadCount, viewCount }) => {
-    const imageComponent = <img src={image} alt={`${title} project`} />;
-    return (
+    const content = (
         <div className="project-item">
             <div className="project-content">
                 <div className="text-content">
@@ -43,15 +42,17 @@ const ProjectItem = ({ title, description, image, url, downloadCount, viewCount 
                     <ViewCount views={viewCount} />
                 </div>
 
-                {url ? (
-                    <a href={url} target="_blank" rel="noopener noreferrer">
-                        {imageComponent}
-                    </a>
-                ) : (
-                    imageComponent
-                )}
+                <img src={image} alt={`${title} project`} />
             </div>
         </div>
+    );
+
+    return url ? (
+        <a href={url} target="_blank" rel="noopener noreferrer">
+            {content}
+        </a>
+    ) : (
+        content
     );
 };
 
