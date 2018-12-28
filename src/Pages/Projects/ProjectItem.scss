@@ -31,8 +31,9 @@
                 margin: 16px;
 
                 &:hover {
+                    .text-content,
                     .bottom-content,
-                    .text-content {
+                    .text-content-image {
                         opacity: 1;
                     }
                     img {
@@ -40,14 +41,17 @@
                     }
                 }
 
+                .text-content,
                 img {
-                    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+                    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+                        0px 2px 1px -1px rgba(0, 0, 0, 0.12);
                     max-width: 100%;
                 }
 
                 img,
                 .bottom-content,
-                .text-content {
+                .text-content,
+                .text-content-image {
                     -webkit-transition: opacity 0.3s ease-in-out;
                     -moz-transition: opacity 0.3s ease-in-out;
                     -ms-transition: opacity 0.3s ease-in-out;
@@ -55,19 +59,27 @@
                     transition: opacity 0.3s ease-in-out;
                 }
 
-                .text-content,
+                .text-content {
+                    padding: 2px 8px;
+                    position: relative;
+                    background-color: lighten($darkBackgroundColor, 5);
+                }
+
+                .bottom-content {
+                    bottom: 0px;
+                }
+
+                .text-content-image,
                 .bottom-content {
                     position: absolute;
                     opacity: 0;
                     left: 8px;
                     padding: 8px;
                 }
-                .text-content {
+                .text-content-image {
                     top: 0px;
                 }
-                .bottom-content {
-                    bottom: 0px;
-
+                .usage-stats {
                     p {
                         display: flex;
                         align-items: center;

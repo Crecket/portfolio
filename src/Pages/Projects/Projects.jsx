@@ -38,6 +38,12 @@ const projects = [
         description: "An unofficial and open source CLI tool to quickly use the bunq API",
         image: bunqCLIImage,
         url: "https://github.com/bunqCommunity/bunq-cli"
+    },
+    {
+        title: "UploadBroBot",
+        description: "A personal project for a Telegram bot which helps with sharing/uploading files to different providers",
+        url: "https://github.com/Crecket/upload-bro-bot",
+        userCount: 1000
     }
 ];
 

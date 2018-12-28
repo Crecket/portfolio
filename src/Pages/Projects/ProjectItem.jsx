@@ -3,7 +3,7 @@ import "./ProjectItem.scss";
 
 import DownloadIcon from "../../SVGImages/Download";
 import AccountGroupIcon from "../../SVGImages/AccountGroup";
-// import AccountMultipleIcon from "../../SVGImages/AccountMultiple";
+import AccountMultipleIcon from "../../SVGImages/AccountMultiple";
 
 const DownloadCount = ({ downloads }) => {
     if (!downloads) return null;
@@ -27,22 +27,40 @@ const ViewCount = ({ views }) => {
         </p>
     );
 };
+const UserCount = ({ users }) => {
+    if (!users) return null;
 
-const ProjectItem = ({ title, description, image, url, downloadCount, viewCount }) => {
+    const formattedUsers = users.toLocaleString();
+
+    return (
+        <p>
+            <AccountMultipleIcon /> {formattedUsers} active users
+        </p>
+    );
+};
+
+const ProjectItem = ({ title, description, image, url, downloadCount, viewCount, userCount }) => {
+    const bottomContent = (
+        <div className="usage-stats">
+            <DownloadCount downloads={downloadCount} />
+            <ViewCount views={viewCount} />
+            <UserCount users={userCount} />
+        </div>
+    );
+
     const content = (
-        <div className="project-item">
+        <div className={`project-item ${image ? "has-image" : ""}`}>
             <div className="project-content">
-                <div className="text-content">
+                <div className={image ? "text-content-image" : "text-content"}>
                     <h3>{title}</h3>
                     <p>{description}</p>
+
+                    {!image && bottomContent}
                 </div>
 
-                <div className="bottom-content">
-                    <DownloadCount downloads={downloadCount} />
-                    <ViewCount views={viewCount} />
-                </div>
+                {image && <div className="bottom-content">{bottomContent}</div>}
 
-                <img src={image} alt={`${title} project`} />
+                {image && <img src={image} alt={`${title} project`} />}
             </div>
         </div>
     );
