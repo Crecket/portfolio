@@ -1,4 +1,5 @@
 const routes = require("../src/Config/routes");
+const Api = require("./API/index.js");
 
 module.exports = app => {
     // page routes
@@ -7,6 +8,9 @@ module.exports = app => {
     Object.keys(routes).forEach(routePattern => {
         app.get(routePattern, (request, reply) => reply.sendFile(`.${routePattern}/index.html`));
     });
+
+    // API routes
+    Api(app);
 
     // fallback to 404 page
     app.setNotFoundHandler((request, reply) => {

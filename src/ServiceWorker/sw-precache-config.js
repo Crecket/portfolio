@@ -16,7 +16,7 @@ module.exports = {
             handler: "cacheFirst"
         },
         {
-            urlPattern: /\/api\//,
+            urlPattern: /\/api.*/,
             handler: "networkFirst"
         },
         {
