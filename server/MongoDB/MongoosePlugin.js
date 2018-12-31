@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const fastifyPlugin = require("fastify-plugin");
-const Models = require("./Models");
+
+import Models from "./Models";
 
 function mongoosePlugin(fastify, options, next) {
     // register the models
@@ -19,7 +20,7 @@ function mongoosePlugin(fastify, options, next) {
                 process.exit();
             } else {
                 console.log("Setup mongoose connection with models:");
-                console.log(Object.keys(mongoose.models));
+                // console.log(Object.keys(mongoose.models));
             }
 
             fastify.decorate("mongoose", mongoose);
@@ -28,4 +29,4 @@ function mongoosePlugin(fastify, options, next) {
     );
 }
 
-module.exports = fastifyPlugin(mongoosePlugin);
+export default fastifyPlugin(mongoosePlugin);

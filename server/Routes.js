@@ -1,7 +1,7 @@
-const routes = require("../src/Config/routes");
-const Api = require("./API/index.js");
+import routes from "../src/Config/routes";
+import Api from "./API/index.js";
 
-module.exports = app => {
+export default app => {
     // page routes
     app.get("/", (request, reply) => reply.sendFile("./index.html"));
 

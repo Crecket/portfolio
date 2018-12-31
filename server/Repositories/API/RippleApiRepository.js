@@ -1,4 +1,4 @@
-const axios = require("axios");
+import axios from "axios";
 
 class RippleApiRepository {
     constructor() {
@@ -12,4 +12,4 @@ class RippleApiRepository {
     }
 }
 
-module.exports = RippleApiRepository;
+export default RippleApiRepository;

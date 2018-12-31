@@ -1,8 +1,13 @@
-const fs = require("fs");
-const chalk = require("chalk");
+require("dotenv").config();
+import fs from "fs";
+import chalk from "chalk";
+
+import Plugins from "./Plugins.js";
+import Routes from "./Routes.js";
+import HttpProxy from "./HttpProxy.js";
 
 const fastify = require("fastify");
-const http2Port = process.env.PORT_SSL;
+const http2Port = process.env.SERVER_PORT_SSL;
 
 const app = fastify({
     http2: true,
@@ -14,13 +19,13 @@ const app = fastify({
 });
 
 // register the fastify plugins
-require("./Plugins.js")(app);
+Plugins(app);
 
 // register the routes
-require("./Routes.js")(app);
+Routes(app);
 
 // register the routes
-require("./HttpProxy.js")();
+HttpProxy(process.env.SERVER_PORT);
 
 app.setErrorHandler((error, request, reply) => {
     request.log.warn(error);

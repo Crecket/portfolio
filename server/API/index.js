@@ -1,6 +1,6 @@
-const CryptoCurrencies = require("./CryptoCurrencies");
+import CryptoCurrencies from "./CryptoCurrencies";
 
-module.exports = app => {
+export default app => {
     app.get("/api", (request, reply) => {
         reply.send("alive");
     });

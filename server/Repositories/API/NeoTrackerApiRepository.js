@@ -1,4 +1,4 @@
-const axios = require("axios");
+import axios from "axios";
 
 class NeoTrackerApiRepository {
     constructor() {}
@@ -6,4 +6,4 @@ class NeoTrackerApiRepository {
     // https://neotracker.io/address/AWhEJ7pV1HC2KemXrybtz1r3UzxrAmmWMg
 }
 
-module.exports = NeoTrackerApiRepository;
+export default NeoTrackerApiRepository;

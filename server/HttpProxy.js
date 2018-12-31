@@ -1,9 +1,9 @@
-const chalk = require("chalk");
+import chalk from "chalk";
 const fastify = require("fastify");
 
-const httpPort = process.env.PORT;
+export default (httpPort) => {
+    if(!httpPort) return;
 
-module.exports = () => {
     const httpApp = fastify({});
 
     httpApp.get("/*", (request, reply) => {
