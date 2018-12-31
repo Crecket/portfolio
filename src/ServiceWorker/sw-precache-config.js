@@ -5,6 +5,7 @@ module.exports = {
     swFilePath: "./build/service-worker.js",
     stripPrefix: "build/",
     navigateFallback: "/200.html",
+    navigateFallbackWhitelist: [/https\:\/\/[^/]+($|\/(?!api)\/?.*$)/],
     minify: true,
     dynamicUrlToDependencies: {
         "/": [path.join(__dirname, "/../../build/index.html")],

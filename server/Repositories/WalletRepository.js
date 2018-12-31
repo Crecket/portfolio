@@ -3,6 +3,8 @@ import EtherScanApiRepository from "./API/EtherScanApiRepository";
 // import NeoTrackerApiRepository from "./API/NeoTrackerApiRepository";
 // import RippleApiRepository from "./API/RippleApiRepository";
 
+const cacheTime = 1000 * 60 * 60;
+
 class WalletRepository {
     constructor() {
         this.walletDatabaseRepository = new WalletDatabaseRepository();
@@ -12,11 +14,25 @@ class WalletRepository {
         // this.rippleApiRepository = new RippleApiRepository();
     }
 
-    async get(address, currency = false) {
+    get(id) {
+        return this.walletDatabaseRepository.get(id);
+    }
+
+    list() {
+        return this.walletDatabaseRepository.list();
+    }
+
+    async save(address, currency = false) {
         const databaseResult = await this.walletDatabaseRepository.get(address);
 
-        if (databaseResult) {
-            return databaseResult;
+        if (databaseResult && databaseResult.updatedAt) {
+            const updatedDate = databaseResult.updatedAt.getTime();
+            const nowDate = new Date().getTime();
+            const timeUntilExpire = nowDate - cacheTime - updatedDate;
+
+            if (timeUntilExpire < 0) {
+                return databaseResult;
+            }
         }
 
         // get the correct api handler for the currency
@@ -28,16 +44,22 @@ class WalletRepository {
             default:
                 return null;
         }
-        const apiResponse = await apiPromise;
+        let apiResponse = await apiPromise;
 
         if (apiResponse) {
-            await this.walletDatabaseRepository.save(apiResponse.address, apiResponse.currency, apiResponse.amount);
+            // merge existing with new api data
+            if (databaseResult) {
+                apiResponse = {
+                    ...databaseResult,
+                    ...apiResponse
+                };
+            }
+
+            return this.walletDatabaseRepository.save(apiResponse);
         }
 
-        return this.walletDatabaseRepository.get(address);
+        return null;
     }
-
-    list() {}
 }
 
 export default WalletRepository;

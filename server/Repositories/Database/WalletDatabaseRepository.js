@@ -5,16 +5,31 @@ class WalletDatabaseRepository {
         this.model = mongoose.model("Wallet");
     }
 
-    get(address) {
-        return this.model.findOne({ address: address });
+    get(id) {
+        return this.model.findById(id);
     }
 
-    save(address, currency, amount) {
+    list() {
+        return this.model.find();
+    }
+
+    save(walletDetails) {
         const Wallet = new this.model();
-        Wallet._id = mongoose.Types.ObjectId();
-        Wallet.address = address;
-        Wallet.currency = currency;
-        Wallet.amount = amount;
+        Object.keys(walletDetails).forEach(key => {
+            const value = walletDetails[key];
+
+            Wallet[key] = value;
+        });
+
+        if (!Wallet._id) {
+            Wallet._id = mongoose.Types.ObjectId();
+        }
+        if (!Wallet.createdAt) {
+            Wallet.createdAt = new Date();
+        }
+
+        // set updatedAt timestamp
+        Wallet.updatedAt = new Date();
 
         return Wallet.save();
     }

@@ -2,10 +2,26 @@
     "name": "portfolio",
     "version": "0.1.0",
     "private": true,
+    "scripts": {
+        "start": "react-scripts start",
+        "server": "node build-server/Server.js",
+        "server:dev": "nodemon --exec babel-node server/Server.js",
+        "build": "yarn run build:client && yarn run build:server",
+        "build:client": "react-scripts build",
+        "postbuild:client": "react-snap && yarn run sw-precache",
+        "sw-precache": "sw-precache --config=src/ServiceWorker/sw-precache-config.js",
+        "build:server": "babel server --out-dir build-server",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject",
+        "prettier": "./node_modules/.bin/prettier --tab-width 4 --print-width 120 --write \"+(tests|src)/**/**.+(js|jsx|scss)\""
+    },
     "dependencies": {
         "@babel/cli": "^7.2.3",
         "@babel/core": "^7.2.2",
         "@babel/node": "^7.2.2",
+        "@babel/plugin-proposal-class-properties": "^7.2.3",
+        "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
+        "@babel/plugin-transform-async-to-generator": "^7.2.0",
         "@babel/preset-env": "^7.2.3",
         "axios": "^0.18.0",
         "chalk": "^2.4.1",
@@ -30,20 +46,6 @@
     },
     "devDependencies": {
         "prettier": "^1.15.3"
-    },
-    "scripts": {
-        "start": "react-scripts start",
-        "server": "node build-server/Server.js",
-        "server:dev": "nodemon --exec babel-node server/Server.js",
-        "build": "yarn run build-client && yarn run build-server",
-        "build:client": "react-scripts build",
-        "postbuild:client": "react-snap && yarn run sw-precache",
-        "sw-precache": "sw-precache --config=src/ServiceWorker/sw-precache-config.js",
-        "build:server": "babel server —-out-dir build-server",
-        "postbuild:server": "",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject",
-        "prettier": "./node_modules/.bin/prettier --tab-width 4 --print-width 120 --write \"+(tests|src)/**/**.+(js|jsx|scss)\""
     },
     "eslintConfig": {
         "extends": "react-app"
