@@ -10,3 +10,4 @@ Production server with nodemon
 Testing
 
 ### `npm run build`
+Production build only for the front-end and babel for server
