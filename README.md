@@ -7,4 +7,4 @@ Webpack server in dev mode
 Production server with nodemon
 
 ### `npm run build`
-Production build only for the front-end and babel for server
+Production build only for the front-end and babel
