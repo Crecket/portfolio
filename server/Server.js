@@ -1,13 +1,39 @@
 require("dotenv").config();
 import fs from "fs";
+import cluster from "cluster";
 import chalk from "chalk";
 
 import Plugins from "./Plugins.js";
 import Routes from "./Routes.js";
 import HttpProxy from "./HttpProxy.js";
 
+const io = require("@pm2/io");
 const fastify = require("fastify");
 const http2Port = process.env.SERVER_PORT_SSL;
+
+io.init({
+    metrics: {
+        network: {
+            http: true,
+            ports: true
+        },
+        tracing: {
+            enabled: true
+        }
+    }
+});
+
+const masterNode = cluster.isMaster || (process.env.NODE_APP_INSTANCE && process.env.NODE_APP_INSTANCE === "0");
+
+console.log(masterNode);
+
+if (masterNode) {
+    let userCount = 10;
+    const userCounter = io.metric({
+        name: "Realtime user"
+    });
+    userCounter.set(userCount);
+}
 
 const app = fastify({
     http2: true,
@@ -36,5 +62,9 @@ app.setErrorHandler((error, request, reply) => {
 
 app.listen(http2Port, process.env.SERVER_HOSTNAME, (err, address) => {
     if (err) throw err;
-    console.log(`HTTP2 running at ${chalk.green(http2Port)} - ${chalk.yellow(`https://${process.env.SERVER_HOSTNAME}:${process.env.SERVER_PORT_SSL}`)}`);
+    console.log(
+        `HTTP2 running at ${chalk.green(http2Port)} - ${chalk.yellow(
+            `https://${process.env.SERVER_HOSTNAME}:${process.env.SERVER_PORT_SSL}`
+        )}`
+    );
 });
