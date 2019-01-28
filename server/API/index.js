@@ -5,5 +5,9 @@ export default app => {
         reply.send("alive");
     });
 
+    app.get("/api/speed", (request, reply) => {
+        reply.send({ success: "ok" });
+    });
+
     CryptoCurrencies(app);
 };
