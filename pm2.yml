@@ -1,0 +1,6 @@
+apps:
+  - script: build-server/Server.js
+    name: portfolio
+    instances: 2
+    max_restarts: 3
+    exec_mode: cluster

@@ -13,8 +13,8 @@ const app = fastify({
     http2: true,
     https: {
         allowHTTP1: true, // fallback support for HTTP1
-        key: fs.readFileSync(process.env.SSL_KEY_FILE),
-        cert: fs.readFileSync(process.env.SSL_CRT_FILE)
+        key: fs.readFileSync(`${__dirname}/../${process.env.SSL_KEY_FILE}`),
+        cert: fs.readFileSync(`${__dirname}/../${process.env.SSL_CRT_FILE}`)
     }
 });
 
