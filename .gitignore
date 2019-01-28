@@ -1,5 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+.idea
+temp/*
+!temp/.gitkeep
+
 # dependencies
 /node_modules
 /.pnp
@@ -10,7 +14,9 @@
 
 # production
 /build
+!/build/.gitkeep
 /build-server
+!/build-server/.gitkeep
 
 # misc
 .DS_Store

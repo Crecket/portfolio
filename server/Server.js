@@ -36,5 +36,5 @@ app.setErrorHandler((error, request, reply) => {
 
 app.listen(http2Port, process.env.SERVER_HOSTNAME, (err, address) => {
     if (err) throw err;
-    console.log(`HTTP2 running at ${chalk.green(http2Port)} - ${chalk.yellow(`https://${process.env.SERVER_HOSTNAME}/`)}`);
+    console.log(`HTTP2 running at ${chalk.green(http2Port)} - ${chalk.yellow(`https://${process.env.SERVER_HOSTNAME}:${process.env.SERVER_PORT_SSL}`)}`);
 });

@@ -5,7 +5,7 @@
 ### `npm start`
 Webpack server in dev mode
 
-### `npm start`
+### `npm server:dev`
 Production server with nodemon
 
 ### `npm run build`
