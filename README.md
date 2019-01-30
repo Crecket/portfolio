@@ -10,3 +10,6 @@ Production server with nodemon
 
 ### `npm run build`
 Production build only for the front-end and babel
+
+### `npm run build:server`
+### `npm run build:client`
