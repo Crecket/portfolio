@@ -18,7 +18,7 @@ const Home = () => {
 
             <LandingSection className="text-wrapper">
                 <h1>Gregory Goijaerts</h1>
-                <h2>Web Developer</h2>
+                <h2>Software Engineer</h2>
 
                 <div className="links">
                     <a target="_blank" rel="noopener noreferrer" href="https://github.com/Crecket">
