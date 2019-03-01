@@ -1,11 +1,14 @@
 {
     "name": "portfolio",
     "version": "0.1.0",
+    "homepage": "https://gregoryg.dev/",
     "private": true,
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "postbuild:client": "react-snap && yarn run sw-precache",
+        "postbuild": "react-snap && yarn run sw-precache",
+        "predeploy": "yarn run build",
+        "deploy": "gh-pages -b gh-pages -d build",
         "sw-precache": "sw-precache --config=src/ServiceWorker/sw-precache-config.js",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
@@ -26,6 +29,7 @@
         "fastify-compress": "^0.7.1",
         "fastify-helmet": "^3.0.0",
         "fastify-static": "^1.0.0",
+        "gh-pages": "^2.0.1",
         "glob": "^7.1.3",
         "node-sass": "^4.11.0",
         "react": "^16.7.0-alpha.2",
@@ -33,7 +37,7 @@
         "react-helmet": "^5.2.0",
         "react-router": "^4.3.1",
         "react-router-dom": "^4.3.1",
-        "react-scripts": "2.1.1",
+        "react-scripts": "^2.1.5",
         "react-snap": "^1.23.0",
         "react-use": "^5.1.1",
         "sw-precache": "^5.2.1"
