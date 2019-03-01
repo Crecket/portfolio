@@ -16,7 +16,7 @@ const projects = [
         description: "The unofficial, free and open source desktop application for the bunq API",
         image: bunqDesktopImage,
         url: "https://bunqdesk.top/",
-        downloadCount: 15000
+        downloadCount: 20000
     },
     {
         title: "Masterypoints",
@@ -31,7 +31,7 @@ const projects = [
         description: "A javascript SDK for the bunq API - was originally built for the web but has support for NodeJS",
         image: bunqJSClientImage,
         url: "https://github.com/bunqCommunity/bunqJSClient",
-        downloadCount: 27000
+        downloadCount: 28000
     },
     {
         title: "bunq-cli",
