@@ -51,7 +51,7 @@ const Projects = () => {
     return (
         <div className="projects">
             <Helmet>
-                <title>GregDev - Projects</title>
+                <title>GregoryG - Projects</title>
             </Helmet>
 
             <LandingSection className="text-wrapper" height="40vh" displayHomeLink>

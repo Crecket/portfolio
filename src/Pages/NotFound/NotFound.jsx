@@ -9,7 +9,7 @@ const NotFound = () => {
     return (
         <div className="notfound">
             <Helmet>
-                <title>GregDev - 404</title>
+                <title>GregoryG - 404</title>
             </Helmet>
 
             <LandingSection>
