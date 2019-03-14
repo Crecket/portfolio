@@ -1,0 +1,72 @@
+==================================================================
+https://keybase.io/crecket
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://gregoryg.dev
+  * I am crecket (https://keybase.io/crecket) on keybase.
+  * I have a public key with fingerprint E891 777E 416F 95E9 6690  1FCE 753F 2E4E 98F2 9AE3
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0101d1798e0f4c13290225ecb194f6bf8005132fc85d1732ff34a4d17e6f59ad947e0a",
+      "fingerprint": "e891777e416f95e966901fce753f2e4e98f29ae3",
+      "host": "keybase.io",
+      "key_id": "753f2e4e98f29ae3",
+      "kid": "0101d1798e0f4c13290225ecb194f6bf8005132fc85d1732ff34a4d17e6f59ad947e0a",
+      "uid": "6be79e7909f1ba56508fa864e22a6f19",
+      "username": "crecket"
+    },
+    "service": {
+      "hostname": "gregoryg.dev",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1552587323,
+  "expire_in": 157680000,
+  "prev": "20da5494ccec62750dad9ecbcce180e7b8f600685b8d91767c351307264fb982",
+  "seqno": 21,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+
+owGtUn1QFGUYv8ND4QRB0AIZJLYJMJB29/bzGD6kBglEmQEBCzl29949NvT22js4
+kYE+RimFyUMyEkiaMjJKB52wOopDhEAoIxJnwBFNZhxOmakgggqy9xj9rz+beWfe
+53ne3+/3fLyPw3+Vykddlhy/893Zpin1sJtXFR5tyqxEeNlYgegrkVKwcoF9RmC1
+GUolI6JHUAzFjBjNMgAVCQHT4SyK4yQQeIwlRIoXGRQlYVQUGBLCoCHqCI6AJqBE
+kuWMLEEDlEPiEFEym4BiUSSzDcoChsVomgYERoksCViKYlFMFABN6kQcEIBlRJzl
+gA4SS2SrhwGL4zkriJdkGIOOYaW8/8D/z3WXrchRPKBZeFBWxHiOpEiUETmGIgCO
+c5SIsR6gFShmbj+AaEEBQimwIVVxCAyWSwLwzNXTyEOASQEmWakwxRtBOaRaFNkm
+C/I++FJis1mseg/TVmHxQO2ANzwUMfCS2QjHCBnlQLFKshnRYxAp2CSPKkaSOMnA
+XnRxCDhgkRRgkDwIkqZgtyjqyQPT6REcNXIkwRIFggAECqdJ6BtZOBvoYwwKaJ4R
+KRSlGJJnjPCfKFrQwWGhNE4RIs8yOOLp62WzjOhxDBbKmaCoVTKZOVuZApAq7REv
+nUal9lGFPxapma63V2+TT7hFR8TVR7vn7eVZPJXWN/BR5I3VgaqjhrjipbcHAqvP
+/NGwHmn458+x4cmg3qz2s8sXvMjr5pkHG2KGxIncq4ONz6hnn14qfM8VWmAdyviy
+6PbfwfvXNt3fPY0HajfWWvK/WJ8qd7b2EMHo4q8Tn54tfu1cR4L1h5tta5+ocV4J
+9a47v3wod1u49uLQfHTkgyo2MbEwyL/3cvbMXP+ikvN518im7oDuPk3bwcGMr2ul
+Z6erP04zlG7sOaFfFZK9ZSnt2xsbFlPU6T1365wLdaemOoYdR8oev+JeSrhQDwoK
+j7lH9uY4A4Te1BlXX23edlVkWkeRa6H9g6a9o6WcyzfGFHXgVusmIm+P1jzjjFj8
+rWlzx56iBmKss3ihOWWdVDfej/xVLl/y/eaaPXpc0/VceG1L8OQpnx0B9s+sd7bU
+jod8tzX/3o9feT9laveNHW3NutN9/4V5U/niLjRWczLJMcPtzh3g5eauV9KX78Xb
+dfqd1bMtBw+/82JIWtRFhyVvu4ivObw02ZiY1JdQ/D2uHHKuC7sVVDN6+62gjOSB
+J3PTY6MGTue4Q99M1TKd7pvRazJ/vxsWNbnjJPFheFKEFZ2wZ2YkD1bx17vCiuf8
+3q9ffbpovt91LtWPyf6kze/VViczUjJc0n/8o2tZrmZO//xLNy7tUkekbM5vyez6
+RfKfykLHQCW19UzG5ZiKxhrL9HmH5uef5PT0xtfn/gU=
+=4bcs
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/crecket
+
+==================================================================
