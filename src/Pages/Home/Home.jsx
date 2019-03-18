@@ -12,9 +12,7 @@ import CellphoneLinkSvg from "../../SVGImages/CellphoneLinkSvg";
 const Home = () => {
     return (
         <div className="home">
-            <Helmet>
-                <title>GregoryG - Home</title>
-            </Helmet>
+            <Helmet title="GregoryG - Home" />
 
             <LandingSection className="text-wrapper">
                 <h1>Gregory Goijaerts</h1>

@@ -41,7 +41,8 @@ const projects = [
     },
     {
         title: "UploadBroBot",
-        description: "A personal project for a Telegram bot which helps with sharing/uploading files to different providers",
+        description:
+            "A personal project for a Telegram bot which helps with sharing/uploading files to different providers",
         url: "https://github.com/Crecket/upload-bro-bot",
         userCount: 1000
     }
@@ -50,9 +51,7 @@ const projects = [
 const Projects = () => {
     return (
         <div className="projects">
-            <Helmet>
-                <title>GregoryG - Projects</title>
-            </Helmet>
+            <Helmet title="GregoryG - Projects" />
 
             <LandingSection className="text-wrapper" height="40vh" displayHomeLink>
                 <h1>Projects</h1>

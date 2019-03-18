@@ -1,0 +1,13 @@
+@import "../../styles/main.scss";
+
+.bunq-charts {
+    display: flex;
+    justify-content: center;
+
+    .content {
+        padding: 8px;
+        margin: 8px;
+        max-width: 1024px;
+        width: 100%;
+    }
+}

@@ -2,6 +2,7 @@
 
 const routes = {
     "/projects": "Projects",
+    "/bunq": "BunqCharts",
     "/404": "NotFound"
 };
 
