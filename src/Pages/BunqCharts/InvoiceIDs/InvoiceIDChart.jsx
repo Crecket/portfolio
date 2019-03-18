@@ -1,5 +1,5 @@
 import React from "react";
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 
 import StandardChartOptions from "../StandardChartOptions";
 
@@ -11,15 +11,16 @@ export default ({ invoices }) => {
     });
 
     return (
-        <Bar
+        <Line
             data={{
                 labels: invoiceChartLabels,
                 datasets: [
                     {
                         label: "Invoices",
                         data: invoiceChartData,
-                        borderWidth: 1,
-                        backgroundColor: "#0d61e8"
+                        backgroundColor: "rgba(13, 97, 232, 0.2)",
+                        pointBackgroundColor: "#1840ff",
+                        pointHitRadius: 1
                     }
                 ]
             }}
