@@ -40,7 +40,7 @@ export default ({ payments }) => {
                 labels: paymentChartLabels,
                 datasets: [
                     {
-                        label: "Payment ID average change per day",
+                        label: "Payments",
                         data: paymentChartData,
                         borderWidth: 1,
                         backgroundColor: "#0d61e8"

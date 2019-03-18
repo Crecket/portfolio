@@ -16,7 +16,7 @@ export default ({ invoices }) => {
                 labels: invoiceChartLabels,
                 datasets: [
                     {
-                        label: "Invoice ID",
+                        label: "Invoices",
                         data: invoiceChartData,
                         borderWidth: 1,
                         backgroundColor: "#0d61e8"

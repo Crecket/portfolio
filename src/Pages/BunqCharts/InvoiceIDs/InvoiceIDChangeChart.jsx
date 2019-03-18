@@ -25,7 +25,7 @@ export default ({ invoices }) => {
                 labels: invoiceChartLabels,
                 datasets: [
                     {
-                        label: "Invoice ID average change per day",
+                        label: "Invoices",
                         data: invoiceChartData,
                         borderWidth: 1,
                         backgroundColor: "#0d61e8"

@@ -5,7 +5,10 @@ export default {
                 fontColor: "white",
                 ticks: {
                     fontColor: "white",
-                    beginAtZero: true
+                    beginAtZero: true,
+                    callback: function(value, index, values) {
+                        return value.toLocaleString();
+                    }
                 }
             }
         ],
@@ -17,6 +20,15 @@ export default {
                 }
             }
         ]
+    },
+    tooltips: {
+        mode: "label",
+        label: "mylabel",
+        callbacks: {
+            label: function(tooltipItem, data) {
+                return tooltipItem.yLabel.toLocaleString();
+            }
+        }
     },
     legend: {
         labels: {

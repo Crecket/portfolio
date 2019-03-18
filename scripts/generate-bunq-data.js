@@ -63,19 +63,22 @@ const start = async () => {
         const type = Object.keys(monetaryAccount)[0];
         return monetaryAccount[type].status === "ACTIVE";
     });
+    // get first active account
     const accountType = Object.keys(filteredAccounts[0])[0];
     const account = filteredAccounts[0][accountType];
 
+    const invoiceData = [];
+
+    // go through all invoices
+    // TODO group by month
     const invoices = await BunqClient.api.invoice.list(user.id);
-    const invoiceData = invoices
-        .map(i => {
-            const info = i.Invoice;
-            return {
-                id: info.id,
-                date: info.created
-            };
-        })
-        .reverse();
+    invoices.reverse().forEach(i => {
+        const info = i.Invoice;
+        invoiceData.push({
+            id: info.id,
+            date: info.created
+        });
+    });
     console.log("invoiceData", invoiceData.length);
 
     // payment list
@@ -104,6 +107,7 @@ const start = async () => {
         .reverse();
     console.log("paymentData", paymentData.length);
 
+    // write to a file in public dir
     fs.writeFileSync(
         `${__dirname}${path.sep}..${path.sep}public${path.sep}bunq-data.json`,
         JSON.stringify({
@@ -121,4 +125,5 @@ start()
         }
         throw error;
     })
+    .catch(console.error)
     .finally(() => process.exit());

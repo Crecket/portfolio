@@ -15,7 +15,7 @@ export default ({ bunqData }) => {
         <div>
             <AppBar position="static">
                 <Tabs value={tab} onChange={(e, value) => setTab(value)}>
-                    <Tab label="Invoices average / day" />
+                    <Tab label="Invoices change / month" />
                     <Tab label="Total invoices" />
                 </Tabs>
             </AppBar>

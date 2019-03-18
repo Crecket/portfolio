@@ -16,7 +16,7 @@ export default ({ payments }) => {
                 labels: paymentChartLabels,
                 datasets: [
                     {
-                        label: "Payment ID",
+                        label: "Payments",
                         data: paymentChartData,
                         borderWidth: 1,
                         backgroundColor: "#0d61e8"
