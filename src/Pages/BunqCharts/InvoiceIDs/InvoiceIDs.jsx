@@ -15,13 +15,13 @@ export default ({ bunqData }) => {
         <div>
             <AppBar position="static">
                 <Tabs value={tab} onChange={(e, value) => setTab(value)}>
-                    <Tab label="Invoices change / month" />
                     <Tab label="Total invoices" />
+                    <Tab label="Invoices change / month" />
                 </Tabs>
             </AppBar>
 
-            {tab === 0 && <InvoiceIDChangeChart invoices={bunqData.invoices} />}
-            {tab === 1 && <InvoiceIDChart invoices={bunqData.invoices} />}
+            {tab === 0 && <InvoiceIDChart invoices={bunqData.invoices} />}
+            {tab === 1 && <InvoiceIDChangeChart invoices={bunqData.invoices} />}
         </div>
     );
 };

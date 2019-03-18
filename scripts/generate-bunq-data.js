@@ -72,13 +72,27 @@ const start = async () => {
     // go through all invoices
     // TODO group by month
     const invoices = await BunqClient.api.invoice.list(user.id);
-    invoices.reverse().forEach(i => {
-        const info = i.Invoice;
-        invoiceData.push({
-            id: info.id,
-            date: info.created
+    const invoicetracker = {};
+    invoices
+        .reverse()
+        .filter(invoice => {
+            const date = new Date(invoice.Invoice.created);
+            const dateString = `${date.getFullYear()}:${date.getMonth()}`;
+
+            if (!invoicetracker[dateString]) {
+                // store this month as already existing
+                invoicetracker[dateString] = true;
+                return true;
+            }
+            return false;
+        })
+        .forEach(i => {
+            const info = i.Invoice;
+            invoiceData.push({
+                id: info.id,
+                date: info.created
+            });
         });
-    });
     console.log("invoiceData", invoiceData.length);
 
     // payment list
