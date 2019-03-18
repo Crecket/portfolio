@@ -28,9 +28,15 @@ const Home = () => {
                     <NavLink to="/projects">
                         <CellphoneLinkSvg /> Projects
                     </NavLink>
-                    <a href="/404" rel="noopener noreferrer" style={{ display: "none" }}>
-                        404
-                    </a>
+
+                    <div style={{ display: "none" }}>
+                        <a href="/404" rel="noopener noreferrer">
+                            404
+                        </a>
+                        <a href="/bunq" rel="noopener noreferrer">
+                            bunq
+                        </a>
+                    </div>
                 </div>
             </LandingSection>
         </div>
