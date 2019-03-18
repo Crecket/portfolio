@@ -4,6 +4,8 @@ import * as path from "path";
 import BunqJSClient from "@bunq-community/bunq-js-client";
 import JSONFileStore from "@bunq-community/bunq-js-client/dist/Stores/JSONFileStore";
 
+import dataSets from "./DataSets/bunqDataSets";
+
 Date.prototype.getWeek = function() {
     const onejan = new Date(this.getFullYear(), 0, 1);
     const millisecsInDay = 86400000;
@@ -21,7 +23,7 @@ const setup = async () => {
         process.exit();
     }
 
-    const customStoreInstance = JSONFileStore(`${__dirname}${path.sep}..${path.sep}.cache${path.sep}storage.json`);
+    const customStoreInstance = JSONFileStore(`${__dirname}${path.sep}..${path.sep}storage.json`);
 
     const BunqClient = new BunqJSClient(customStoreInstance);
     await BunqClient.run(process.env.BUNQ_API_KEY, [], process.env.BUNQ_ENVIRONMENT, process.env.BUNQ_ENCRYPTION_KEY);
@@ -63,61 +65,111 @@ const start = async () => {
         const type = Object.keys(monetaryAccount)[0];
         return monetaryAccount[type].status === "ACTIVE";
     });
+
     // get first active account
     const accountType = Object.keys(filteredAccounts[0])[0];
     const account = filteredAccounts[0][accountType];
 
-    const invoiceData = [];
-
-    // go through all invoices
-    // TODO group by month
+    // invoice list
     const invoices = await BunqClient.api.invoice.list(user.id);
-    const invoicetracker = {};
-    invoices
-        .reverse()
-        .filter(invoice => {
-            const date = new Date(invoice.Invoice.created);
-            const dateString = `${date.getFullYear()}:${date.getMonth()}`;
+    const invoiceTracker = {};
+    invoices.forEach(invoice => {
+        const info = invoice.Invoice;
+        const date = new Date(info.created);
+        const dateString = `${date.getFullYear()}:${date.getMonth()}`;
 
-            if (!invoicetracker[dateString]) {
-                // store this month as already existing
-                invoicetracker[dateString] = true;
-                return true;
-            }
-            return false;
-        })
-        .forEach(i => {
-            const info = i.Invoice;
-            invoiceData.push({
-                id: info.id,
-                date: info.created
-            });
-        });
-    console.log("invoiceData", invoiceData.length);
+        if (!invoiceTracker[dateString]) {
+            // store this month as already existing
+            invoiceTracker[dateString] = {
+                date: info.created,
+                count: 0,
+                amount: 0
+            };
+        }
+
+        invoiceTracker[dateString].count += 1;
+        invoiceTracker[dateString].amount += info.id;
+    });
 
     // payment list
     const payments = await getPaymentsRecursive(BunqClient, user.id, account.id);
     const paymentTracker = {};
-    const paymentData = payments
-        .filter(payment => {
-            const date = new Date(payment.Payment.created);
-            const dateString = `${date.getFullYear()}:${date.getWeek()}`;
+    payments.map(payment => {
+        const paymentInfo = payment.Payment;
 
+        const date = new Date(paymentInfo.created);
+        const dateString = `${date.getFullYear()}:${date.getWeek()}`;
+
+        if (!paymentTracker[dateString]) {
+            // store this month as already existing
+            paymentTracker[dateString] = {
+                date: paymentInfo.created,
+                count: 0,
+                amount: 0
+            };
+        }
+
+        paymentTracker[dateString].count += 1;
+        paymentTracker[dateString].amount += paymentInfo.id;
+    });
+
+    // now go through the static datasets
+    dataSets.forEach(dataSet => {
+        dataSet.payments.forEach(payment => {
+            const date = new Date(payment.date);
+            const dateString = `${date.getFullYear()}:${date.getWeek()}`;
             if (!paymentTracker[dateString]) {
-                // store this month as already existing
-                paymentTracker[dateString] = true;
-                return true;
+                paymentTracker[dateString] = {
+                    date: payment.date,
+                    count: 0,
+                    amount: 0
+                };
             }
 
-            return false;
-        })
-        .map(payment => {
-            const paymentInfo = payment.Payment;
+            paymentTracker[dateString].count += 1;
+            paymentTracker[dateString].amount += payment.id;
+        });
+        dataSet.invoices.forEach(invoice => {
+            const date = new Date(invoice.date);
+            const dateString = `${date.getFullYear()}:${date.getMonth()}`;
+            if (!invoiceTracker[dateString]) {
+                invoiceTracker[dateString] = {
+                    date: invoice.date,
+                    count: 0,
+                    amount: 0
+                };
+            }
+
+            invoiceTracker[dateString].count += 1;
+            invoiceTracker[dateString].amount += invoice.id;
+        });
+    });
+
+    // calculate average and push to data list
+    const invoiceData = Object.keys(invoiceTracker)
+        .map(dateString => {
+            const object = invoiceTracker[dateString];
+
             return {
-                id: paymentInfo.id,
-                date: paymentInfo.created
+                id: Math.round(object.amount / object.count),
+                date: object.date
             };
         })
+        .sort((a, b) => (a.date > b.date ? -1 : 1))
+        .reverse();
+    console.log("invoiceData", invoiceData.length);
+
+    // calculate average and push to data list
+    const paymentData = Object.keys(paymentTracker)
+        .map(dateString => {
+            const object = paymentTracker[dateString];
+
+            return {
+                id: Math.round(object.amount / object.count),
+                date: object.date
+            };
+        })
+        .sort((a, b) => (a.date > b.date ? -1 : 1))
         .reverse();
     console.log("paymentData", paymentData.length);
 

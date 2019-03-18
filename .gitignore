@@ -1,7 +1,5 @@
 temp/*
 !temp/.gitkeep
-.cache/*
-.cache/.gitkeep
 
 # dependencies
 /node_modules
@@ -32,3 +30,4 @@ yarn-error.log*
 
 .env
 !.env.example
+storage.json
