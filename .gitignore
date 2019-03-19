@@ -23,6 +23,7 @@ temp/*
 .env.test.local
 .env.production.local
 public/bunq-data.json
+scripts/DataSets/updated-bunq-data.json
 
 npm-debug.log*
 yarn-debug.log*

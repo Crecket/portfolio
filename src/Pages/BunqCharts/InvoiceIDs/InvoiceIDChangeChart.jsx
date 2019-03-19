@@ -4,13 +4,19 @@ import { Bar } from "react-chartjs-2";
 import StandardChartOptions from "../StandardChartOptions";
 
 export default ({ invoices }) => {
-    let previousId = invoices[0].id;
-
+    let previousChange = 0;
+    const invoiceChartDelta = [];
+    const invoiceChartDeltaColors = [];
     const invoiceChartData = invoices.map(invoice => {
-        const invoiceId = invoice.id;
-        const invoiceIdChange = invoiceId - previousId;
+        const invoiceIdChange = invoice.change;
 
-        previousId = invoiceId;
+        // calculate difference in new invoices between now and last month
+        const changeVsLastMonth = invoiceIdChange - previousChange;
+        const color = changeVsLastMonth < 0 ? "red" : "green";
+        invoiceChartDelta.push(changeVsLastMonth);
+        invoiceChartDeltaColors.push(color);
+
+        previousChange = invoiceIdChange;
         return invoiceIdChange;
     });
 
@@ -29,6 +35,12 @@ export default ({ invoices }) => {
                         data: invoiceChartData,
                         borderWidth: 1,
                         backgroundColor: "#0d61e8"
+                    },
+                    {
+                        label: "Invoice change",
+                        data: invoiceChartDelta,
+                        borderWidth: 1,
+                        backgroundColor: invoiceChartDeltaColors
                     }
                 ]
             }}

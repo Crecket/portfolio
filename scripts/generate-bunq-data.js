@@ -51,7 +51,7 @@ const getPaymentsRecursive = async (BunqClient, userId, accountId, older_id = fa
     return [...payments, ...nestedPayments];
 };
 
-const start = async () => {
+const getUpdatedDataset = async () => {
     const BunqClient = await setup();
 
     // user info
@@ -113,8 +113,98 @@ const start = async () => {
         paymentTracker[dateString].amount += paymentInfo.id;
     });
 
+    const invoiceData = Object.keys(invoiceTracker)
+        .map(dateString => {
+            const object = invoiceTracker[dateString];
+
+            return {
+                id: Math.round(object.amount / object.count),
+                date: object.date
+            };
+        })
+        .sort((a, b) => (a.date > b.date ? -1 : 1))
+        .reverse();
+    console.log("updated invoiceData", invoiceData.length);
+
+    const paymentData = Object.keys(paymentTracker)
+        .map(dateString => {
+            const object = paymentTracker[dateString];
+
+            return {
+                id: Math.round(object.amount / object.count),
+                date: object.date
+            };
+        })
+        .sort((a, b) => (a.date > b.date ? -1 : 1))
+        .reverse();
+    console.log("updated paymentData", paymentData.length);
+
+    // write to a file in public dir
+    fs.writeFileSync(
+        `${__dirname}${path.sep}DataSets${path.sep}updated-bunq-data.json`,
+        JSON.stringify({
+            payments: paymentData,
+            invoices: invoiceData
+        })
+    );
+
+    return {
+        payments: paymentData,
+        invoices: invoiceData
+    };
+};
+
+/**
+ * Calculates the invoice ID change number for each dataset separately and then
+ * calculates an average value
+ * @param dataSet
+ */
+const normalizeInvoices = dataSet => {
+    const invoices = dataSet.invoices;
+
+    const dataSetChangeValues = {};
+
+    let previousId = invoices[0].id;
+    let previousChange = 0;
+    invoices.forEach((invoice, index) => {
+        const date = new Date(invoice.date);
+        const dateString = `${date.getFullYear()}:${date.getMonth()}`;
+        if (!dataSetChangeValues[dateString]) {
+            dataSetChangeValues[dateString] = [];
+        }
+
+        const invoiceId = invoice.id;
+        const invoiceIdChange = invoiceId - previousId;
+        previousId = invoiceId;
+        previousChange = invoiceIdChange;
+
+        dataSetChangeValues[dateString].push(invoiceIdChange);
+    });
+
+    const combinedChangeValues = {};
+    Object.keys(dataSetChangeValues).map(dateString => {
+        const changeValues = dataSetChangeValues[dateString];
+
+        const reducedValues = changeValues.reduce((total, changeValue) => total + changeValue, 0);
+        combinedChangeValues[dateString] = reducedValues;
+    });
+
+    return combinedChangeValues;
+};
+
+const start = async () => {
+    // get a updated set for the current API user
+    const updatedDataset = await getUpdatedDataset();
+    dataSets.push(updatedDataset);
+
+    // group by week or month for each use case to get averages
+    const paymentTracker = {};
+    const invoiceTracker = {};
+
     // now go through the static datasets
     dataSets.forEach(dataSet => {
+        const normalizedInvoices = normalizeInvoices(dataSet);
+
         dataSet.payments.forEach(payment => {
             const date = new Date(payment.date);
             const dateString = `${date.getFullYear()}:${date.getWeek()}`;
@@ -136,12 +226,14 @@ const start = async () => {
                 invoiceTracker[dateString] = {
                     date: invoice.date,
                     count: 0,
+                    change: 0,
                     amount: 0
                 };
             }
 
             invoiceTracker[dateString].count += 1;
             invoiceTracker[dateString].amount += invoice.id;
+            invoiceTracker[dateString].change += normalizedInvoices[dateString];
         });
     });
 
@@ -152,12 +244,13 @@ const start = async () => {
 
             return {
                 id: Math.round(object.amount / object.count),
+                change: Math.round(object.change / object.count),
                 date: object.date
             };
         })
         .sort((a, b) => (a.date > b.date ? -1 : 1))
         .reverse();
-    console.log("invoiceData", invoiceData.length);
+    console.log("combined invoiceData", invoiceData.length);
 
     // calculate average and push to data list
     const paymentData = Object.keys(paymentTracker)
@@ -171,7 +264,7 @@ const start = async () => {
         })
         .sort((a, b) => (a.date > b.date ? -1 : 1))
         .reverse();
-    console.log("paymentData", paymentData.length);
+    console.log("combined paymentData", paymentData.length);
 
     // write to a file in public dir
     fs.writeFileSync(
