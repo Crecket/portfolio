@@ -271,7 +271,8 @@ const start = async () => {
         `${__dirname}${path.sep}..${path.sep}public${path.sep}bunq-data.json`,
         JSON.stringify({
             payments: paymentData,
-            invoices: invoiceData
+            invoices: invoiceData,
+            dataSets: dataSets
         })
     );
 };

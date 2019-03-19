@@ -2,5 +2,7 @@ export default {
     palette: {
         type: "dark"
     },
-    useNextVariants: true
+    typography: {
+        useNextVariants: true
+    }
 };

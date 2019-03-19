@@ -4,6 +4,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
 import InvoiceIDChart from "./InvoiceIDChart";
+import InvoiceIDMultiChart from "./InvoiceIDMultiChart";
 import InvoiceIDChangeChart from "./InvoiceIDChangeChart";
 
 export default ({ bunqData }) => {
@@ -17,11 +18,13 @@ export default ({ bunqData }) => {
                 <Tabs value={tab} onChange={(e, value) => setTab(value)}>
                     <Tab label="Total invoices" />
                     <Tab label="Invoices change / month" />
+                    <Tab label="Invoice datasets" />
                 </Tabs>
             </AppBar>
 
             {tab === 0 && <InvoiceIDChart invoices={bunqData.invoices} />}
             {tab === 1 && <InvoiceIDChangeChart invoices={bunqData.invoices} />}
+            {tab === 2 && <InvoiceIDMultiChart dataSets={bunqData.dataSets} />}
         </div>
     );
 };
