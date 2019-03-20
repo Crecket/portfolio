@@ -42,7 +42,12 @@ export default ({ invoices }) => {
             <div className="chart-content">
                 <FormControlLabel
                     control={
-                        <Switch checked={adjusted} onChange={e => setAdjusted(!adjusted)} value="checked" color="primary" />
+                        <Switch
+                            checked={adjusted}
+                            onChange={e => setAdjusted(!adjusted)}
+                            value="checked"
+                            color="primary"
+                        />
                     }
                     label="Estimate invoice IDs for the 15th of the month instead of just showing the change between invoices."
                 />

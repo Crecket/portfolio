@@ -15,6 +15,7 @@ export default {
         xAxes: [
             {
                 fontColor: "white",
+                offset:true,
                 ticks: {
                     fontColor: "white"
                 }
