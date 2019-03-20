@@ -10,13 +10,13 @@ export default ({ dataSets }) => {
         let color;
         switch (index) {
             case 0:
-                color = "rgb(255, 40, 40)";
+                color = "#ff171f";
                 break;
             case 1:
-                color = "rgb(40, 255, 40)";
+                color = "#67ff4d";
                 break;
             case 2:
-                color = "rgb(40, 40, 255)";
+                color = "#0d61e8";
                 break;
             default:
                 color = "red";
@@ -39,12 +39,6 @@ export default ({ dataSets }) => {
         });
     });
 
-    const options = { ...StandardChartOptions };
-    options.scales.xAxes[0] = {
-        type: "time",
-        distribution: "series"
-    };
-
     return (
         <div>
             <Typography variant="body1" className="chart-description">
@@ -56,7 +50,7 @@ export default ({ dataSets }) => {
                 data={{
                     datasets: invoiceChartDataSets
                 }}
-                options={options}
+                options={StandardChartOptions()}
             />
         </div>
     );

@@ -11,7 +11,8 @@ export default ({ payments }) => {
 
     let previousDate = new Date(firstPayment.created);
     let previousId = firstPayment.id;
-    const paymentChartData = payments.map(payment => {
+    const paymentChartData = [];
+    payments.forEach(payment => {
         const paymentId = payment.id;
         const paymentDate = new Date(payment.date);
 
@@ -27,12 +28,10 @@ export default ({ payments }) => {
         previousId = paymentId;
         previousDate = paymentDate;
 
-        return paymentIdAverageChange;
-    });
-
-    const paymentChartLabels = payments.map(payment => {
-        const date = new Date(payment.date);
-        return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+        paymentChartData.push({
+            x: new Date(payment.date),
+            y: paymentIdAverageChange
+        });
     });
 
     return (
@@ -43,7 +42,7 @@ export default ({ payments }) => {
             </Typography>
             <Bar
                 data={{
-                    labels: paymentChartLabels,
+                    // labels: paymentChartLabels,
                     datasets: [
                         {
                             label: "Payments",
@@ -53,7 +52,7 @@ export default ({ payments }) => {
                         }
                     ]
                 }}
-                options={StandardChartOptions}
+                options={StandardChartOptions()}
             />
         </div>
     );

@@ -11,6 +11,10 @@ Date.prototype.getWeek = function() {
     const millisecsInDay = 86400000;
     return Math.ceil(((this - onejan) / millisecsInDay + onejan.getDay() + 1) / 7);
 };
+Date.prototype.getMonthString = function() {
+    const month = this.getMonth();
+    return `${month}`.length === 1 ? `0${month}` : `${month}`;
+};
 
 const oneDay = 24 * 60 * 60 * 1000;
 const getDaysBetween = (date1, date2, rounded = true) => {
@@ -105,7 +109,7 @@ const getUpdatedDataset = async () => {
     invoices.forEach(invoice => {
         const info = invoice.Invoice;
         const date = new Date(info.created);
-        const dateString = `${date.getFullYear()}:${date.getMonth()}`;
+        const dateString = `${date.getFullYear()}:${date.getMonthString()}`;
 
         if (!invoiceTracker[dateString]) {
             // store this month as already existing
@@ -130,16 +134,17 @@ const getUpdatedDataset = async () => {
         const dateString = `${date.getFullYear()}:${date.getWeek()}`;
 
         if (!paymentTracker[dateString]) {
-            // store this month as already existing
             paymentTracker[dateString] = {
                 date: paymentInfo.created,
-                count: 0,
-                amount: 0
+                id: paymentInfo.id
             };
+        } else {
+            const compareDate = new Date(paymentTracker[dateString].date);
+            // get a payment as early as possible for this week
+            if (compareDate > date) {
+                paymentTracker[dateString].id = paymentInfo.id;
+            }
         }
-
-        paymentTracker[dateString].count += 1;
-        paymentTracker[dateString].amount += paymentInfo.id;
     });
 
     const invoiceData = Object.keys(invoiceTracker)
@@ -156,14 +161,7 @@ const getUpdatedDataset = async () => {
     console.log("updated invoiceData", invoiceData.length);
 
     const paymentData = Object.keys(paymentTracker)
-        .map(dateString => {
-            const object = paymentTracker[dateString];
-
-            return {
-                id: Math.round(object.amount / object.count),
-                date: object.date
-            };
-        })
+        .map(dateString => paymentTracker[dateString])
         .sort((a, b) => (a.date > b.date ? -1 : 1))
         .reverse();
     console.log("updated paymentData", paymentData.length);
@@ -195,7 +193,7 @@ const normalizeInvoices = dataSet => {
     invoices.forEach((invoice, index) => {
         const date = new Date(invoice.date);
         const dateDay = date.getDate();
-        const dateString = `${date.getFullYear()}:${date.getMonth()}`;
+        const dateString = `${date.getFullYear()}:${date.getMonthString()}`;
         if (!dataSetChangeValues[dateString]) {
             dataSetChangeValues[dateString] = [];
         }
@@ -262,25 +260,29 @@ const start = async () => {
 
     // now go through the static datasets
     dataSets.forEach(dataSet => {
-        const normalizedInvoices = normalizeInvoices(dataSet);
-
+        // const normalizedPayments = normalizePayments(dataSet);
         dataSet.payments.forEach(payment => {
             const date = new Date(payment.date);
             const dateString = `${date.getFullYear()}:${date.getWeek()}`;
+
             if (!paymentTracker[dateString]) {
                 paymentTracker[dateString] = {
                     date: payment.date,
-                    count: 0,
-                    amount: 0
+                    id: payment.id
                 };
+            } else {
+                const compareDate = new Date(paymentTracker[dateString].date);
+                // get a payment as early as possible for this week
+                if (compareDate > date) {
+                    paymentTracker[dateString].id = payment.id;
+                }
             }
-
-            paymentTracker[dateString].count += 1;
-            paymentTracker[dateString].amount += payment.id;
         });
+
+        const normalizedInvoices = normalizeInvoices(dataSet);
         dataSet.invoices.forEach(invoice => {
             const date = new Date(invoice.date);
-            const dateString = `${date.getFullYear()}:${date.getMonth()}`;
+            const dateString = `${date.getFullYear()}:${date.getMonthString()}`;
             if (!invoiceTracker[dateString]) {
                 invoiceTracker[dateString] = {
                     date: invoice.date,
@@ -316,14 +318,7 @@ const start = async () => {
 
     // calculate average and push to data list
     const paymentData = Object.keys(paymentTracker)
-        .map(dateString => {
-            const object = paymentTracker[dateString];
-
-            return {
-                id: Math.round(object.amount / object.count),
-                date: object.date
-            };
-        })
+        .map(dateString => paymentTracker[dateString])
         .sort((a, b) => (a.date > b.date ? -1 : 1))
         .reverse();
     console.log("combined paymentData", paymentData.length);

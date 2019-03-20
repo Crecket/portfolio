@@ -7,26 +7,31 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import StandardChartOptions from "../StandardChartOptions";
 
 export default ({ invoices }) => {
-    const [adjusted, setAdjusted] = useState(false);
+    const [adjusted, setAdjusted] = useState(true);
     let previousChange = 0;
     const invoiceChartDelta = [];
     const invoiceChartDeltaColors = [];
-    const invoiceChartData = invoices.map(invoice => {
+    const invoiceChartData = [];
+    invoices.forEach(invoice => {
         const invoiceIdChange = adjusted ? invoice.changeAdjusted : invoice.change;
+
+        // skip no change events
+        if (invoiceIdChange === 0) return;
 
         // calculate difference in new invoices between now and last month
         const changeVsLastMonth = invoiceIdChange - previousChange;
-        const color = changeVsLastMonth < 0 ? "red" : "green";
-        invoiceChartDelta.push(changeVsLastMonth);
+        const color = changeVsLastMonth < 0 ? "#ff171f" : "#67ff4d";
+        invoiceChartDelta.push({
+            x: new Date(invoice.date),
+            y: changeVsLastMonth
+        });
         invoiceChartDeltaColors.push(color);
 
         previousChange = invoiceIdChange;
-        return invoiceIdChange;
-    });
-
-    const invoiceChartLabels = invoices.map(invoice => {
-        const date = new Date(invoice.date);
-        return `${date.getFullYear()}/${date.getMonth() + 1}`;
+        invoiceChartData.push({
+            x: new Date(invoice.date),
+            y: invoiceIdChange
+        });
     });
 
     return (
@@ -54,7 +59,6 @@ export default ({ invoices }) => {
             </div>
             <Bar
                 data={{
-                    labels: invoiceChartLabels,
                     datasets: [
                         {
                             label: "Invoice change",
@@ -70,7 +74,7 @@ export default ({ invoices }) => {
                         }
                     ]
                 }}
-                options={StandardChartOptions}
+                options={StandardChartOptions()}
             />
         </div>
     );

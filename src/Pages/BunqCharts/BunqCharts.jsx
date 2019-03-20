@@ -12,6 +12,7 @@ import "./BunqCharts.scss";
 
 import PaymentIDs from "./PaymentIDs/PaymentIDs";
 import InvoiceIDs from "./InvoiceIDs/InvoiceIDs";
+import Combined from "./Combined/Combined";
 
 const theme = createMuiTheme(MuiTheme);
 
@@ -43,11 +44,13 @@ const BunqCharts = () => {
                             <Tabs value={tab} onChange={(e, value) => setTab(value)}>
                                 <Tab label="Invoices" />
                                 <Tab label="Payments" />
+                                <Tab label="Combined" />
                             </Tabs>
                         </AppBar>
 
                         {tab === 0 && <InvoiceIDs bunqData={bunqData} />}
                         {tab === 1 && <PaymentIDs bunqData={bunqData} />}
+                        {tab === 2 && <Combined bunqData={bunqData} />}
                     </Paper>
                 </div>
             </MuiThemeProvider>

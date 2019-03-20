@@ -5,10 +5,11 @@ import Typography from "@material-ui/core/Typography";
 import StandardChartOptions from "../StandardChartOptions";
 
 export default ({ invoices }) => {
-    const invoiceChartData = invoices.map(invoice => invoice.id);
-    const invoiceChartLabels = invoices.map(invoice => {
-        const date = new Date(invoice.date);
-        return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+    const invoiceChartData = invoices.map(invoice => {
+        return {
+            x: new Date(invoice.date),
+            y: invoice.id
+        };
     });
 
     return (
@@ -19,18 +20,17 @@ export default ({ invoices }) => {
             </Typography>
             <Line
                 data={{
-                    labels: invoiceChartLabels,
                     datasets: [
                         {
                             label: "Invoices",
                             data: invoiceChartData,
                             backgroundColor: "rgba(13, 97, 232, 0.2)",
-                            pointBackgroundColor: "#1840ff",
+                            pointBackgroundColor: "#2a5eff",
                             pointHitRadius: 1
                         }
                     ]
                 }}
-                options={StandardChartOptions}
+                options={StandardChartOptions()}
             />
         </div>
     );
