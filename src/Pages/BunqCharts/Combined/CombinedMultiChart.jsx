@@ -22,8 +22,7 @@ export default ({ bunqData }) => {
         ...options.scales.yAxes[0],
         id: "payments",
         gridLines: {
-            display: true,
-            color: "rgba(42, 94, 255, 0.3)"
+            display: true
         }
     };
     options.scales.yAxes[1] = {
@@ -40,7 +39,7 @@ export default ({ bunqData }) => {
         },
         gridLines: {
             display: true,
-            color: "rgba(103, 255, 77, 0.3)"
+            color: "rgba(103, 255, 77, 0.8)"
         }
     };
 
@@ -54,8 +53,8 @@ export default ({ bunqData }) => {
                             data: paymentChartData,
                             fill: false,
                             pointHitRadius: 1,
-                            backgroundColor: "#2a5eff",
-                            pointBackgroundColor: "#2a5eff",
+                            backgroundColor: "#0d61e8",
+                            pointBackgroundColor: "#0d61e8",
                             yAxisID: "payments"
                         },
                         {

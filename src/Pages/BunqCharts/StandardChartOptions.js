@@ -30,6 +30,7 @@ export default () => {
         },
         tooltips: {
             mode: "label",
+            intersect: false,
             label: "mylabel",
             callbacks: {
                 label: function(tooltipItem, data) {

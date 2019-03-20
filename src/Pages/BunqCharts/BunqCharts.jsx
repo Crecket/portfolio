@@ -33,21 +33,21 @@ const BunqCharts = () => {
     return (
         <div className="bunq-charts">
             <Helmet title="GregoryG - bunq charts" />
-                <div className="content">
-                    <Paper>
-                        <AppBar position="static">
-                            <Tabs value={tab} onChange={(e, value) => setTab(value)}>
-                                <Tab label="Invoices" />
-                                <Tab label="Payments" />
-                                <Tab label="Combined" />
-                            </Tabs>
-                        </AppBar>
+            <div className="content">
+                <Paper>
+                    <AppBar position="static">
+                        <Tabs value={tab} onChange={(e, value) => setTab(value)}>
+                            <Tab label="Invoices" />
+                            <Tab label="Payments" />
+                            <Tab label="Combined" />
+                        </Tabs>
+                    </AppBar>
 
-                        {tab === 0 && <InvoiceIDs bunqData={bunqData} />}
-                        {tab === 1 && <PaymentIDs bunqData={bunqData} />}
-                        {tab === 2 && <Combined bunqData={bunqData} />}
-                    </Paper>
-                </div>
+                    {tab === 0 && <InvoiceIDs bunqData={bunqData} />}
+                    {tab === 1 && <PaymentIDs bunqData={bunqData} />}
+                    {tab === 2 && <Combined bunqData={bunqData} />}
+                </Paper>
+            </div>
         </div>
     );
 };

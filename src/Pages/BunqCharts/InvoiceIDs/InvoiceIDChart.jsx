@@ -24,9 +24,8 @@ export default ({ invoices }) => {
                         {
                             label: "Invoices",
                             data: invoiceChartData,
-                            backgroundColor: "rgba(13, 97, 232, 0.2)",
-                            pointBackgroundColor: "#2a5eff",
-                            pointHitRadius: 1
+                            backgroundColor: "#0d61e8",
+                            pointRadius: 0
                         }
                     ]
                 }}

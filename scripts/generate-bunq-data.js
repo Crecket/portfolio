@@ -16,9 +16,9 @@ Date.prototype.getMonthString = function() {
     return `${month}`.length === 1 ? `0${month}` : `${month}`;
 };
 
-const oneDay = 24 * 60 * 60 * 1000;
-const getDaysBetween = (date1, date2, rounded = true) => {
-    const daysBetweenUnrounded = Math.abs((date1.getTime() - date2.getTime()) / oneDay);
+const ONE_DAY = 24 * 60 * 60 * 1000;
+const getTimeBetween = (date1, date2, interval, rounded = true) => {
+    const daysBetweenUnrounded = Math.abs((date1.getTime() - date2.getTime()) / interval);
     if (rounded) return Math.round(daysBetweenUnrounded);
 
     return daysBetweenUnrounded;
@@ -182,7 +182,7 @@ const getUpdatedDataset = async () => {
  * calculates an average value
  * @param dataSet
  */
-const normalizeInvoices = dataSet => {
+const calculateInvoiceChangeValues = dataSet => {
     const invoices = dataSet.invoices;
     const dataSetChangeValues = {};
     const dataSetAdjustedChangeValues = {};
@@ -208,10 +208,10 @@ const normalizeInvoices = dataSet => {
         let adjustedChangeValue = invoiceIdChange;
 
         // attempt to get a decent estimate for what the value was at the 15th of the month
-        const daysBetweenValue2 = getDaysBetween(date, previousDate, false);
-        if (daysBetweenValue2 !== 0) {
+        const daysBetweenValue = getTimeBetween(date, previousDate, ONE_DAY, false);
+        if (daysBetweenValue !== 0) {
             const invoiceIdSecondChange = invoiceId - previousId;
-            const estimatedDailyChange = invoiceIdSecondChange / daysBetweenValue2;
+            const estimatedDailyChange = invoiceIdSecondChange / daysBetweenValue;
             const daysUntil15th = 15 - dateDay;
             const adjustmentValue = daysUntil15th * estimatedDailyChange;
             const adjustedInvoiceId = invoiceId + adjustmentValue;
@@ -248,9 +248,48 @@ const normalizeInvoices = dataSet => {
     };
 };
 
+const calculatePaymentChangeValues = payments => {
+    const dataSetChangeValues = {};
+    if (payments.length === 0) return {};
+
+    let previousId = payments[0].id;
+    let previousDate = new Date(payments[0].date);
+    payments.forEach((payment, index) => {
+        const date = new Date(payment.date);
+        const dateString = `${date.getFullYear()}:${date.getWeek()}`;
+        if (!dataSetChangeValues[dateString]) {
+            dataSetChangeValues[dateString] = [];
+        }
+        const paymentId = payment.id;
+
+        // change in payment ID versus previous payment
+        const paymentIdChange = paymentId - previousId;
+
+        // attempt to get a decent estimate for what the value was at the 1st day of the week
+        const daysBetweenDates = getTimeBetween(date, previousDate, ONE_DAY, false);
+
+        // store the values for next loop
+        previousDate = date;
+        previousId = paymentId;
+
+        // push to the dataset stack
+        dataSetChangeValues[dateString].push(paymentIdChange / daysBetweenDates);
+    });
+
+    const combinedChangeValues = {};
+    Object.keys(dataSetChangeValues).map(dateString => {
+        const changeValues = dataSetChangeValues[dateString];
+
+        const reducedValues = changeValues.reduce((total, changeValue) => total + changeValue, 0);
+        combinedChangeValues[dateString] = reducedValues;
+    });
+
+    return combinedChangeValues;
+};
+
 const start = async () => {
     // get a updated set for the current API user
-    await getUpdatedDataset();
+    // await getUpdatedDataset();
 
     // group by week or month for each use case to get averages
     const paymentTracker = {};
@@ -260,7 +299,7 @@ const start = async () => {
 
     // now go through the static datasets
     dataSets.forEach(dataSet => {
-        // const normalizedPayments = normalizePayments(dataSet);
+        // get the first payment for each week
         dataSet.payments.forEach(payment => {
             const date = new Date(payment.date);
             const dateString = `${date.getFullYear()}:${date.getWeek()}`;
@@ -279,7 +318,8 @@ const start = async () => {
             }
         });
 
-        const normalizedInvoices = normalizeInvoices(dataSet);
+        // combine the ids with the normalized change values
+        const normalizedInvoices = calculateInvoiceChangeValues(dataSet);
         dataSet.invoices.forEach(invoice => {
             const date = new Date(invoice.date);
             const dateString = `${date.getFullYear()}:${date.getMonthString()}`;
@@ -300,7 +340,7 @@ const start = async () => {
         });
     });
 
-    // calculate average and push to data list
+    // calculate averages and push to data list
     const invoiceData = Object.keys(invoiceTracker)
         .map(dateString => {
             const object = invoiceTracker[dateString];
@@ -317,10 +357,27 @@ const start = async () => {
     console.log("combined invoiceData", invoiceData.length);
 
     // calculate average and push to data list
-    const paymentData = Object.keys(paymentTracker)
-        .map(dateString => paymentTracker[dateString])
+    const paymentsCombined = Object.keys(paymentTracker)
+        .map(dateString => {
+            return paymentTracker[dateString];
+        })
         .sort((a, b) => (a.date > b.date ? -1 : 1))
         .reverse();
+
+    // calculate change values and adjusted changes values
+    const paymentChangeData = calculatePaymentChangeValues(paymentsCombined);
+
+    // combine data back to a regular dataset
+    const paymentData = paymentsCombined.map(payment => {
+        const date = new Date(payment.date);
+        const dateString = `${date.getFullYear()}:${date.getWeek()}`;
+
+        return {
+            id: payment.id,
+            date: payment.date,
+            change: Math.round(paymentChangeData[dateString])
+        };
+    });
     console.log("combined paymentData", paymentData.length);
 
     // write to a file in public dir

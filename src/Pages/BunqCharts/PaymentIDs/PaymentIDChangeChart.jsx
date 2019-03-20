@@ -4,34 +4,12 @@ import Typography from "@material-ui/core/Typography";
 
 import StandardChartOptions from "../StandardChartOptions";
 
-const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-
 export default ({ payments }) => {
-    const firstPayment = payments.slice(payments.length - 1, 1);
-
-    let previousDate = new Date(firstPayment.created);
-    let previousId = firstPayment.id;
-    const paymentChartData = [];
-    payments.forEach(payment => {
-        const paymentId = payment.id;
-        const paymentDate = new Date(payment.date);
-
-        // change in payment id value
-        const paymentIdChange = paymentId - previousId;
-
-        // change in date since last payment
-        const diffDays = Math.round(Math.abs((previousDate.getTime() - paymentDate.getTime()) / oneDay));
-
-        // average change per day
-        const paymentIdAverageChange = Math.round(paymentIdChange / diffDays);
-
-        previousId = paymentId;
-        previousDate = paymentDate;
-
-        paymentChartData.push({
+    const paymentChartData = payments.map(payment => {
+        return {
             x: new Date(payment.date),
-            y: paymentIdAverageChange
-        });
+            y: payment.change
+        };
     });
 
     return (
@@ -42,7 +20,6 @@ export default ({ payments }) => {
             </Typography>
             <Bar
                 data={{
-                    // labels: paymentChartLabels,
                     datasets: [
                         {
                             label: "Payments",
