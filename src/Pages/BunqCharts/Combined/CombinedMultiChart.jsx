@@ -31,6 +31,13 @@ export default ({ bunqData }) => {
         type: "linear",
         position: "right",
         fontColor: "white",
+        ticks: {
+            fontColor: "white",
+            beginAtZero: true,
+            callback: function(value, index, values) {
+                return value.toLocaleString();
+            }
+        },
         gridLines: {
             display: true,
             color: "rgba(103, 255, 77, 0.3)"
