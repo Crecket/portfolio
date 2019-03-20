@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-    staticFileGlobs: ["build/static/css/**.css", "build/static/js/**.js", "build/*.ico"],
+    staticFileGlobs: ["build/*.ico"],
     swFilePath: "./build/service-worker.js",
     stripPrefix: "build/",
     navigateFallback: "/200.html",
@@ -23,8 +23,12 @@ module.exports = {
             handler: "networkFirst"
         },
         {
-            urlPattern: /.*(png|jpg|ico|woff|woff2)/,
+            urlPattern: /.*(js|css|png|jpg|ico|woff|woff2)/,
             handler: "cacheFirst"
+        },
+        {
+            urlPattern: /.*(json)/,
+            handler: "networkFirst"
         },
         {
             urlPattern: /^https?.*/,
