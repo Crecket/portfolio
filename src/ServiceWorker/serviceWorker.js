@@ -32,7 +32,7 @@ export function register(config) {
                     );
                 });
             } else {
-                window.showSnackbar("Register worker");
+                window.showSnackbar && window.showSnackbar("Register worker");
                 // Is not localhost. Just register service worker
                 registerValidSW(swUrl, config);
             }
@@ -55,7 +55,8 @@ function registerValidSW(swUrl, config) {
                             // At this point, the updated precached content has been fetched,
                             // but the previous service worker will still serve the older
                             // content until all client tabs are closed.
-                            window.showSnackbar("New content is available! Refresh the page to see it.");
+                            window.showSnackbar &&
+                                window.showSnackbar("New content is available! Refresh the page to see it.");
 
                             // Execute callback
                             if (config && config.onUpdate) {
@@ -65,7 +66,7 @@ function registerValidSW(swUrl, config) {
                             // At this point, everything has been precached.
                             // It's the perfect time to display a
                             // "Content is cached for offline use." message.
-                            window.showSnackbar("Content is cached for offline use.");
+                            window.showSnackbar && window.showSnackbar("Content is cached for offline use.");
 
                             // Execute callback
                             if (config && config.onSuccess) {
@@ -100,7 +101,7 @@ function checkValidServiceWorker(swUrl, config) {
             }
         })
         .catch(() => {
-            window.showSnackbar("No internet connection found. Running in offline mode.");
+            window.showSnackbar && window.showSnackbar("No internet connection found. Running in offline mode.");
         });
 }
 
