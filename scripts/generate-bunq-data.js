@@ -4,7 +4,7 @@ import * as path from "path";
 import BunqJSClient from "@bunq-community/bunq-js-client";
 import JSONFileStore from "@bunq-community/bunq-js-client/dist/Stores/JSONFileStore";
 
-import dataSets from "./DataSets/bunqDataSets";
+import bunqDataSets from "./DataSets/bunqDataSets";
 
 Date.prototype.getWeek = function() {
     const onejan = new Date(this.getFullYear(), 0, 1);
@@ -31,8 +31,8 @@ const setup = async () => {
         !process.env.BUNQ_ENCRYPTION_KEY ||
         !process.env.BUNQ_DEVICE_NAME
     ) {
-        console.error("Missing environment variables to generate bunq charts");
-        process.exit();
+        console.error("Missing environment variables to generate new bunq data");
+        return false;
     }
 
     const customStoreInstance = JSONFileStore(`${__dirname}${path.sep}..${path.sep}storage.json`);
@@ -76,6 +76,12 @@ const getPaymentsRecursive = async (BunqClient, userId, accountId, older_id = fa
  */
 const getUpdatedDataset = async () => {
     const BunqClient = await setup();
+    if (!BunqClient) {
+        return {
+            payments: [],
+            invoices: []
+        };
+    }
 
     // user info
     const userInfo = await BunqClient.getUsers();
@@ -162,19 +168,15 @@ const getUpdatedDataset = async () => {
         .reverse();
     console.log("updated paymentData", paymentData.length);
 
-    // write to a file in public dir
+    // write this dataset to the given dataset name
+    const dataSetName = process.env.STORAGE_NAME ? process.env.STORAGE_NAME : "updated-bunq-data";
     fs.writeFileSync(
-        `${__dirname}${path.sep}DataSets${path.sep}updated-bunq-data.json`,
+        `${__dirname}${path.sep}DataSets${path.sep}${dataSetName}.json`,
         JSON.stringify({
             payments: paymentData,
             invoices: invoiceData
         })
     );
-
-    return {
-        payments: paymentData,
-        invoices: invoiceData
-    };
 };
 
 /**
@@ -250,18 +252,17 @@ const normalizeInvoices = dataSet => {
 
 const start = async () => {
     // get a updated set for the current API user
-    const updatedDataset = await getUpdatedDataset();
-    dataSets.push(updatedDataset);
+    await getUpdatedDataset();
 
     // group by week or month for each use case to get averages
     const paymentTracker = {};
     const invoiceTracker = {};
 
+    const dataSets = bunqDataSets(`${__dirname}/DataSets`);
+
     // now go through the static datasets
     dataSets.forEach(dataSet => {
         const normalizedInvoices = normalizeInvoices(dataSet);
-
-        console.log(normalizedInvoices);
 
         dataSet.payments.forEach(payment => {
             const date = new Date(payment.date);

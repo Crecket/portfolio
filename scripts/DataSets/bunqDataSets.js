@@ -1,4 +1,7 @@
-export default [
-    require("./set1.json"),
-    require("./set2.json")
-];
+import glob from "glob";
+
+export default directory => {
+    const files = glob.sync(`${directory}/*.json`);
+
+    return files.map(file => require(file));
+};
