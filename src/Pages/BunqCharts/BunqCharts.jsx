@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Paper from "@material-ui/core/Paper";
 
-import MuiTheme from "../../Config/MuiTheme";
 import "./BunqCharts.scss";
 
 import PaymentIDs from "./PaymentIDs/PaymentIDs";
 import InvoiceIDs from "./InvoiceIDs/InvoiceIDs";
 import Combined from "./Combined/Combined";
-
-const theme = createMuiTheme(MuiTheme);
 
 const BunqCharts = () => {
     const [bunqData, setBunqData] = useState(false);
@@ -37,7 +33,6 @@ const BunqCharts = () => {
     return (
         <div className="bunq-charts">
             <Helmet title="GregoryG - bunq charts" />
-            <MuiThemeProvider theme={theme}>
                 <div className="content">
                     <Paper>
                         <AppBar position="static">
@@ -53,7 +48,6 @@ const BunqCharts = () => {
                         {tab === 2 && <Combined bunqData={bunqData} />}
                     </Paper>
                 </div>
-            </MuiThemeProvider>
         </div>
     );
 };
