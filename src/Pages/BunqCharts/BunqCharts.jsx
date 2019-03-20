@@ -41,13 +41,13 @@ const BunqCharts = () => {
                     <Paper>
                         <AppBar position="static">
                             <Tabs value={tab} onChange={(e, value) => setTab(value)}>
-                                <Tab label="Payments" />
                                 <Tab label="Invoices" />
+                                <Tab label="Payments" />
                             </Tabs>
                         </AppBar>
 
-                        {tab === 0 && <PaymentIDs bunqData={bunqData} />}
-                        {tab === 1 && <InvoiceIDs bunqData={bunqData} />}
+                        {tab === 0 && <InvoiceIDs bunqData={bunqData} />}
+                        {tab === 1 && <PaymentIDs bunqData={bunqData} />}
                     </Paper>
                 </div>
             </MuiThemeProvider>

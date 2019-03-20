@@ -12,6 +12,18 @@ Date.prototype.getWeek = function() {
     return Math.ceil(((this - onejan) / millisecsInDay + onejan.getDay() + 1) / 7);
 };
 
+const oneDay = 24 * 60 * 60 * 1000;
+const getDaysBetween = (date1, date2, rounded = true) => {
+    const daysBetweenUnrounded = Math.abs((date1.getTime() - date2.getTime()) / oneDay);
+    if (rounded) return Math.round(daysBetweenUnrounded);
+
+    return daysBetweenUnrounded;
+};
+
+/**
+ * Setup the bunqJSClient
+ * @returns {Promise<BunqJSClient>}
+ */
 const setup = async () => {
     if (
         !process.env.BUNQ_API_KEY ||
@@ -36,6 +48,14 @@ const setup = async () => {
     return BunqClient;
 };
 
+/**
+ * Loop through a account to get all it's payments
+ * @param BunqClient
+ * @param userId
+ * @param accountId
+ * @param older_id
+ * @returns {Promise<*>}
+ */
 const getPaymentsRecursive = async (BunqClient, userId, accountId, older_id = false) => {
     const options = {
         count: 200
@@ -165,23 +185,46 @@ const getUpdatedDataset = async () => {
 const normalizeInvoices = dataSet => {
     const invoices = dataSet.invoices;
     const dataSetChangeValues = {};
+    const dataSetAdjustedChangeValues = {};
     if (invoices.length === 0) return {};
 
     let previousId = invoices[0].id;
-    let previousChange = 0;
+    let previousDate = new Date(invoices[0].date);
     invoices.forEach((invoice, index) => {
         const date = new Date(invoice.date);
+        const dateDay = date.getDate();
         const dateString = `${date.getFullYear()}:${date.getMonth()}`;
         if (!dataSetChangeValues[dateString]) {
             dataSetChangeValues[dateString] = [];
         }
-
+        if (!dataSetAdjustedChangeValues[dateString]) {
+            dataSetAdjustedChangeValues[dateString] = [];
+        }
         const invoiceId = invoice.id;
-        const invoiceIdChange = invoiceId - previousId;
-        previousId = invoiceId;
-        previousChange = invoiceIdChange;
 
+        // change in invoice ID versus previous invoice
+        const invoiceIdChange = invoiceId - previousId;
+        // default adjusted value to actual value
+        let adjustedChangeValue = invoiceIdChange;
+
+        // attempt to get a decent estimate for what the value was at the 15th of the month
+        const daysBetweenValue2 = getDaysBetween(date, previousDate, false);
+        if (daysBetweenValue2 !== 0) {
+            const invoiceIdSecondChange = invoiceId - previousId;
+            const estimatedDailyChange = invoiceIdSecondChange / daysBetweenValue2;
+            const daysUntil15th = 15 - dateDay;
+            const adjustmentValue = daysUntil15th * estimatedDailyChange;
+            const adjustedInvoiceId = invoiceId + adjustmentValue;
+            adjustedChangeValue = adjustedInvoiceId - previousId;
+        }
+
+        // store the values for next loop
+        previousDate = date;
+        previousId = invoiceId;
+
+        // push to the dataset stack
         dataSetChangeValues[dateString].push(invoiceIdChange);
+        dataSetAdjustedChangeValues[dateString].push(adjustedChangeValue);
     });
 
     const combinedChangeValues = {};
@@ -191,8 +234,18 @@ const normalizeInvoices = dataSet => {
         const reducedValues = changeValues.reduce((total, changeValue) => total + changeValue, 0);
         combinedChangeValues[dateString] = reducedValues;
     });
+    const combinedAdjustedChangeValues = {};
+    Object.keys(dataSetAdjustedChangeValues).map(dateString => {
+        const changeValues = dataSetAdjustedChangeValues[dateString];
 
-    return combinedChangeValues;
+        const reducedValues = changeValues.reduce((total, changeValue) => total + changeValue, 0);
+        combinedAdjustedChangeValues[dateString] = reducedValues;
+    });
+
+    return {
+        regular: combinedChangeValues,
+        adjusted: combinedAdjustedChangeValues
+    };
 };
 
 const start = async () => {
@@ -207,6 +260,8 @@ const start = async () => {
     // now go through the static datasets
     dataSets.forEach(dataSet => {
         const normalizedInvoices = normalizeInvoices(dataSet);
+
+        console.log(normalizedInvoices);
 
         dataSet.payments.forEach(payment => {
             const date = new Date(payment.date);
@@ -230,13 +285,15 @@ const start = async () => {
                     date: invoice.date,
                     count: 0,
                     change: 0,
+                    changeAdjusted: 0,
                     amount: 0
                 };
             }
 
             invoiceTracker[dateString].count += 1;
             invoiceTracker[dateString].amount += invoice.id;
-            invoiceTracker[dateString].change += normalizedInvoices[dateString];
+            invoiceTracker[dateString].change += normalizedInvoices.regular[dateString];
+            invoiceTracker[dateString].changeAdjusted += normalizedInvoices.adjusted[dateString];
         });
     });
 
@@ -248,6 +305,7 @@ const start = async () => {
             return {
                 id: Math.round(object.amount / object.count),
                 change: Math.round(object.change / object.count),
+                changeAdjusted: Math.round(object.changeAdjusted / object.count),
                 date: object.date
             };
         })
@@ -273,8 +331,8 @@ const start = async () => {
     fs.writeFileSync(
         `${__dirname}${path.sep}..${path.sep}public${path.sep}bunq-data.json`,
         JSON.stringify({
-            payments: paymentData,
             invoices: invoiceData,
+            payments: paymentData,
             dataSets: dataSets
         })
     );

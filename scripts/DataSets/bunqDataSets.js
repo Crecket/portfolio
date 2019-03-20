@@ -1,1 +1,4 @@
-export default [require("./set1.json"), require("./set2.json")];
+export default [
+    require("./set1.json"),
+    require("./set2.json")
+];
