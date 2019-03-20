@@ -32,7 +32,6 @@ export function register(config) {
                     );
                 });
             } else {
-                window.openSnackbar && window.openSnackbar("Register worker");
                 // Is not localhost. Just register service worker
                 registerValidSW(swUrl, config);
             }
