@@ -32,7 +32,7 @@ export function register(config) {
                     );
                 });
             } else {
-                window.showSnackbar && window.showSnackbar("Register worker");
+                window.openSnackbar && window.openSnackbar("Register worker");
                 // Is not localhost. Just register service worker
                 registerValidSW(swUrl, config);
             }
@@ -55,8 +55,8 @@ function registerValidSW(swUrl, config) {
                             // At this point, the updated precached content has been fetched,
                             // but the previous service worker will still serve the older
                             // content until all client tabs are closed.
-                            window.showSnackbar &&
-                                window.showSnackbar("New content is available! Refresh the page to see it.");
+                            window.openSnackbar &&
+                                window.openSnackbar("New content is available! Refresh the page to see it.");
 
                             // Execute callback
                             if (config && config.onUpdate) {
@@ -66,7 +66,7 @@ function registerValidSW(swUrl, config) {
                             // At this point, everything has been precached.
                             // It's the perfect time to display a
                             // "Content is cached for offline use." message.
-                            window.showSnackbar && window.showSnackbar("Content is cached for offline use.");
+                            window.openSnackbar && window.openSnackbar("Content is cached for offline use.");
 
                             // Execute callback
                             if (config && config.onSuccess) {
@@ -101,7 +101,7 @@ function checkValidServiceWorker(swUrl, config) {
             }
         })
         .catch(() => {
-            window.showSnackbar && window.showSnackbar("No internet connection found. Running in offline mode.");
+            window.openSnackbar && window.openSnackbar("No internet connection found. Running in offline mode.");
         });
 }
 
