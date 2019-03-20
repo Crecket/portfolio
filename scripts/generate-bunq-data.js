@@ -51,6 +51,9 @@ const getPaymentsRecursive = async (BunqClient, userId, accountId, older_id = fa
     return [...payments, ...nestedPayments];
 };
 
+/**
+ * Calculates the dataSet for the current API user
+ */
 const getUpdatedDataset = async () => {
     const BunqClient = await setup();
 
@@ -88,7 +91,7 @@ const getUpdatedDataset = async () => {
         }
 
         invoiceTracker[dateString].count += 1;
-        invoiceTracker[dateString].amount += info.id;
+        invoiceTracker[dateString].amount += info.invoice_number;
     });
 
     // payment list
@@ -161,8 +164,8 @@ const getUpdatedDataset = async () => {
  */
 const normalizeInvoices = dataSet => {
     const invoices = dataSet.invoices;
-
     const dataSetChangeValues = {};
+    if (invoices.length === 0) return {};
 
     let previousId = invoices[0].id;
     let previousChange = 0;
