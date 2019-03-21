@@ -289,7 +289,7 @@ const calculatePaymentChangeValues = payments => {
 
 const start = async () => {
     // get a updated set for the current API user
-    // await getUpdatedDataset();
+    await getUpdatedDataset();
 
     // group by week or month for each use case to get averages
     const paymentTracker = {};
