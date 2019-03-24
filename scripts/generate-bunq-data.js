@@ -15,8 +15,14 @@ Date.prototype.getMonthString = function() {
     const month = this.getMonth();
     return `${month}`.length === 1 ? `0${month}` : `${month}`;
 };
+Date.prototype.addDays = function(days) {
+    const date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+};
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
+const ONE_HOUR = 60 * 60 * 1000;
 const getTimeBetween = (date1, date2, interval, rounded = true) => {
     const daysBetweenUnrounded = Math.abs((date1.getTime() - date2.getTime()) / interval);
     if (rounded) return Math.round(daysBetweenUnrounded);
@@ -237,46 +243,99 @@ const calculatePaymentChangeValues = payments => {
     const dataSetChangeValues = {};
     if (payments.length === 0) return {};
 
+    const firstPaymentDate = new Date(payments[0].date);
+    const lastPaymentDate = new Date(payments[payments.length - 1].date);
+
+    // round the dates and get the first day of those weeks
+    const firstWeekDate = new Date(
+        firstPaymentDate.getFullYear(),
+        firstPaymentDate.getMonth(),
+        firstPaymentDate.getDate()
+    );
+    firstWeekDate.setDate(firstWeekDate.getDate() - firstWeekDate.getDay());
+    const lastWeekDate = new Date(lastPaymentDate.getFullYear(), lastPaymentDate.getMonth(), lastPaymentDate.getDate());
+    lastWeekDate.setDate(lastWeekDate.getDate() - lastWeekDate.getDay());
+
+    // get the total days between the outer weeks
+    const daysBetweenDates = getTimeBetween(firstWeekDate, lastWeekDate, ONE_DAY);
+
+    // fill a list with all the weeks between the first and last date
+    const weeklyDates = [];
+    for (let i = 0; i < daysBetweenDates; i += 7) {
+        const weeklyDate = firstWeekDate.addDays(i);
+        weeklyDates.push(weeklyDate);
+    }
+
+    const weeklyValues = [];
+    weeklyDates.forEach(weeklyDate => {
+        let foundBefore = false;
+        const beforeWeekPayment = payments.reverse().find(payment => {
+            const paymentDate = new Date(payment.date);
+            if (paymentDate < weeklyDate) {
+                // skip one value to get bigger range
+                if (foundBefore) return true;
+                foundBefore = true;
+            }
+            return false;
+        });
+
+        // reverse back
+        payments.reverse();
+
+        let foundAfter = false;
+        const afterWeekPayment = payments.find(payment => {
+            const paymentDate = new Date(payment.date);
+            if (paymentDate > weeklyDate) {
+                // skip one value to get bigger range
+                if (foundAfter) return true;
+                foundAfter = true;
+            }
+            return false;
+        });
+
+        if (!beforeWeekPayment) return;
+        if (!afterWeekPayment) return;
+
+        const paymentBeforeDate = new Date(beforeWeekPayment.date);
+        const paymentAfterDate = new Date(afterWeekPayment.date);
+        // total change between the two surrounding payments
+        const paymentIdChange = afterWeekPayment.id - beforeWeekPayment.id;
+        // calculate hours between the two surrounding payments
+        const hoursBetween = getTimeBetween(paymentBeforeDate, paymentAfterDate, ONE_HOUR);
+        // calculate the amount of hours from the before payment to the weekly date
+        const startToWeeklyDateBetween = getTimeBetween(paymentBeforeDate, weeklyDate, ONE_HOUR);
+        // how much payments/hour for the surrounding payments
+        const hourlyChange = paymentIdChange / hoursBetween;
+        // calculate weekly id estimate
+        const weeklyDateIdEstimate = Math.round(beforeWeekPayment.id + hourlyChange * startToWeeklyDateBetween);
+
+        weeklyValues.push({
+            date: weeklyDate,
+            id: weeklyDateIdEstimate
+        });
+    });
+
     let previousId = payments[0].id;
     let previousDate = new Date(payments[0].date);
-    payments.forEach((payment, index) => {
-        const date = new Date(payment.date);
-        const dateString = `${date.getFullYear()}:${date.getWeek()}`;
-        if (!dataSetChangeValues[dateString]) {
-            dataSetChangeValues[dateString] = [];
-        }
-        const paymentId = payment.id;
-
+    weeklyValues.forEach((weeklyEstimate, index) => {
         // change in payment ID versus previous payment
-        const paymentIdChange = paymentId - previousId;
-
-        // attempt to get a decent estimate for what the value was at the 1st day of the week
-        const daysBetweenDates = getTimeBetween(date, previousDate, ONE_DAY, false);
-
-        if (daysBetweenDates < 3) return;
+        const paymentIdChange = weeklyEstimate.id - previousId;
+        const daysBetweenDates = getTimeBetween(previousDate, weeklyEstimate.date, ONE_DAY, true);
 
         // store the values for next loop
-        previousDate = date;
-        previousId = paymentId;
+        previousDate = weeklyEstimate.date;
+        previousId = weeklyEstimate.id;
 
         // push to the dataset stack
-        dataSetChangeValues[dateString].push(paymentIdChange / daysBetweenDates);
+        weeklyValues[index].change = paymentIdChange / daysBetweenDates;
     });
 
-    const combinedChangeValues = {};
-    Object.keys(dataSetChangeValues).map(dateString => {
-        const changeValues = dataSetChangeValues[dateString];
-
-        const reducedValues = changeValues.reduce((total, changeValue) => total + changeValue, 0);
-        combinedChangeValues[dateString] = reducedValues;
-    });
-
-    return combinedChangeValues;
+    return weeklyValues;
 };
 
 const start = async () => {
     // get a updated set for the current API user
-    // await getUpdatedDataset();
+    await getUpdatedDataset();
 
     // group by week or month for each use case to get averages
     const paymentTracker = {};
@@ -284,12 +343,12 @@ const start = async () => {
 
     const dataSets = bunqDataSets(`${__dirname}/DataSets`);
 
-    // now go through the static datasets
+    // go through data sets and combine them
     dataSets.forEach(dataSet => {
         // get the first payment for each week
         dataSet.payments.forEach(payment => {
             const date = new Date(payment.date);
-            const dateString = `${date.getFullYear()}:${date.getWeek()}`;
+            const dateString = `${date.getFullYear()}:${date.getMonth()}:${date.getDate()}`;
 
             if (!paymentTracker[dateString]) {
                 paymentTracker[dateString] = {
@@ -298,7 +357,7 @@ const start = async () => {
                 };
             } else {
                 const compareDate = new Date(paymentTracker[dateString].date);
-                // get a payment as early as possible for this week
+                // get a payment as early as possible for the date
                 if (compareDate > date) {
                     paymentTracker[dateString].id = payment.id;
                 }
@@ -330,12 +389,9 @@ const start = async () => {
         .map(dateString => {
             const object = invoiceTracker[dateString];
 
-            console.log(object.amount);
-
             return {
                 id: Math.round(object.amount / object.count),
                 change: Math.round(object.change / object.count),
-                changeAdjusted: Math.round(object.changeAdjusted / object.count),
                 date: object.date
             };
         })
@@ -343,7 +399,7 @@ const start = async () => {
         .reverse();
     console.log("combined invoiceData", invoiceData.length);
 
-    // calculate average and push to data list
+    // map payments to a sorted list
     const paymentsCombined = Object.keys(paymentTracker)
         .map(dateString => {
             return paymentTracker[dateString];
@@ -353,29 +409,14 @@ const start = async () => {
 
     // calculate change values and adjusted changes values
     const paymentChangeData = calculatePaymentChangeValues(paymentsCombined);
-
-    // combine data back to a regular dataset
-    const paymentData = [];
-    paymentsCombined.forEach(payment => {
-        const date = new Date(payment.date);
-        const dateString = `${date.getFullYear()}:${date.getWeek()}`;
-
-        if (!paymentChangeData[dateString]) return;
-
-        paymentData.push({
-            id: payment.id,
-            date: payment.date,
-            change: Math.round(paymentChangeData[dateString])
-        });
-    });
-    console.log("combined paymentData", paymentData.length);
+    console.log("combined paymentData", paymentChangeData.length);
 
     // write to a file in public dir
     fs.writeFileSync(
         `${__dirname}${path.sep}..${path.sep}public${path.sep}bunq-data.json`,
         JSON.stringify({
             invoices: invoiceData,
-            payments: paymentData,
+            payments: paymentChangeData,
             dataSets: dataSets
         })
     );
