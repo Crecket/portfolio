@@ -28,9 +28,9 @@ export default ({ bunqData }) => {
             previousPaymentId = averagePaymentId;
 
             // go to next round, don't add this invoice
-            if (invoice.changeAdjusted === 0) return;
+            if (invoice.change === 0) return;
 
-            const invoicesPerPayment = Math.round(paymentIdChange / invoice.changeAdjusted);
+            const invoicesPerPayment = Math.round(paymentIdChange / invoice.change);
 
             dataSet.push({
                 x: invoiceDate,
@@ -83,17 +83,16 @@ export default ({ bunqData }) => {
                 data={{
                     datasets: [
                         {
-                            label: `Invoices per payment`,
+                            label: `Payments per invoice`,
                             data: dataSet,
                             fill: false,
                             pointHitRadius: 1,
                             backgroundColor: "rgba(13, 97, 232, 0.6)",
-                            // backgroundColor: "#0d61e8",
                             pointBackgroundColor: "#0d61e8",
                             yAxisID: "invoice-per-payment"
                         },
                         {
-                            label: `Payments change`,
+                            label: `Total payments in period`,
                             data: dataSet2,
                             fill: false,
                             pointHitRadius: 1,

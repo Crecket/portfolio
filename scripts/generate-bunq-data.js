@@ -184,7 +184,6 @@ const getUpdatedDataset = async () => {
  */
 const calculateInvoiceChangeValues = dataSet => {
     const invoices = dataSet.invoices;
-    const dataSetChangeValues = {};
     const dataSetAdjustedChangeValues = {};
     if (invoices.length === 0) return {};
 
@@ -194,9 +193,6 @@ const calculateInvoiceChangeValues = dataSet => {
         const date = new Date(invoice.date);
         const dateDay = date.getDate();
         const dateString = `${date.getFullYear()}:${date.getMonthString()}`;
-        if (!dataSetChangeValues[dateString]) {
-            dataSetChangeValues[dateString] = [];
-        }
         if (!dataSetAdjustedChangeValues[dateString]) {
             dataSetAdjustedChangeValues[dateString] = [];
         }
@@ -223,17 +219,9 @@ const calculateInvoiceChangeValues = dataSet => {
         previousId = invoiceId;
 
         // push to the dataset stack
-        dataSetChangeValues[dateString].push(invoiceIdChange);
         dataSetAdjustedChangeValues[dateString].push(adjustedChangeValue);
     });
 
-    const combinedChangeValues = {};
-    Object.keys(dataSetChangeValues).map(dateString => {
-        const changeValues = dataSetChangeValues[dateString];
-
-        const reducedValues = changeValues.reduce((total, changeValue) => total + changeValue, 0);
-        combinedChangeValues[dateString] = reducedValues;
-    });
     const combinedAdjustedChangeValues = {};
     Object.keys(dataSetAdjustedChangeValues).map(dateString => {
         const changeValues = dataSetAdjustedChangeValues[dateString];
@@ -242,10 +230,7 @@ const calculateInvoiceChangeValues = dataSet => {
         combinedAdjustedChangeValues[dateString] = reducedValues;
     });
 
-    return {
-        regular: combinedChangeValues,
-        adjusted: combinedAdjustedChangeValues
-    };
+    return combinedAdjustedChangeValues;
 };
 
 const calculatePaymentChangeValues = payments => {
@@ -268,6 +253,8 @@ const calculatePaymentChangeValues = payments => {
         // attempt to get a decent estimate for what the value was at the 1st day of the week
         const daysBetweenDates = getTimeBetween(date, previousDate, ONE_DAY, false);
 
+        if (daysBetweenDates < 3) return;
+
         // store the values for next loop
         previousDate = date;
         previousId = paymentId;
@@ -289,7 +276,7 @@ const calculatePaymentChangeValues = payments => {
 
 const start = async () => {
     // get a updated set for the current API user
-    await getUpdatedDataset();
+    // await getUpdatedDataset();
 
     // group by week or month for each use case to get averages
     const paymentTracker = {};
@@ -328,15 +315,13 @@ const start = async () => {
                     date: invoice.date,
                     count: 0,
                     change: 0,
-                    changeAdjusted: 0,
                     amount: 0
                 };
             }
 
             invoiceTracker[dateString].count += 1;
             invoiceTracker[dateString].amount += invoice.id;
-            invoiceTracker[dateString].change += normalizedInvoices.regular[dateString];
-            invoiceTracker[dateString].changeAdjusted += normalizedInvoices.adjusted[dateString];
+            invoiceTracker[dateString].change += normalizedInvoices[dateString];
         });
     });
 
@@ -344,6 +329,8 @@ const start = async () => {
     const invoiceData = Object.keys(invoiceTracker)
         .map(dateString => {
             const object = invoiceTracker[dateString];
+
+            console.log(object.amount);
 
             return {
                 id: Math.round(object.amount / object.count),
@@ -368,15 +355,18 @@ const start = async () => {
     const paymentChangeData = calculatePaymentChangeValues(paymentsCombined);
 
     // combine data back to a regular dataset
-    const paymentData = paymentsCombined.map(payment => {
+    const paymentData = [];
+    paymentsCombined.forEach(payment => {
         const date = new Date(payment.date);
         const dateString = `${date.getFullYear()}:${date.getWeek()}`;
 
-        return {
+        if (!paymentChangeData[dateString]) return;
+
+        paymentData.push({
             id: payment.id,
             date: payment.date,
             change: Math.round(paymentChangeData[dateString])
-        };
+        });
     });
     console.log("combined paymentData", paymentData.length);
 

@@ -1,19 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { Bar } from "react-chartjs-2";
-import Switch from "@material-ui/core/Switch";
 import Typography from "@material-ui/core/Typography";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import StandardChartOptions from "../StandardChartOptions";
 
 export default ({ invoices }) => {
-    const [adjusted, setAdjusted] = useState(true);
     let previousChange = 0;
     const invoiceChartDelta = [];
     const invoiceChartDeltaColors = [];
     const invoiceChartData = [];
     invoices.forEach(invoice => {
-        const invoiceIdChange = adjusted ? invoice.changeAdjusted : invoice.change;
+        const invoiceIdChange = invoice.change;
 
         // skip no change events
         if (invoiceIdChange === 0) return;
@@ -44,19 +41,6 @@ export default ({ invoices }) => {
                 Green and Red display the increase or decrease in invoice IDs compared to the previous period. If for a
                 longer period of time the value stays green you can assume that bunq is gaining customers.
             </Typography>
-            <div className="chart-content">
-                <FormControlLabel
-                    control={
-                        <Switch
-                            checked={adjusted}
-                            onChange={e => setAdjusted(!adjusted)}
-                            value="checked"
-                            color="primary"
-                        />
-                    }
-                    label="Estimate invoice IDs for the 15th of the month instead of just showing the change between invoices."
-                />
-            </div>
             <Bar
                 data={{
                     datasets: [
