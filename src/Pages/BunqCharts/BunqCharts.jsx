@@ -19,7 +19,7 @@ const BunqCharts = () => {
     useEffect(
         () => {
             axios
-                .get(`/bunq-data.json`)
+                .get(`/bunq-data.json?v=v1`)
                 .then(response => response.data)
                 .then(setBunqData)
                 .catch(error => {

@@ -15,6 +15,10 @@ module.exports = {
     },
     runtimeCaching: [
         {
+            urlPattern: /.*(json)/,
+            handler: "networkFirst"
+        },
+        {
             urlPattern: /^https\:\/\/ajax\.googleapis\.com\/ajax\/libs\/webfont.*/,
             handler: "cacheFirst"
         },
@@ -25,14 +29,6 @@ module.exports = {
         {
             urlPattern: /.*(js|css|png|jpg|ico|woff|woff2)/,
             handler: "cacheFirst"
-        },
-        {
-            urlPattern: /.*(json)/,
-            handler: "networkFirst"
-        },
-        {
-            urlPattern: /^https?.*/,
-            handler: "networkFirst"
         }
     ]
 };
