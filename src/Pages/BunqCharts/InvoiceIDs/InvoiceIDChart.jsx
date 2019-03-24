@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import DefaultSwitch from "../../../Components/DefaultSwitch";
 import StandardChartOptions from "../StandardChartOptions";
 import pluginTrendlineLinear from "../Plugins/trendLine";
+import StandardDataSet from "../StandardDataSet";
 
 export default ({ invoices }) => {
     const [logScale, toggleLogScale] = useState(false);
@@ -20,20 +21,19 @@ export default ({ invoices }) => {
     const options = StandardChartOptions();
     options.scales.yAxes[0].type = logScale ? "logarithmic" : "linear";
 
-    const data = {
+    const data = StandardDataSet({
         label: "Invoices",
         data: invoiceChartData,
         backgroundColor: "rgba(13, 97, 232, 0.4)",
         pointRadius: 0,
-        trendlineLinear: false
-    };
-    if (trendLine) {
-        data.trendlineLinear = {
-            style: "#ff7a32",
-            lineStyle: "dotted|line",
-            width: 1
-        };
-    }
+        trendlineLinear: trendLine
+            ? {
+                  style: "#ff7a32",
+                  lineStyle: "dotted|line",
+                  width: 1
+              }
+            : false
+    });
 
     return (
         <div>
@@ -42,8 +42,8 @@ export default ({ invoices }) => {
                 amount of invoices that have been generated.
             </Typography>
             <div className="chart-content">
-                <DefaultSwitch label="Log scale" checked={logScale}   onChange={toggleLogScale} />
-                <DefaultSwitch label="Trend line" checked={trendLine}   onChange={toggleTrendLine} />
+                <DefaultSwitch label="Log scale" checked={logScale} onChange={toggleLogScale} />
+                <DefaultSwitch label="Trend line" checked={trendLine} onChange={toggleTrendLine} />
             </div>
             <Line
                 plugins={[pluginTrendlineLinear]}

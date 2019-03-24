@@ -3,6 +3,7 @@ import { Line } from "react-chartjs-2";
 import Typography from "@material-ui/core/Typography";
 
 import StandardChartOptions from "../StandardChartOptions";
+import StandardDataSet from "../StandardDataSet";
 
 export default ({ bunqData }) => {
     const dataSet = [];
@@ -82,24 +83,26 @@ export default ({ bunqData }) => {
             <Line
                 data={{
                     datasets: [
-                        {
+                        StandardDataSet({
                             label: `Payments per invoice`,
                             data: dataSet,
                             fill: false,
                             pointHitRadius: 1,
                             backgroundColor: "rgba(13, 97, 232, 0.6)",
                             pointBackgroundColor: "#0d61e8",
-                            yAxisID: "invoice-per-payment"
-                        },
-                        {
+                            yAxisID: "invoice-per-payment",
+                            datalabels: false
+                        }),
+                        StandardDataSet({
                             label: `Total payments in period`,
                             data: dataSet2,
                             fill: false,
                             pointHitRadius: 1,
                             backgroundColor: "rgba(103, 255, 77, 0.6)",
                             pointBackgroundColor: "#67ff4d",
-                            yAxisID: "payments-change"
-                        }
+                            yAxisID: "payments-change",
+                            datalabels: false
+                        })
                     ]
                 }}
                 options={options}

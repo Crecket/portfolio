@@ -3,6 +3,7 @@ import { Bar } from "react-chartjs-2";
 import Typography from "@material-ui/core/Typography";
 
 import StandardChartOptions from "../StandardChartOptions";
+import StandardDataSet from "../StandardDataSet";
 
 export default ({ invoices }) => {
     let previousChange = 0;
@@ -31,6 +32,8 @@ export default ({ invoices }) => {
         });
     });
 
+    const options = StandardChartOptions();
+
     return (
         <div>
             <Typography variant="body1" className="chart-description">
@@ -42,23 +45,22 @@ export default ({ invoices }) => {
                 longer period of time the value stays green you can assume that bunq is gaining customers.
             </Typography>
             <Bar
+                options={options}
                 data={{
                     datasets: [
-                        {
+                        StandardDataSet({
                             label: "Invoice change",
                             data: invoiceChartDelta,
-                            borderWidth: 1,
-                            backgroundColor: invoiceChartDeltaColors
-                        },
-                        {
+                            backgroundColor: invoiceChartDeltaColors,
+                            datalabels: false
+                        }),
+                        StandardDataSet({
                             label: "Invoices",
                             data: invoiceChartData,
-                            borderWidth: 1,
                             backgroundColor: "#0d61e8"
-                        }
+                        })
                     ]
                 }}
-                options={StandardChartOptions()}
             />
         </div>
     );

@@ -3,6 +3,7 @@ import { Line } from "react-chartjs-2";
 import Typography from "@material-ui/core/Typography";
 
 import StandardChartOptions from "../StandardChartOptions";
+import StandardDataSet from "../StandardDataSet";
 
 export default ({ dataSets }) => {
     const invoiceChartDataSets = [];
@@ -30,13 +31,16 @@ export default ({ dataSets }) => {
             };
         });
 
-        invoiceChartDataSets.push({
-            label: `Dateset #${index + 1}`,
-            data: data,
-            backgroundColor: color,
-            fill: false,
-            pointHitRadius: 1
-        });
+        invoiceChartDataSets.push(
+            StandardDataSet({
+                label: `Dateset #${index + 1}`,
+                data: data,
+                backgroundColor: color,
+                fill: false,
+                pointHitRadius: 1,
+                datalabels: false
+            })
+        );
     });
 
     return (

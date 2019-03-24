@@ -2,6 +2,7 @@ import React from "react";
 import { Line } from "react-chartjs-2";
 
 import StandardChartOptions from "../StandardChartOptions";
+import StandardDataSet from "../StandardDataSet";
 
 export default ({ bunqData }) => {
     const paymentChartData = bunqData.payments.map(payment => {
@@ -48,24 +49,26 @@ export default ({ bunqData }) => {
             <Line
                 data={{
                     datasets: [
-                        {
+                        StandardDataSet({
                             label: `Payments`,
                             data: paymentChartData,
                             fill: false,
                             pointHitRadius: 1,
                             backgroundColor: "#0d61e8",
                             pointBackgroundColor: "#0d61e8",
-                            yAxisID: "payments"
-                        },
-                        {
+                            yAxisID: "payments",
+                            datalabels: false
+                        }),
+                        StandardDataSet({
                             label: `Invoices`,
                             data: invoiceChartData,
                             fill: false,
                             pointHitRadius: 1,
                             backgroundColor: "#67ff4d",
                             pointBackgroundColor: "#67ff4d",
-                            yAxisID: "invoices"
-                        }
+                            yAxisID: "invoices",
+                            datalabels: false
+                        })
                     ]
                 }}
                 options={options}

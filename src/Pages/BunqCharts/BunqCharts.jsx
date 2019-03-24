@@ -12,6 +12,9 @@ import PaymentIDs from "./PaymentIDs/PaymentIDs";
 import InvoiceIDs from "./InvoiceIDs/InvoiceIDs";
 import Combined from "./Combined/Combined";
 
+// register the chartjs plugin
+import "chartjs-plugin-datalabels";
+
 const BunqCharts = () => {
     const [bunqData, setBunqData] = useState(false);
     const [tab, setTab] = useState(0);
