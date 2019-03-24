@@ -56,7 +56,6 @@ const pluginTrendlineLinear = {
         const ctx = chartInstance.chart.ctx;
 
         chartInstance.data.datasets.forEach(function(dataset, index) {
-            console.log(dataset, dataset.trendlineLinear);
             if (dataset.trendlineLinear && chartInstance.isDatasetVisible(index)) {
                 const datasetMeta = chartInstance.getDatasetMeta(index);
                 addFitter(datasetMeta, ctx, dataset, yScale);
