@@ -12,8 +12,6 @@ temp/*
 # production
 /build
 !/build/.gitkeep
-/build-server
-!/build-server/.gitkeep
 
 # misc
 .idea
