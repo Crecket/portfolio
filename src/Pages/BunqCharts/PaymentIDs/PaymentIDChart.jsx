@@ -22,7 +22,7 @@ export default ({ payments }) => {
     const options = StandardChartOptions();
     options.scales.yAxes[0].type = logScale ? "logarithmic" : "linear";
 
-    const data = StandardDataSet({
+    const paymentDataSet = StandardDataSet({
         label: "Payments",
         data: paymentChartData,
         backgroundColor: "rgba(13, 97, 232, 0.4)",
@@ -35,6 +35,8 @@ export default ({ payments }) => {
               }
             : false
     });
+
+    const dataSets = [paymentDataSet];
 
     return (
         <div>
@@ -49,7 +51,7 @@ export default ({ payments }) => {
             <Line
                 plugins={[pluginTrendlineLinear]}
                 data={{
-                    datasets: [data]
+                    datasets: dataSets
                 }}
                 options={options}
             />

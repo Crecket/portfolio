@@ -268,28 +268,19 @@ const calculatePaymentChangeValues = payments => {
 
     const weeklyValues = [];
     weeklyDates.forEach(weeklyDate => {
-        let foundBefore = false;
         const beforeWeekPayment = payments.reverse().find(payment => {
             const paymentDate = new Date(payment.date);
-            if (paymentDate < weeklyDate) {
-                // skip one value to get bigger range
-                if (foundBefore) return true;
-                foundBefore = true;
-            }
+            if (paymentDate < weeklyDate) return true;
+
             return false;
         });
-
         // reverse back
         payments.reverse();
 
-        let foundAfter = false;
         const afterWeekPayment = payments.find(payment => {
             const paymentDate = new Date(payment.date);
-            if (paymentDate > weeklyDate) {
-                // skip one value to get bigger range
-                if (foundAfter) return true;
-                foundAfter = true;
-            }
+            if (paymentDate > weeklyDate) return true;
+
             return false;
         });
 

@@ -1,8 +1,8 @@
-export default ({ datalabels, ...options }) => {
+export default ({ datalabels, forceShowDataLabel = false, ...options }) => {
     const dataSet = {
         borderWidth: 1,
         datalabels: {
-            display: "auto",
+            display: forceShowDataLabel ? true : "auto",
             color: "white",
             align: "end",
             anchor: "end",
