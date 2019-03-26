@@ -1,7 +1,6 @@
 require("dotenv").config();
 import fs from "fs";
 import chalk from "chalk";
-import * as path from "path";
 
 import Plugins from "./Plugins.js";
 import Routes from "./Routes.js";
@@ -14,8 +13,8 @@ if (process.env.SSL_KEY_FILE && process.env.SSL_CRT_FILE) {
     options.http2 = true;
     options.https = {
         allowHTTP1: true, // fallback support for HTTP1
-        key: fs.readFileSync(path.join(__dirname, "..", process.env.SSL_KEY_FILE)),
-        cert: fs.readFileSync(path.join(__dirname, "..", process.env.SSL_CRT_FILE))
+        key: fs.readFileSync(process.env.SSL_KEY_FILE),
+        cert: fs.readFileSync(process.env.SSL_CRT_FILE)
     };
 }
 
