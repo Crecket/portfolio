@@ -6,7 +6,7 @@ const exec = childProcess.exec;
 
 export default (app, opts, next) => {
     app.get("/", async (request, reply) => {
-        reply.send({ status: "Alive" });
+        reply.send({ status: "OK" });
     });
 
     app.get("/update", (request, reply) => {
