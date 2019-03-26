@@ -6,7 +6,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Paper from "@material-ui/core/Paper";
 
-import "./BunqCharts.scss";
+import "./Bunq.scss";
 
 import PaymentIDs from "./PaymentIDs/PaymentIDs";
 import InvoiceIDs from "./InvoiceIDs/InvoiceIDs";
@@ -15,7 +15,7 @@ import Combined from "./Combined/Combined";
 // register the chartjs plugin
 import "chartjs-plugin-datalabels";
 
-const BunqCharts = () => {
+const Bunq = () => {
     const [bunqData, setBunqData] = useState(false);
     const [tab, setTab] = useState(0);
 
@@ -55,4 +55,4 @@ const BunqCharts = () => {
     );
 };
 
-export default BunqCharts;
+export default Bunq;

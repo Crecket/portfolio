@@ -1,4 +1,4 @@
-import * as path from "path"
+import * as path from "path";
 const fastifyHelmet = require("fastify-helmet");
 const fastifyCompress = require("fastify-compress");
 const fastifyAuth = require("fastify-auth");
@@ -10,5 +10,6 @@ export default app => {
     app.register(fastifyAuth);
     app.register(fastifyStatic, {
         root: path.join(__dirname, "..", "build")
+        // wildcard: false
     });
 };

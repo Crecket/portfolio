@@ -6,6 +6,12 @@ export default app => {
 
     // fallback to 404 page
     app.setNotFoundHandler((request, reply) => {
-        reply.code(404).send("Page not found");
+        const isApi = request.req.originalUrl.indexOf("/api") === 0;
+
+        if (isApi) {
+            reply.code(404).send({ error: "Page not found" });
+        } else {
+            reply.code(404).sendFile("notfound/index.html");
+        }
     });
 };

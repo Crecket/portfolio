@@ -51,5 +51,5 @@ app.listen(httpPort, "0.0.0.0", (err, address) => {
 });
 
 app.ready(err => {
-    // console.log(app.printRoutes());
+    console.log(app.printRoutes());
 });

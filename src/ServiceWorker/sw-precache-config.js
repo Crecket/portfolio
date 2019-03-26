@@ -9,9 +9,9 @@ module.exports = {
     minify: true,
     dynamicUrlToDependencies: {
         "/": [path.join(__dirname, "/../../build/index.html")],
-        "/projects/": [path.join(__dirname, "/../../build/projects/index.html")],
-        "/bunq/": [path.join(__dirname, "/../../build/bunq/index.html")],
-        "/404/": [path.join(__dirname, "/../../build/404/index.html")]
+        "/projects": [path.join(__dirname, "/../../build/projects/index.html")],
+        "/bunq": [path.join(__dirname, "/../../build/bunq/index.html")],
+        "/notfound": [path.join(__dirname, "/../../build/notfound/index.html")]
     },
     runtimeCaching: [
         {

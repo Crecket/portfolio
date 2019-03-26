@@ -30,8 +30,8 @@ const Home = () => {
                     </NavLink>
 
                     <div style={{ display: "none" }}>
-                        <a href="/404" rel="noopener noreferrer">
-                            404
+                        <a href="/notfound" rel="noopener noreferrer">
+                            notfound
                         </a>
                         <a href="/bunq" rel="noopener noreferrer">
                             bunq
