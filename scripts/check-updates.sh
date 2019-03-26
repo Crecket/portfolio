@@ -12,12 +12,8 @@ if [[ $LOCAL = $REMOTE ]]; then
     echo -e "\n # Up-to-date\n"
 elif [[ $LOCAL = $BASE ]]; then
 
-  echo -e "\n  -> Stash current changes\n"
-  git stash
-  echo -e "\n  -> Pull latest from master\n"
-  git pull origin master
-  echo -e "\n  -> Pop changes\n"
-  git stash pop
+  echo -e "\n  -> Reset to latest origin version\n"
+  git reset origin --hard
   echo -e "\n  -> Update dependencies\n"
   yarn
   echo -e "\n  -> Add sudo support to react-snap\n"
