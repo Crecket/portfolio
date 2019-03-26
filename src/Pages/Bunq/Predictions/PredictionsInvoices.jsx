@@ -9,8 +9,8 @@ import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
 
 const lastMonthsCount = 5;
-const defaultMonthlyInterval = 2;
-const defaultPercentageIncrease = 15;
+const defaultMonthlyInterval = 1;
+const defaultPercentageIncrease = 10;
 const defaultMonthsShown = 36;
 export default ({ invoices }) => {
     const [logScale, toggleLogScale] = useState(false);
@@ -80,7 +80,7 @@ export default ({ invoices }) => {
     return (
         <div>
             <Typography variant="body1" className="chart-description">
-                Last {lastMonthsCount} months of actual data have an average increase of
+                Last {lastMonthsCount} months of actual data have an average increase of{" "}
                 {averageMonthDisplay.toLocaleString()}.
             </Typography>
             <Typography variant="body1" className="chart-description">
