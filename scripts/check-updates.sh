@@ -1,24 +1,24 @@
 #!/usr/bin/bash
 
-  echo \nFetching git history\n
+echo "\nFetching git history\n"
 git fetch origin master
 
-echo \nChecking git status for local\n
+echo "\nChecking git status for local\n"
 if [[ `git status --porcelain --untracked-files=no` ]]; then
-  echo \nStash current changes\n
+  echo "\nStash current changes\n"
   git stash
-  echo Pull latest from master\n
+  echo "\nPull latest from master\n"
   git pull origin master
-  echo Pop changes\n
+  echo "\nPop changes\n"
   git stash pop
-  echo Update dependencies\n
+  echo "\nUpdate dependencies\n"
   yarn
-  echo \nAdd sudo support to react-snap\n
+  echo "\nAdd sudo support to react-snap\n"
   sed -i "s/puppeteerArgs: \[\],/puppeteerArgs: \[\"--no-sandbox\", \"--disable-setuid-sandbox\"\],/" ./node_modules/react-snap/index.js
-  echo \nBuild the server\n
+  echo "\nBuild the server\n"
   yarn build
-  echo \nRestart the server\n
+  echo "\nRestart the server\n"
   pm2 restart portfolio
 else
-  echo \nNo changes\n
+  echo "\nNo changes\n"
 fi
