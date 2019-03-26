@@ -1,7 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import ParticleField from "react-particles-webgl";
 
 import "./LandingSection.scss";
+import ReactParticleConfig from "../Config/ReactParticleConfig";
 
 const LandingSection = ({ children, className = "", height = "100vh", displayHomeLink = false }) => {
     return (
@@ -14,10 +16,8 @@ const LandingSection = ({ children, className = "", height = "100vh", displayHom
                 </div>
             )}
 
-            <div className="stars-wrapper">
-                <div className="stars-section1" />
-                <div className="stars-section2" />
-                <div className="stars-section3" />
+            <div className={"particle-wrapper"}>
+                <ParticleField config={ReactParticleConfig} />
             </div>
         </div>
     );
