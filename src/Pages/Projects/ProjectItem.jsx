@@ -77,9 +77,7 @@ const ProjectItem = ({
     if (!url) return content;
 
     return relativeUrl ? (
-        <a href={url}>
-            {content}
-        </a>
+        <a href={url}>{content}</a>
     ) : (
         <a href={url} target="_blank" rel="noopener noreferrer">
             {content}

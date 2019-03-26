@@ -12,8 +12,15 @@ const RouteComponents = Object.keys(routes).map(routePattern => {
     // wrap component in a lazy load element
     const Component = lazy(() => import(`./Pages/${routeName}/${routeName}.jsx`));
 
+    const props = {
+        key: routePattern,
+        path: routePattern,
+        render: props => <Component {...props} />
+    };
+    if (routePattern === "/") props.exact = true;
+
     // return the Route component
-    return <Route exact key={routePattern} path={routePattern} render={props => <Component {...props} />} />;
+    return <Route {...props} />;
 });
 
 const Routes = () => {

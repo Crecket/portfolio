@@ -8,7 +8,8 @@ export default ({ datalabels, forceShowDataLabel = false, ...options }) => {
             anchor: "end",
             offset: 4,
             formatter: val => {
-                return val.y ? val.y : val;
+                const directValue = typeof val.y !== "undefined" ? val.y : val;
+                return directValue.toLocaleString();
             }
         },
         ...options

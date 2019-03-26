@@ -1,7 +1,7 @@
 const routes = {
     "/": "Home",
     "/projects": "Projects",
-    "/bunq": "Bunq",
+    "/bunq/:tab?": "Bunq",
     "/notfound": "NotFound"
 };
 
