@@ -1,7 +1,9 @@
 #!/usr/bin/bash
 
+  echo \nFetching git history\n
 git fetch origin master
 
+echo \nChecking git status for local\n
 if [[ `git status --porcelain --untracked-files=no` ]]; then
   echo \nStash current changes\n
   git stash
@@ -18,5 +20,5 @@ if [[ `git status --porcelain --untracked-files=no` ]]; then
   echo \nRestart the server\n
   pm2 restart portfolio
 else
-  echo "\nNo changes\n"
+  echo \nNo changes\n
 fi
