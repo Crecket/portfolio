@@ -1,5 +1,6 @@
 import * as path from "path";
 import ClientRoutes from "../../src/Config/routes";
+import API from "./API/index.js"
 
 export default (app, opts, next) => {
     app.get("/", async (request, reply) => reply.sendFile("index.html"));
@@ -18,6 +19,8 @@ export default (app, opts, next) => {
 
             app.get(url, async (request, reply) => reply.sendFile(filePath));
         });
+
+    app.register(API, { prefix: "/api" });
 
     next();
 };
