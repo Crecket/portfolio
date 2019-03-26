@@ -9,6 +9,7 @@ import bunqDesktopImage from "./images/bunq-desktop.png";
 import masteryPointsImage from "./images/masterypoints.png";
 import bunqJSClientImage from "./images/bunq-js-client.png";
 import bunqCLIImage from "./images/bunq-cli.png";
+import bunqChartsImage from "./images/bunq-charts.png";
 
 const projects = [
     {
@@ -16,7 +17,7 @@ const projects = [
         description: "The unofficial, free and open source desktop application for the bunq API",
         image: bunqDesktopImage,
         url: "https://bunqdesk.top/",
-        downloadCount: 20000
+        downloadCount: 22000
     },
     {
         title: "Masterypoints",
@@ -37,7 +38,8 @@ const projects = [
         title: "bunq-cli",
         description: "An unofficial and open source CLI tool to quickly use the bunq API",
         image: bunqCLIImage,
-        url: "https://github.com/bunqCommunity/bunq-cli"
+        url: "https://github.com/bunqCommunity/bunq-cli",
+        downloadCount: 500
     },
     {
         title: "UploadBroBot",
@@ -45,6 +47,13 @@ const projects = [
             "A personal project for a Telegram bot which helps with sharing/uploading files to different providers",
         url: "https://github.com/Crecket/upload-bro-bot",
         userCount: 1000
+    },
+    {
+        title: "bunq charts",
+        description: "Estimating the amount of paying users and total payments at bunq",
+        image: bunqChartsImage,
+        url: "/bunq",
+        relativeUrl: true
     }
 ];
 

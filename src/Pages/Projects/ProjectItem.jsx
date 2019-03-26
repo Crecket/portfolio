@@ -39,7 +39,16 @@ const UserCount = ({ users }) => {
     );
 };
 
-const ProjectItem = ({ title, description, image, url, downloadCount, viewCount, userCount }) => {
+const ProjectItem = ({
+    title,
+    description,
+    image,
+    url,
+    downloadCount,
+    viewCount = false,
+    userCount = false,
+    relativeUrl = false
+}) => {
     const bottomContent = (
         <div className="usage-stats">
             <DownloadCount downloads={downloadCount} />
@@ -65,12 +74,16 @@ const ProjectItem = ({ title, description, image, url, downloadCount, viewCount,
         </div>
     );
 
-    return url ? (
-        <a href={url} target="_blank" rel="noopener noreferrer">
+    if (!url) return content;
+
+    return relativeUrl ? (
+        <a href={url}>
             {content}
         </a>
     ) : (
-        content
+        <a href={url} target="_blank" rel="noopener noreferrer">
+            {content}
+        </a>
     );
 };
 
