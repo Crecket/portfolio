@@ -1,24 +1,32 @@
 #!/usr/bin/bash
 
-echo "\nFetching git history\n"
+UPSTREAM=${1:-'@{u}'}
+LOCAL=$(git rev-parse @)
+REMOTE=$(git rev-parse "$UPSTREAM")
+BASE=$(git merge-base @ "$UPSTREAM")
+
+echo -e "\n # Fetching git history\n"
 git fetch origin master
 
-echo "\nChecking git status for local\n"
-if [[ `git status --porcelain --untracked-files=no` ]]; then
-  echo "\nStash current changes\n"
+if [[ $LOCAL = $REMOTE ]]; then
+    echo -e "\n # Up-to-date\n"
+elif [[ $LOCAL = $BASE ]]; then
+
+  echo -e "\n  -> Stash current changes\n"
   git stash
-  echo "\nPull latest from master\n"
+  echo -e "\n  -> Pull latest from master\n"
   git pull origin master
-  echo "\nPop changes\n"
+  echo -e "\n  -> Pop changes\n"
   git stash pop
-  echo "\nUpdate dependencies\n"
+  echo -e "\n  -> Update dependencies\n"
   yarn
-  echo "\nAdd sudo support to react-snap\n"
+  echo -e "\n  -> Add sudo support to react-snap\n"
   sed -i "s/puppeteerArgs: \[\],/puppeteerArgs: \[\"--no-sandbox\", \"--disable-setuid-sandbox\"\],/" ./node_modules/react-snap/index.js
-  echo "\nBuild the server\n"
+  echo -e "\n  -> Build the server\n"
   yarn build
-  echo "\nRestart the server\n"
+  echo -e "\n  -> Restart the server\n"
   pm2 restart portfolio
+
 else
-  echo "\nNo changes\n"
+    echo -e "\n # Diverged changes \n"
 fi
