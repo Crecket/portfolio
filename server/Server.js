@@ -38,12 +38,7 @@ Routes(app);
 
 if (useSsl) {
     const httpApp = fastify({});
-    httpApp.get("*", (request, reply) => {
-        reply.redirect(`https://${process.env.SERVER_HOSTNAME}/`);
-    });
-    httpApp.listen(80, "0.0.0.0", (err, address) => {
-        console.log("Running http version ");
-    });
+    httpApp.listen(80, "0.0.0.0", (err, address) => {});
 }
 
 app.listen(httpPort, "0.0.0.0", (err, address) => {
