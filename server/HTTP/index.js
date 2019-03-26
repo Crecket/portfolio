@@ -1,23 +1,15 @@
-import * as path from "path";
-import ClientRoutes from "../../src/Config/routes";
-
 export default (app, opts, next) => {
-    app.get("/", async (request, reply) => reply.sendFile("index.html"));
+    // fallback to 404 page
 
-    Object.keys(ClientRoutes)
-        .filter(url => {
-            switch (url) {
-                case "/":
-                    return false;
-            }
-            return true;
-        })
-        .forEach(url => {
-            const fileName = ClientRoutes[url].toLocaleLowerCase();
-            const filePath = url === "/" ? `${fileName}.html` : `${fileName}${path.sep}index.html`;
+    app.setNotFoundHandler((request, reply) => {
+        const isApi = request.raw.originalUrl.indexOf("/api") === 0;
 
-            app.get(url, async (request, reply) => reply.sendFile(filePath));
-        });
+        if (isApi) {
+            reply.code(404).send({ error: "Page not found" });
+        } else {
+            reply.code(404).sendFile("notfound/index.html");
+        }
+    });
 
     next();
 };

@@ -9,7 +9,7 @@ export default app => {
     app.register(fastifyCompress);
     app.register(fastifyAuth);
     app.register(fastifyStatic, {
-        root: path.join(__dirname, "..", "build")
-        // wildcard: false
+        root: path.join(__dirname, "..", "build"),
+        wildcard: false
     });
 };
