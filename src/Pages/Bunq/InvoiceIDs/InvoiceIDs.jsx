@@ -38,6 +38,12 @@ export default ({ match, history, bunqData }) => {
                 </Tabs>
             </AppBar>
 
+            <div style={{ display: "none" }}>
+                <a href="/bunq/invoices/change">change</a>
+                <a href="/bunq/invoices/total">total</a>
+                <a href="/bunq/invoices/datasets">datasets</a>
+            </div>
+
             <Switch>
                 <Route path="/bunq/invoices/change">
                     <InvoiceIDChangeChart invoices={bunqData.invoices} />

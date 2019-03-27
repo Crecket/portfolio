@@ -2,6 +2,7 @@
     "name": "portfolio",
     "version": "0.1.0",
     "homepage": "https://gregoryg.dev/",
+    "license": "MIT",
     "scripts": {
         "pm2": "pm2 start pm2.yml",
         "start": "node build-server/Server.js",

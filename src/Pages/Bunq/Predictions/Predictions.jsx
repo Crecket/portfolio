@@ -34,6 +34,10 @@ export default ({ match, history, bunqData }) => {
                 </Tabs>
             </AppBar>
 
+            <div style={{ display: "none" }}>
+                <a href="/bunq/predictions/invoices">total</a>
+            </div>
+
             <Switch>
                 <Route path="/bunq/predictions/invoices">
                     <PredictionsInvoices invoices={bunqData.invoices} />

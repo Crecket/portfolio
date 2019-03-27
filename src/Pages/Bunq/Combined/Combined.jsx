@@ -36,6 +36,11 @@ export default ({ match, history, bunqData }) => {
                 </Tabs>
             </AppBar>
 
+            <div style={{ display: "none" }}>
+                <a href="/bunq/combined/payments-invoices">payments-invoices</a>
+                <a href="/bunq/combined/payments-per-invoice">payments-per-invoice</a>
+            </div>
+
             <Switch>
                 <Route path="/bunq/combined/payments-invoices">
                     <CombinedPaymentsAndInvoicesChart bunqData={bunqData} />

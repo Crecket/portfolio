@@ -64,6 +64,13 @@ const Bunq = ({ history, match }) => {
                         </Tabs>
                     </AppBar>
 
+                    <div style={{ display: "none" }}>
+                        <a href="/bunq/invoices">invoices</a>
+                        <a href="/bunq/payments">invoices</a>
+                        <a href="/bunq/combined">invoices</a>
+                        <a href="/bunq/predictions">invoices</a>
+                    </div>
+
                     <Switch>
                         <Route
                             path="/bunq/invoices/:tab?"

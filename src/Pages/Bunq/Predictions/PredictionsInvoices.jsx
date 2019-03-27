@@ -52,7 +52,7 @@ export default ({ invoices }) => {
     const lastValue = invoiceChartData[invoiceChartData.length - 1];
     const multiplier = changePercentage / 100 + 1;
     let changeValue = lastValue.y;
-    for (let i = 0; i < monthsShown; i++) {
+    for (let i = 1; i < monthsShown; i++) {
         // every 3 months we get 20% more new users a month
         if (i % monthlyInterval === 0 && i > 0) {
             averagePerMonth = averagePerMonth * multiplier;
@@ -114,7 +114,7 @@ export default ({ invoices }) => {
                     value={monthsShown}
                     onChange={e => setMonthsShown(e.target.value)}
                 />
-                <DefaultSwitch label="Log scale" checked={logScale} onChange={toggleLogScale} />
+                <DefaultSwitch className="switch" label="Log scale" checked={logScale} onChange={toggleLogScale} />
             </div>
 
             <Line
