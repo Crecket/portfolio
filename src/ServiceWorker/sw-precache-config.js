@@ -1,18 +1,25 @@
 const path = require("path");
+const StaticRouteLoader = require("../../server/HTTP/StaticRouteLoader");
+
+const publicAbsolutePath = path.join(__dirname, "..", "..", "build");
+
+const dynamicUrlToDependencyList = {
+    "/": `${publicAbsolutePath}/index.html`
+};
+StaticRouteLoader().forEach(staticRoute => {
+    dynamicUrlToDependencyList[staticRoute.url] = [path.normalize(`${publicAbsolutePath}${staticRoute.publicLocation}`)];
+});
+
+console.log(dynamicUrlToDependencyList);
 
 module.exports = {
-    staticFileGlobs: ["build/*.ico"],
+    staticFileGlobs: ["build/*.ico", "build/static/**/*.css"],
     swFilePath: "./build/service-worker.js",
     stripPrefix: "build/",
     navigateFallback: "/200.html",
     navigateFallbackWhitelist: [/https\:\/\/[^/]+($|\/(?!api)\/?.*$)/],
     minify: true,
-    dynamicUrlToDependencies: {
-        "/": [path.join(__dirname, "/../../build/index.html")],
-        "/projects": [path.join(__dirname, "/../../build/projects/index.html")],
-        "/bunq": [path.join(__dirname, "/../../build/bunq/index.html")],
-        "/notfound": [path.join(__dirname, "/../../build/notfound/index.html")]
-    },
+    dynamicUrlToDependencies: dynamicUrlToDependencyList,
     runtimeCaching: [
         {
             urlPattern: /.*(json)/,

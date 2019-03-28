@@ -1,19 +1,16 @@
-import glob from "glob";
-
-const buildFiles = glob.sync("build/**/index.html");
-const blackListedRoutes = ["/", "/notfound"];
+const StaticRouteLoader = require("./StaticRouteLoader");
+const blackListedRoutes = ["/"];
 
 export default (app, opts, next) => {
-    buildFiles.forEach(indexFile => {
-        // remove 'build' start and '/index.html' from end
-        const publicLocation = indexFile.replace(/^build/, "");
-        const fixedUrl = publicLocation.replace("/index.html", "");
+    const staticRoutes = StaticRouteLoader();
 
-        // skip index file and blacklisted routes
-        if (!fixedUrl || blackListedRoutes.includes(fixedUrl)) return;
+    staticRoutes.forEach(staticRoute => {
+        if (!staticRoute.url || blackListedRoutes.includes(staticRoute.url)) return;
 
         // register an actual route so the inital response isn't 404
-        app.get(fixedUrl, (request, reply) => reply.sendFile(publicLocation));
+        app.get(staticRoute.url, (request, reply) => {
+            reply.sendFile(staticRoute.publicLocation);
+        });
     });
 
     app.setNotFoundHandler((request, reply) => {
