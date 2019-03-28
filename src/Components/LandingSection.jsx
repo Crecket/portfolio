@@ -16,7 +16,7 @@ const LandingSection = ({ children, className = "", height = "100vh", displayHom
                 </div>
             )}
 
-            <div className={"particle-wrapper"}>
+            <div className={"particle-wrapper fadeInSlow"}>
                 {navigator.userAgent === "ReactSnap" ? null : <ParticleField config={ReactParticleConfig} />}
             </div>
         </div>

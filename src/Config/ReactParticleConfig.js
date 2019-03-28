@@ -1,3 +1,5 @@
+const isBigWindow = window && window.innerWidth > 800;
+
 export default {
     showCube: false,
     dimension: "3D",
@@ -7,17 +9,17 @@ export default {
         color: "#351CCB",
         transparency: 0.9,
         limitConnections: true,
-        maxConnections: 20,
-        minDistance: 150,
+        maxConnections: 8,
+        minDistance: 175,
         visible: true
     },
     particles: {
         colorMode: "rainbow",
         color: "#623fb5",
         transparency: 0.9,
-        shape: "square",
+        shape: "circle",
         boundingBox: "canvas",
-        count: 500,
+        count: isBigWindow ? 500 : 250,
         minSize: 10,
         maxSize: 50,
         visible: true
@@ -26,9 +28,8 @@ export default {
         enabled: false,
         enableDamping: true,
         dampingFactor: 0.85,
-        enableZoom: true,
+        enableZoom: false,
         autoRotate: true,
-        autoRotateSpeed: 0.1,
-        resetCameraFlag: false
+        autoRotateSpeed: 1.6
     }
 };
