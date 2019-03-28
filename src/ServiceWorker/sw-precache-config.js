@@ -10,8 +10,6 @@ StaticRouteLoader().forEach(staticRoute => {
     dynamicUrlToDependencyList[staticRoute.url] = [path.normalize(`${publicAbsolutePath}${staticRoute.publicLocation}`)];
 });
 
-console.log(dynamicUrlToDependencyList);
-
 module.exports = {
     staticFileGlobs: ["build/*.ico", "build/static/**/*.css"],
     swFilePath: "./build/service-worker.js",
