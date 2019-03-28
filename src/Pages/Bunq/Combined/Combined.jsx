@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -8,29 +8,40 @@ import CombinedPaymentsAndInvoicesChart from "./CombinedPaymentsAndInvoicesChart
 import CombinedPaymentsPerInvoice from "./CombinedPaymentsPerInvoice";
 
 export default ({ match, history, bunqData }) => {
-    const [tab, setTab] = useState("payments-invoices");
+    const [chart, setChart] = useState("payments-invoices");
 
     useEffect(
         () => {
-            if (match.params.tab && tab !== match.params.tab) {
-                setTab(match.params.tab);
-            } else if (!match.params.tab) {
-                history.push(`/bunq/combined/${tab}`);
+            if (match.params.chart && chart !== match.params.chart) {
+                setChart(match.params.chart);
             }
         },
-        [match.params.tab]
+        [match.params.chart]
     );
-    const tabChange = (e, value) => {
-        setTab(value);
-        history.push(`/bunq/combined/${value}`);
+    const chartChange = (e, value) => {
+        setChart(value);
+        history.push(`/bunq/payments/${value}`);
     };
 
     if (!bunqData) return null;
 
+    let chartComponent = null;
+    switch (chart) {
+        case "payments-per-invoice":
+            chartComponent = <CombinedPaymentsPerInvoice bunqData={bunqData} />;
+            break;
+        default:
+        case "payments-invoices":
+            chartComponent = <CombinedPaymentsAndInvoicesChart bunqData={bunqData} />;
+            break;
+    }
+
     return (
         <div>
+            <Helmet title="GregoryG - bunq combined datasets" />
+
             <AppBar position="static">
-                <Tabs value={tab} onChange={tabChange}>
+                <Tabs value={chart} onChange={chartChange}>
                     <Tab value="payments-invoices" label="Payments and Invoices" />
                     <Tab value="payments-per-invoice" label="Payments per Invoice" />
                 </Tabs>
@@ -41,14 +52,7 @@ export default ({ match, history, bunqData }) => {
                 <a href="/bunq/combined/payments-per-invoice">payments-per-invoice</a>
             </div>
 
-            <Switch>
-                <Route path="/bunq/combined/payments-invoices">
-                    <CombinedPaymentsAndInvoicesChart bunqData={bunqData} />
-                </Route>
-                <Route path="/bunq/combined/payments-per-invoice">
-                    <CombinedPaymentsPerInvoice bunqData={bunqData} />
-                </Route>
-            </Switch>
+            {chartComponent}
         </div>
     );
 };

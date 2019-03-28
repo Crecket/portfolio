@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -9,29 +9,43 @@ import InvoiceIDMultiChart from "./InvoiceIDMultiChart";
 import InvoiceIDChangeChart from "./InvoiceIDChangeChart";
 
 export default ({ match, history, bunqData }) => {
-    const [tab, setTab] = useState("change");
+    const [chart, setChart] = useState("change");
 
     useEffect(
         () => {
-            if (match.params.tab && tab !== match.params.tab) {
-                setTab(match.params.tab);
-            } else if (!match.params.tab) {
-                history.push(`/bunq/invoices/${tab}`);
+            if (match.params.chart && chart !== match.params.chart) {
+                setChart(match.params.chart);
             }
         },
-        [match.params.tab]
+        [match.params.chart]
     );
-    const tabChange = (e, value) => {
-        setTab(value);
+    const chartChange = (e, value) => {
+        setChart(value);
         history.push(`/bunq/invoices/${value}`);
     };
 
     if (!bunqData) return null;
 
+    let chartComponent = null;
+    switch (chart) {
+        case "total":
+            chartComponent = <InvoiceIDChart invoices={bunqData.invoices} />;
+            break;
+        case "datasets":
+            chartComponent = <InvoiceIDMultiChart dataSets={bunqData.dataSets} />;
+            break;
+        default:
+        case "change":
+            chartComponent = <InvoiceIDChangeChart invoices={bunqData.invoices} />;
+            break;
+    }
+
     return (
         <div>
+            <Helmet title="GregoryG - bunq invoices" />
+
             <AppBar position="static">
-                <Tabs value={tab} onChange={tabChange}>
+                <Tabs value={chart} onChange={chartChange}>
                     <Tab value="change" label="Invoices / month" />
                     <Tab value="total" label="Total invoices" />
                     <Tab value="datasets" label="Datasets" />
@@ -44,17 +58,7 @@ export default ({ match, history, bunqData }) => {
                 <a href="/bunq/invoices/datasets">datasets</a>
             </div>
 
-            <Switch>
-                <Route path="/bunq/invoices/change">
-                    <InvoiceIDChangeChart invoices={bunqData.invoices} />
-                </Route>
-                <Route path="/bunq/invoices/total">
-                    <InvoiceIDChart invoices={bunqData.invoices} />
-                </Route>
-                <Route path="/bunq/invoices/datasets">
-                    <InvoiceIDMultiChart dataSets={bunqData.dataSets} />
-                </Route>
-            </Switch>
+            {chartComponent}
         </div>
     );
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -7,29 +7,37 @@ import Tab from "@material-ui/core/Tab";
 import PredictionsInvoices from "./PredictionsInvoices";
 
 export default ({ match, history, bunqData }) => {
-    const [tab, setTab] = useState("invoices");
+    const [chart, setChart] = useState("invoices");
 
     useEffect(
         () => {
-            if (match.params.tab && tab !== match.params.tab) {
-                setTab(match.params.tab);
-            } else if (!match.params.tab) {
-                history.push(`/bunq/predictions/${tab}`);
+            if (match.params.chart && chart !== match.params.chart) {
+                setChart(match.params.chart);
             }
         },
-        [match.params.tab]
+        [match.params.chart]
     );
-    const tabChange = (e, value) => {
-        setTab(value);
+    const chartChange = (e, value) => {
+        setChart(value);
         history.push(`/bunq/predictions/${value}`);
     };
 
     if (!bunqData) return null;
 
+    let chartComponent = null;
+    switch (chart) {
+        default:
+        case "invoices":
+            chartComponent = <PredictionsInvoices invoices={bunqData.invoices} />;
+            break;
+    }
+
     return (
         <div>
+            <Helmet title="GregoryG - bunq predictions" />
+
             <AppBar position="static">
-                <Tabs value={tab} onChange={tabChange}>
+                <Tabs value={chart} onChange={chartChange}>
                     <Tab value="invoices" label="Invoices" />
                 </Tabs>
             </AppBar>
@@ -38,11 +46,7 @@ export default ({ match, history, bunqData }) => {
                 <a href="/bunq/predictions/invoices">total</a>
             </div>
 
-            <Switch>
-                <Route path="/bunq/predictions/invoices">
-                    <PredictionsInvoices invoices={bunqData.invoices} />
-                </Route>
-            </Switch>
+           {chartComponent}
         </div>
     );
 };

@@ -1,5 +1,20 @@
+import glob from "glob";
+
+const buildFiles = glob.sync("build/**/index.html");
+const blackListedRoutes = ["/", "/notfound"];
+
 export default (app, opts, next) => {
-    // fallback to 404 page
+    buildFiles.forEach(indexFile => {
+        // remove 'build' start and '/index.html' from end
+        const publicLocation = indexFile.replace(/^build/, "");
+        const fixedUrl = publicLocation.replace("/index.html", "");
+
+        // skip index file and blacklisted routes
+        if (!fixedUrl || blackListedRoutes.includes(fixedUrl)) return;
+
+        // register an actual route so the inital response isn't 404
+        app.get(fixedUrl, (request, reply) => reply.sendFile(publicLocation));
+    });
 
     app.setNotFoundHandler((request, reply) => {
         const isApi = request.raw.originalUrl.indexOf("/api") === 0;

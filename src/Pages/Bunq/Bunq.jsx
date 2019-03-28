@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet";
-import { Route, Switch } from "react-router-dom";
+import { Route } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -40,7 +40,7 @@ const Bunq = ({ history, match }) => {
             if (match.params.tab && tab !== match.params.tab) {
                 setTab(match.params.tab);
             } else if (!match.params.tab) {
-                history.push(`/bunq/${tab}`);
+                // history.push(`/bunq/${tab}`);
             }
         },
         [match.params.tab]
@@ -66,29 +66,29 @@ const Bunq = ({ history, match }) => {
 
                     <div style={{ display: "none" }}>
                         <a href="/bunq/invoices">invoices</a>
-                        <a href="/bunq/payments">invoices</a>
-                        <a href="/bunq/combined">invoices</a>
-                        <a href="/bunq/predictions">invoices</a>
+                        <a href="/bunq/payments">payments</a>
+                        <a href="/bunq/combined">combined</a>
+                        <a href="/bunq/predictions">predictions</a>
                     </div>
 
-                    <Switch>
-                        <Route
-                            path="/bunq/invoices/:tab?"
-                            component={props => <InvoiceIDs bunqData={bunqData} {...props} />}
-                        />
-                        <Route
-                            path="/bunq/payments/:tab?"
-                            component={props => <PaymentIDs bunqData={bunqData} {...props} />}
-                        />
-                        <Route
-                            path="/bunq/combined/:tab?"
-                            component={props => <Combined bunqData={bunqData} {...props} />}
-                        />
-                        <Route
-                            path="/bunq/predictions/:tab?"
-                            component={props => <Predictions bunqData={bunqData} {...props} />}
-                        />
-                    </Switch>
+                    <Route
+                        path="/bunq/:tab?/:chart?"
+                        component={props => {
+                            const selectedTab = props.match.params.tab || "invoices";
+
+                            switch (selectedTab) {
+                                case "payments":
+                                    return <PaymentIDs bunqData={bunqData} {...props} />;
+                                case "combined":
+                                    return <Combined bunqData={bunqData} {...props} />;
+                                case "predictions":
+                                    return <Predictions bunqData={bunqData} {...props} />;
+                                default:
+                                case "invoices":
+                                    return <InvoiceIDs bunqData={bunqData} {...props} />;
+                            }
+                        }}
+                    />
                 </Paper>
             </div>
         </div>
