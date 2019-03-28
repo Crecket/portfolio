@@ -8,7 +8,7 @@ import LandingSection from "../../Components/LandingSection";
 const NotFound = () => {
     return (
         <div className="notfound">
-            <Helmet title="GregoryG - Not found" />
+            <Helmet title="GregoryG - 404 page not found" />
 
             <LandingSection>
                 <h1>Page not found!</h1>
