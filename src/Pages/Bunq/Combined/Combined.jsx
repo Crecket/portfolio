@@ -20,7 +20,7 @@ export default ({ match, history, bunqData }) => {
     );
     const chartChange = (e, value) => {
         setChart(value);
-        history.push(`/bunq/payments/${value}`);
+        history.push(`/bunq/combined/${value}`);
     };
 
     if (!bunqData) return null;

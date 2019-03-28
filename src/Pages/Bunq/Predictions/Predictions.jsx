@@ -46,7 +46,7 @@ export default ({ match, history, bunqData }) => {
                 <a href="/bunq/predictions/invoices">total</a>
             </div>
 
-           {chartComponent}
+            {chartComponent}
         </div>
     );
 };
