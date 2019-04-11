@@ -6,6 +6,8 @@ import JSONFileStore from "@bunq-community/bunq-js-client/dist/Stores/JSONFileSt
 
 import bunqDataSets from "./DataSets/bunqDataSets";
 
+const invoiceIdOverwrites = [{ id: 1072130, newId: 1045465, date: "2019-02-08 22:18:10.491460" }];
+
 Date.prototype.getWeek = function() {
     const onejan = new Date(this.getFullYear(), 0, 1);
     const millisecsInDay = 86400000;
@@ -333,6 +335,20 @@ const start = async () => {
     const invoiceTracker = {};
 
     const dataSets = bunqDataSets(`${__dirname}/DataSets`);
+
+    dataSets.forEach((dataSet, dataSetIndex) => {
+        dataSet.invoices.forEach((item, index) => {
+            // check each override for each dataset item
+            invoiceIdOverwrites.forEach(override => {
+                if (item.id !== override.id) return;
+
+                dataSets[dataSetIndex].invoices[index] = {
+                    id: override.newId,
+                    date: override.date
+                };
+            });
+        });
+    });
 
     // go through data sets and combine them
     dataSets.forEach(dataSet => {
