@@ -178,10 +178,14 @@ const getUpdatedDataset = async () => {
     const dataSetName = process.env.STORAGE_NAME ? process.env.STORAGE_NAME : "updated-bunq-data";
     fs.writeFileSync(
         `${__dirname}${path.sep}DataSets${path.sep}${dataSetName}.json`,
-        JSON.stringify({
-            payments: paymentData,
-            invoices: invoiceData
-        })
+        JSON.stringify(
+            {
+                payments: paymentData,
+                invoices: invoiceData
+            },
+            null,
+            2
+        )
     );
 };
 
