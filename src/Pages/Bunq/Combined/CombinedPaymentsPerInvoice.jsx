@@ -50,7 +50,7 @@ export default ({ bunqData }) => {
         id: "invoice-per-payment",
         gridLines: {
             display: true,
-            color: "rgba(103, 77, 255, 0.6)"
+            color: "rgba(255,255,255,0.6)"
         }
     };
     options.scales.yAxes[1] = {

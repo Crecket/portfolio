@@ -52,10 +52,7 @@ export default ({ invoices }) => {
         });
     });
 
-    invoiceChartData.forEach(invoiceChartItem => {});
-
     const options = StandardChartOptions();
-
     const dataSets = [
         StandardDataSet({
             label: "Invoice change",

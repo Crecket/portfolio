@@ -30,6 +30,6 @@ export default {
         dampingFactor: 0.85,
         enableZoom: false,
         autoRotate: true,
-        autoRotateSpeed: 1.6
+        autoRotateSpeed: 0.4
     }
 };

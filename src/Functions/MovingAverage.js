@@ -1,7 +1,7 @@
 /**
  * @param dataSet    - The data in {x,y}
  * @param movingSize - How many indexes before and after each item
- * @param round      -
+ * @param round      - Round the Y values
  * @constructor
  */
 const MovingAverage = (dataSet, movingSize = 1, round = true) => {

@@ -8,6 +8,7 @@ import ProjectItem from "./ProjectItem";
 import bunqDesktopImage from "./images/bunq-desktop.png";
 import masteryPointsImage from "./images/masterypoints.png";
 import bunqJSClientImage from "./images/bunq-js-client.png";
+import bunqAutomationImage from "./images/bunq-automation.png";
 import bunqCLIImage from "./images/bunq-cli.png";
 import bunqChartsImage from "./images/bunq-charts.png";
 
@@ -17,7 +18,7 @@ const projects = [
         description: "The unofficial, free and open source desktop application for the bunq API",
         image: bunqDesktopImage,
         url: "https://bunqdesk.top/",
-        downloadCount: 22000
+        downloadCount: 25000
     },
     {
         title: "Masterypoints",
@@ -33,6 +34,12 @@ const projects = [
         image: bunqJSClientImage,
         url: "https://github.com/bunqCommunity/bunqJSClient",
         downloadCount: 28000
+    },
+    {
+        title: "bunqAutomation",
+        description: "A new opensource bunq project to automate tons of different things",
+        image: bunqAutomationImage,
+        url: "https://github.com/bunqCommunity/bunqAutomation"
     },
     {
         title: "bunq-cli",
