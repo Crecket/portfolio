@@ -1,10 +1,11 @@
-require("dotenv").config();
 import * as fs from "fs";
 import * as path from "path";
 import BunqJSClient from "@bunq-community/bunq-js-client";
 import JSONFileStore from "@bunq-community/bunq-js-client/dist/Stores/JSONFileStore";
 
 import bunqDataSets from "./DataSets/bunqDataSets";
+
+require("dotenv").config();
 
 const invoiceIdOverwrites = [{ id: 1072130, newId: 1045465, date: "2019-02-08 22:18:10.491460" }];
 
@@ -60,27 +61,49 @@ const setup = async () => {
     return BunqClient;
 };
 
-/**
- * Loop through a account to get all it's payments
- * @param BunqClient
- * @param userId
- * @param accountId
- * @param older_id
- * @returns {Promise<*>}
- */
-const getPaymentsRecursive = async (BunqClient, userId, accountId, older_id = false) => {
+const getGenericTypeRecursive = async (BunqClient, eventType, handlerKey, userId, accountId, olderId) => {
     const options = {
         count: 200
     };
-    if (older_id) options.older_id = older_id;
+    if (olderId) options.older_id = olderId;
 
-    const payments = await BunqClient.api.payment.list(userId, accountId, options);
-    if (payments.length < 200) return payments;
+    const events = await BunqClient.api[handlerKey].list(userId, accountId, options);
+    if (events.length < 200) return events;
 
-    const oldestId = payments[payments.length - 1].Payment.id;
-    const nestedPayments = await getPaymentsRecursive(BunqClient, userId, accountId, oldestId);
+    const oldestId = events[events.length - 1][eventType].id;
+    const nestedEvents = await getGenericTypeRecursive(BunqClient, eventType, handlerKey, userId, accountId, oldestId);
 
-    return [...payments, ...nestedPayments];
+    return [...events, ...nestedEvents];
+};
+
+const getGenericType = (BunqClient, userId, accountId) => async (eventType, handlerKey) => {
+    const events = await getGenericTypeRecursive(BunqClient, eventType, handlerKey, userId, accountId);
+
+    const eventTracker = {};
+    events.map(event => {
+        const eventInfo = event[eventType];
+
+        const date = new Date(eventInfo.created);
+        const dateString = `${date.getFullYear()}:${date.getWeek()}`;
+
+        if (!eventTracker[dateString]) {
+            eventTracker[dateString] = {
+                date: eventInfo.created,
+                id: eventInfo.id
+            };
+        } else {
+            const compareDate = new Date(eventTracker[dateString].date);
+            // get a event as early as possible for this week
+            if (compareDate > date) {
+                eventTracker[dateString].id = eventInfo.id;
+            }
+        }
+    });
+
+    return Object.keys(eventTracker)
+        .map(dateString => eventTracker[dateString])
+        .sort((a, b) => (a.date > b.date ? -1 : 1))
+        .reverse();
 };
 
 /**
@@ -132,29 +155,6 @@ const getUpdatedDataset = async () => {
         invoiceTracker[dateString].amount += info.invoice_number;
     });
 
-    // payment list
-    const payments = await getPaymentsRecursive(BunqClient, user.id, account.id);
-    const paymentTracker = {};
-    payments.map(payment => {
-        const paymentInfo = payment.Payment;
-
-        const date = new Date(paymentInfo.created);
-        const dateString = `${date.getFullYear()}:${date.getWeek()}`;
-
-        if (!paymentTracker[dateString]) {
-            paymentTracker[dateString] = {
-                date: paymentInfo.created,
-                id: paymentInfo.id
-            };
-        } else {
-            const compareDate = new Date(paymentTracker[dateString].date);
-            // get a payment as early as possible for this week
-            if (compareDate > date) {
-                paymentTracker[dateString].id = paymentInfo.id;
-            }
-        }
-    });
-
     const invoiceData = Object.keys(invoiceTracker)
         .map(dateString => {
             const object = invoiceTracker[dateString];
@@ -166,13 +166,18 @@ const getUpdatedDataset = async () => {
         })
         .sort((a, b) => (a.date > b.date ? -1 : 1))
         .reverse();
-    console.log("updated invoiceData", invoiceData.length);
+    console.log("updated invoice data", invoiceData.length);
 
-    const paymentData = Object.keys(paymentTracker)
-        .map(dateString => paymentTracker[dateString])
-        .sort((a, b) => (a.date > b.date ? -1 : 1))
-        .reverse();
-    console.log("updated paymentData", paymentData.length);
+    const getGenericTypeHandler = getGenericType(BunqClient, user.id, account.id);
+
+    const paymentData = await getGenericTypeHandler("Payment", "payment");
+    console.log("updated payment data", paymentData.length);
+
+    const requestInquiryData = await getGenericTypeHandler("RequestInquiry", "requestInquiry");
+    console.log("updated requestInquiry data", requestInquiryData.length);
+
+    const masterCardActionData = await getGenericTypeHandler("MasterCardAction", "masterCardAction");
+    console.log("updated masterCardAction data", masterCardActionData.length);
 
     // write this dataset to the given dataset name
     const dataSetName = process.env.STORAGE_NAME ? process.env.STORAGE_NAME : "updated-bunq-data";
@@ -181,7 +186,9 @@ const getUpdatedDataset = async () => {
         JSON.stringify(
             {
                 payments: paymentData,
-                invoices: invoiceData
+                invoices: invoiceData,
+                requestInquiries: requestInquiryData,
+                masterCardActions: masterCardActionData
             },
             null,
             2

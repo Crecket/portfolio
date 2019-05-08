@@ -1,23 +1,26 @@
 import React from "react";
-import { Line } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
 import Typography from "@material-ui/core/Typography";
 
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
+import DefaultSwitch from "../../../Components/DefaultSwitch";
 
 export default ({ dataSets }) => {
+    const [barMode, setBarMode] = React.useState(false);
+
     const invoiceChartDataSets = [];
     dataSets.forEach((dataSet, index) => {
         let color;
         switch (index) {
             case 0:
-                color = "#ff171f";
+                color = "#e8300f";
                 break;
             case 1:
-                color = "#67ff4d";
+                color = "#66ff4c";
                 break;
             case 2:
-                color = "#0d61e8";
+                color = "#12a4ff";
                 break;
             default:
                 color = "red";
@@ -43,6 +46,7 @@ export default ({ dataSets }) => {
         );
     });
 
+    const Component = barMode ? Bar : Line
     return (
         <div>
             <Typography variant="body1" className="chart-description">
@@ -50,7 +54,10 @@ export default ({ dataSets }) => {
                 month for each dataset is calculated separately and then these values are averaged to get a more stable
                 line.
             </Typography>
-            <Line
+            <div className="chart-content">
+                <DefaultSwitch label="Bar charts" checked={barMode} onChange={setBarMode} />
+            </div>
+            <Component
                 data={{
                     datasets: invoiceChartDataSets
                 }}
