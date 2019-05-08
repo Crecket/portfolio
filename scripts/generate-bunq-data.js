@@ -112,7 +112,7 @@ const getUpdatedDataset = async () => {
     const account = filteredAccounts[0][accountType];
 
     // invoice list
-    const invoices = await BunqClient.api.invoice.list(user.id);
+    const invoices = await BunqClient.api.invoice.list(user.id, { count: 200 });
     const invoiceTracker = {};
     invoices.forEach(invoice => {
         const info = invoice.Invoice;
