@@ -173,11 +173,11 @@ const getUpdatedDataset = async () => {
     const paymentData = await getGenericTypeHandler("Payment", "payment");
     console.log("updated payment data", paymentData.length);
 
-    const requestInquiryData = await getGenericTypeHandler("RequestInquiry", "requestInquiry");
-    console.log("updated requestInquiry data", requestInquiryData.length);
-
-    const masterCardActionData = await getGenericTypeHandler("MasterCardAction", "masterCardAction");
-    console.log("updated masterCardAction data", masterCardActionData.length);
+    // const requestInquiryData = await getGenericTypeHandler("RequestInquiry", "requestInquiry");
+    // console.log("updated requestInquiry data", requestInquiryData.length);
+    //
+    // const masterCardActionData = await getGenericTypeHandler("MasterCardAction", "masterCardAction");
+    // console.log("updated masterCardAction data", masterCardActionData.length);
 
     // write this dataset to the given dataset name
     const dataSetName = process.env.STORAGE_NAME ? process.env.STORAGE_NAME : "updated-bunq-data";
@@ -186,9 +186,9 @@ const getUpdatedDataset = async () => {
         JSON.stringify(
             {
                 payments: paymentData,
-                invoices: invoiceData,
-                requestInquiries: requestInquiryData,
-                masterCardActions: masterCardActionData
+                invoices: invoiceData
+                // requestInquiries: requestInquiryData,
+                // masterCardActions: masterCardActionData
             },
             null,
             2

@@ -4,14 +4,21 @@ import Typography from "@material-ui/core/Typography";
 
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
+import MovingAverage from "../../../Functions/MovingAverage";
+import DefaultSwitch from "../../../Components/DefaultSwitch";
 
 export default ({ payments }) => {
-    const paymentChartData = payments.map(payment => {
+    const [movingAverage, setMovingAverage] = React.useState(true);
+
+    let paymentChartData = payments.map(payment => {
         return {
             x: new Date(payment.date),
             y: payment.change
         };
     });
+    if (movingAverage) {
+        paymentChartData = MovingAverage(paymentChartData, 1, true);
+    }
 
     return (
         <div>
@@ -19,6 +26,9 @@ export default ({ payments }) => {
                 The amount of payments done each DAY over the previous period. E.G. if in one week 500,000 payments are
                 done, this number is divided by ~7 which is about 71,500 payments per day.
             </Typography>
+            <div className="chart-content">
+                <DefaultSwitch label="Use 3 week moving average" checked={movingAverage} onChange={setMovingAverage} />
+            </div>
             <Bar
                 data={{
                     datasets: [

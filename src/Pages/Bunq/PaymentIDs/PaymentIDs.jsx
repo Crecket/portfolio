@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -7,7 +8,7 @@ import Tab from "@material-ui/core/Tab";
 import PaymentIDChart from "./PaymentIDChart";
 import PaymentIDChangeChart from "./PaymentIDChangeChart";
 
-export default ({ match, history, bunqData }) => {
+export default ({ match, bunqData }) => {
     const [chart, setChart] = useState("total");
 
     useEffect(
@@ -18,10 +19,6 @@ export default ({ match, history, bunqData }) => {
         },
         [match.params.chart]
     );
-    const chartChange = (e, value) => {
-        setChart(value);
-        history.push(`/bunq/payments/${value}`);
-    };
 
     if (!bunqData) return null;
     let chartComponent = null;
@@ -40,16 +37,11 @@ export default ({ match, history, bunqData }) => {
             <Helmet title="GregoryG - bunq payments" />
 
             <AppBar position="static">
-                <Tabs value={chart} onChange={chartChange}>
-                    <Tab value="total" label="Total payments" />
-                    <Tab value="average" label="Average payments" />
+                <Tabs value={chart}>
+                    <Tab component={Link} to="/bunq/payments/total" value="total" label="Total payments" />
+                    <Tab component={Link} to="/bunq/payments/average" value="average" label="Average payments" />
                 </Tabs>
             </AppBar>
-
-            <div style={{ display: "none" }}>
-                <a href="/bunq/invoices/total">total</a>
-                <a href="/bunq/payments/average">average</a>
-            </div>
 
             {chartComponent}
         </div>

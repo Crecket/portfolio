@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
 import PredictionsInvoices from "./PredictionsInvoices";
 
-export default ({ match, history, bunqData }) => {
+export default ({ match, bunqData }) => {
     const [chart, setChart] = useState("invoices");
 
     useEffect(
@@ -17,11 +18,6 @@ export default ({ match, history, bunqData }) => {
         },
         [match.params.chart]
     );
-    const chartChange = (e, value) => {
-        setChart(value);
-        history.push(`/bunq/predictions/${value}`);
-    };
-
     if (!bunqData) return null;
 
     let chartComponent = null;
@@ -37,14 +33,10 @@ export default ({ match, history, bunqData }) => {
             <Helmet title="GregoryG - bunq predictions" />
 
             <AppBar position="static">
-                <Tabs value={chart} onChange={chartChange}>
-                    <Tab value="invoices" label="Invoices" />
+                <Tabs value={chart}>
+                    <Tab component={Link} to="/bunq/predictions/invoices" value="invoices" label="Invoices" />
                 </Tabs>
             </AppBar>
-
-            <div style={{ display: "none" }}>
-                <a href="/bunq/predictions/invoices">total</a>
-            </div>
 
             {chartComponent}
         </div>

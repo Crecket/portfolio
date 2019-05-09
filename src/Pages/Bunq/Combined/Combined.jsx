@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -7,7 +8,7 @@ import Tab from "@material-ui/core/Tab";
 import CombinedPaymentsAndInvoicesChart from "./CombinedPaymentsAndInvoicesChart";
 import CombinedPaymentsPerInvoice from "./CombinedPaymentsPerInvoice";
 
-export default ({ match, history, bunqData }) => {
+export default ({ match, bunqData }) => {
     const [chart, setChart] = useState("payments-invoices");
 
     useEffect(
@@ -18,10 +19,6 @@ export default ({ match, history, bunqData }) => {
         },
         [match.params.chart]
     );
-    const chartChange = (e, value) => {
-        setChart(value);
-        history.push(`/bunq/combined/${value}`);
-    };
 
     if (!bunqData) return null;
 
@@ -41,16 +38,21 @@ export default ({ match, history, bunqData }) => {
             <Helmet title="GregoryG - bunq combined datasets" />
 
             <AppBar position="static">
-                <Tabs value={chart} onChange={chartChange}>
-                    <Tab value="payments-invoices" label="Payments and Invoices" />
-                    <Tab value="payments-per-invoice" label="Payments per Invoice" />
+                <Tabs value={chart}>
+                    <Tab
+                        component={Link}
+                        to="/bunq/combined/payments-invoices"
+                        value="payments-invoices"
+                        label="Payments and Invoices"
+                    />
+                    <Tab
+                        component={Link}
+                        to="/bunq/combined/payments-per-invoice"
+                        value="payments-per-invoice"
+                        label="Payments per Invoice"
+                    />
                 </Tabs>
             </AppBar>
-
-            <div style={{ display: "none" }}>
-                <a href="/bunq/combined/payments-invoices">payments-invoices</a>
-                <a href="/bunq/combined/payments-per-invoice">payments-per-invoice</a>
-            </div>
 
             {chartComponent}
         </div>

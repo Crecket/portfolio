@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet";
-import { Route } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -45,10 +45,6 @@ const Bunq = ({ history, match }) => {
         },
         [match.params.tab]
     );
-    const tabChange = (e, value) => {
-        setTab(value);
-        history.push(`/bunq/${value}`);
-    };
 
     return (
         <div className="bunq-charts">
@@ -56,20 +52,13 @@ const Bunq = ({ history, match }) => {
             <div className="content">
                 <Paper>
                     <AppBar position="static">
-                        <Tabs value={tab} onChange={tabChange}>
-                            <Tab value="invoices" label="Invoices" />
-                            <Tab value="payments" label="Payments" />
-                            <Tab value="combined" label="Combined" />
-                            <Tab value="predictions" label="Predictions" />
+                        <Tabs value={tab}>
+                            <Tab component={Link} to={"/bunq/invoices"} value="invoices" label="Invoices" />
+                            <Tab component={Link} to={"/bunq/payments"} value="payments" label="Payments" />
+                            <Tab component={Link} to={"/bunq/combined"} value="combined" label="Combined" />
+                            <Tab component={Link} to={"/bunq/predictions"} value="predictions" label="Predictions" />
                         </Tabs>
                     </AppBar>
-
-                    <div style={{ display: "none" }}>
-                        <a href="/bunq/invoices">invoices</a>
-                        <a href="/bunq/payments">payments</a>
-                        <a href="/bunq/combined">combined</a>
-                        <a href="/bunq/predictions">predictions</a>
-                    </div>
 
                     <Route
                         path="/bunq/:tab?/:chart?"

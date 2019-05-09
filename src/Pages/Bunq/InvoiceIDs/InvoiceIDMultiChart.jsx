@@ -46,7 +46,7 @@ export default ({ dataSets }) => {
         );
     });
 
-    const Component = barMode ? Bar : Line
+    const Component = barMode ? Bar : Line;
     return (
         <div>
             <Typography variant="body1" className="chart-description">

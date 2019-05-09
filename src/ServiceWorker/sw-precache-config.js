@@ -7,7 +7,9 @@ const dynamicUrlToDependencyList = {
     "/": `${publicAbsolutePath}/index.html`
 };
 StaticRouteLoader().forEach(staticRoute => {
-    dynamicUrlToDependencyList[staticRoute.url] = [path.normalize(`${publicAbsolutePath}${staticRoute.publicLocation}`)];
+    dynamicUrlToDependencyList[staticRoute.url] = [
+        path.normalize(`${publicAbsolutePath}${staticRoute.publicLocation}`)
+    ];
 });
 
 module.exports = {
