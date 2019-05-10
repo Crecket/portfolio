@@ -1,7 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
-import "./Home.scss";
 
 import LandingSection from "../../Components/LandingSection";
 
@@ -11,12 +10,11 @@ import CellphoneLinkSvg from "../../SVGImages/CellphoneLinkSvg";
 
 const Home = () => {
     return (
-        <div className="home">
-            <Helmet title="GregoryG - Home" />
+        <div className="contact">
+            <Helmet title="GregoryG - Contact" />
 
             <LandingSection className="text-wrapper">
-                <h1>Gregory Goijaerts</h1>
-                <h2>Software Engineer</h2>
+                <h2>Contact</h2>
 
                 <div className="links">
                     <a target="_blank" rel="noopener noreferrer" href="https://github.com/Crecket">

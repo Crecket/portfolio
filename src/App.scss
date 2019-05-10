@@ -4,7 +4,9 @@ html,
 body {
     margin: 0px;
     font-family: "Roboto", sans-serif;
-    background-color: $darkBackgroundColor;
+    background: $darkBackgroundColor;
+    background: -webkit-linear-gradient(to right, darken($darkBackgroundColor, 2), lighten($lighterBackgroundColor, 2));
+    background: linear-gradient(to right, darken($darkBackgroundColor, 2), lighten($lighterBackgroundColor, 2));
 }
 
 .fadeIn {

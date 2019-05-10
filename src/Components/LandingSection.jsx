@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ParticleField from "react-particles-webgl";
 
 import "./LandingSection.scss";
@@ -12,7 +12,7 @@ const LandingSection = ({ children, className = "", height = "100vh", displayHom
 
             {displayHomeLink && (
                 <div className="site-url">
-                    <NavLink to="/">Home</NavLink>
+                    <Link to="/">Home</Link>
                 </div>
             )}
 

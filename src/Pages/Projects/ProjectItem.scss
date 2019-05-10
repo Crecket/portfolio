@@ -30,6 +30,10 @@
                 height: 100%;
                 margin: 16px;
 
+                border-radius: 8px;
+                box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+                    0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+
                 &:hover {
                     .text-content,
                     .bottom-content,
@@ -43,9 +47,8 @@
 
                 .text-content,
                 img {
-                    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
-                        0px 2px 1px -1px rgba(0, 0, 0, 0.12);
                     max-width: 100%;
+                    display: block;
                 }
 
                 img,
@@ -57,12 +60,13 @@
                     -ms-transition: opacity 0.3s ease-in-out;
                     -o-transition: opacity 0.3s ease-in-out;
                     transition: opacity 0.3s ease-in-out;
+                    border-radius: 8px;
                 }
 
                 .text-content {
                     padding: 2px 8px;
                     position: relative;
-                    background-color: lighten($darkBackgroundColor, 5);
+                    background-color: lighten($darkBackgroundColor, 10);
                 }
 
                 .bottom-content {
