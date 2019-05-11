@@ -1,5 +1,6 @@
 import React from "react";
 import "./ProjectItem.scss";
+import Tilt from "react-tilt";
 
 import DownloadIcon from "../../SVGImages/Download";
 import AccountGroupIcon from "../../SVGImages/AccountGroup";
@@ -59,18 +60,20 @@ const ProjectItem = ({
 
     const content = (
         <div className={`project-item ${image ? "has-image" : ""}`}>
-            <div className="project-content">
-                <div className={image ? "text-content-image" : "text-content"}>
-                    <h3>{title}</h3>
-                    <p>{description}</p>
+            <Tilt options={{ max: 35, scale: 1.05, perspective: 1000 }}>
+                <div className="project-content">
+                    <div className={image ? "text-content-image" : "text-content"}>
+                        <h3>{title}</h3>
+                        <p>{description}</p>
 
-                    {!image && bottomContent}
+                        {!image && bottomContent}
+                    </div>
+
+                    {image && <div className="bottom-content">{bottomContent}</div>}
+
+                    {image && <img src={image} alt={`${title} project`} />}
                 </div>
-
-                {image && <div className="bottom-content">{bottomContent}</div>}
-
-                {image && <img src={image} alt={`${title} project`} />}
-            </div>
+            </Tilt>
         </div>
     );
 

@@ -28,6 +28,9 @@ const Home = () => {
                     <Link to="/projects">
                         <CellphoneLinkSvg /> Projects
                     </Link>
+                    <Link to="/projects">
+                        <CellphoneLinkSvg /> Other
+                    </Link>
 
                     <div style={{ display: "none" }}>
                         <a href="/notfound" rel="noopener noreferrer">

@@ -1,44 +1,55 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
+
+import "./Contact.scss";
 
 import LandingSection from "../../Components/LandingSection";
+import Btc from "../../SVGImages/Btc";
+import Eth from "../../SVGImages/Eth";
+import Ltc from "../../SVGImages/Ltc";
+import Neo from "../../SVGImages/Neo";
 
-import Github from "../../SVGImages/Github";
-import LinkedIn from "../../SVGImages/Linkedin";
-import CellphoneLinkSvg from "../../SVGImages/CellphoneLinkSvg";
+import WalletItem from "./WalletItem";
 
-const Home = () => {
+const walletList = [
+    {
+        ticker: "BTC",
+        address: "3FXM2FYXn36WgdWexGiuisZwNuYyae1jxA",
+        Icon: Btc
+    },
+    {
+        ticker: "ETH",
+        address: "0x62BA3D118ddA5447649bFD27f298927B2dA957bA",
+        Icon: Eth
+    },
+    {
+        ticker: "LTC",
+        address: "3Pj6F7SjRm1DmodUhGeBWmD5AFHTiKmKsa",
+        Icon: Ltc
+    },
+    {
+        ticker: "NEO",
+        address: "AXKCSsnPRh4EfeDa1J9R37q8Gx8SqWbHyF",
+        Icon: Neo
+    }
+];
+
+const Contact = () => {
+    const walletComponents = walletList.map((wallet, index) => {
+        return <WalletItem key={index} wallet={wallet} />;
+    });
+
     return (
         <div className="contact">
             <Helmet title="GregoryG - Contact" />
 
-            <LandingSection className="text-wrapper">
-                <h2>Contact</h2>
+            <LandingSection className="text-wrapper" displayHomeLink>
+                <h1>Contact details</h1>
 
-                <div className="links">
-                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/Crecket">
-                        <Github /> Github
-                    </a>
-                    <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/gregory-goijaerts/">
-                        <LinkedIn /> LinkedIn
-                    </a>
-                    <Link to="/projects">
-                        <CellphoneLinkSvg /> Projects
-                    </Link>
-
-                    <div style={{ display: "none" }}>
-                        <a href="/notfound" rel="noopener noreferrer">
-                            notfound
-                        </a>
-                        <a href="/bunq" rel="noopener noreferrer">
-                            bunq
-                        </a>
-                    </div>
-                </div>
+                <div className="links">{walletComponents}</div>
             </LandingSection>
         </div>
     );
 };
 
-export default Home;
+export default Contact;
