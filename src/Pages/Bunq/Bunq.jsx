@@ -32,7 +32,7 @@ const Bunq = ({ history, match }) => {
                     console.error("Failed to get bunq data");
                 });
         },
-        [0]
+        []
     );
 
     useEffect(
@@ -43,7 +43,7 @@ const Bunq = ({ history, match }) => {
                 // history.push(`/bunq/${tab}`);
             }
         },
-        [match.params.tab]
+        [match.params.tab, tab]
     );
 
     return (

@@ -12,14 +12,11 @@ import InvoiceIDChangeChart from "./InvoiceIDChangeChart";
 export default ({ match, bunqData }) => {
     const [chart, setChart] = useState("change");
 
-    useEffect(
-        () => {
-            if (match.params.chart && chart !== match.params.chart) {
-                setChart(match.params.chart);
-            }
-        },
-        [match.params.chart]
-    );
+    useEffect(() => {
+        if (match.params.chart && chart !== match.params.chart) {
+            setChart(match.params.chart);
+        }
+    }, [match.params.chart, chart]);
     if (!bunqData) return null;
 
     let chartComponent = null;

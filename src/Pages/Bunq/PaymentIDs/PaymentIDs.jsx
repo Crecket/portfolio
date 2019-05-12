@@ -17,7 +17,7 @@ export default ({ match, bunqData }) => {
                 setChart(match.params.chart);
             }
         },
-        [match.params.chart]
+        [match.params.chart, chart]
     );
 
     if (!bunqData) return null;

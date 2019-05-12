@@ -11,14 +11,11 @@ import CombinedPaymentsPerInvoice from "./CombinedPaymentsPerInvoice";
 export default ({ match, bunqData }) => {
     const [chart, setChart] = useState("payments-invoices");
 
-    useEffect(
-        () => {
-            if (match.params.chart && chart !== match.params.chart) {
-                setChart(match.params.chart);
-            }
-        },
-        [match.params.chart]
-    );
+    useEffect(() => {
+        if (match.params.chart && chart !== match.params.chart) {
+            setChart(match.params.chart);
+        }
+    }, [match.params.chart, chart]);
 
     if (!bunqData) return null;
 
