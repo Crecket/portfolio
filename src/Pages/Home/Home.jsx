@@ -8,6 +8,7 @@ import LandingSection from "../../Components/LandingSection";
 import Github from "../../SVGImages/Github";
 import LinkedIn from "../../SVGImages/Linkedin";
 import CellphoneLinkSvg from "../../SVGImages/CellphoneLinkSvg";
+import AccountBadge from "../../SVGImages/AccountBadge";
 
 const Home = () => {
     return (
@@ -28,8 +29,8 @@ const Home = () => {
                     <Link to="/projects">
                         <CellphoneLinkSvg /> Projects
                     </Link>
-                    <Link to="/projects">
-                        <CellphoneLinkSvg /> Other
+                    <Link to="/contact">
+                        <AccountBadge /> More
                     </Link>
 
                     <div style={{ display: "none" }}>

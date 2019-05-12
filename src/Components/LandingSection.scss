@@ -45,20 +45,6 @@
         left: 16px;
     }
 
-    a,
-    svg {
-        display: flex;
-        align-items: center;
-
-        text-decoration: none;
-        margin-right: 16px;
-
-        svg {
-            width: 20px;
-            margin-right: 4px;
-        }
-    }
-
     h1 {
         font-size: 2.75rem;
         color: $redPrimary;

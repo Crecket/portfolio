@@ -26,6 +26,7 @@
             }
 
             .project-content {
+                background-color: lighten($darkBackgroundColor, 10);
                 position: relative;
                 height: 100%;
                 margin: 16px;
@@ -66,7 +67,6 @@
                 .text-content {
                     padding: 2px 8px;
                     position: relative;
-                    background-color: lighten($darkBackgroundColor, 10);
                 }
 
                 .bottom-content {

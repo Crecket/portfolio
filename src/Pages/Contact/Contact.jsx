@@ -2,13 +2,19 @@ import React from "react";
 import { Helmet } from "react-helmet";
 
 import "./Contact.scss";
+import discord from "./Images/discord.svg";
+import github from "./Images/github.svg";
+import linkedin from "./Images/linkedin.svg";
+import steam from "./Images/steam.svg";
+import telegram from "./Images/telegram.svg";
+
+import Btc from "./Images/Btc";
+import Eth from "./Images/Eth";
+import Ltc from "./Images/Ltc";
+import Neo from "./Images/Neo";
 
 import LandingSection from "../../Components/LandingSection";
-import Btc from "../../SVGImages/Btc";
-import Eth from "../../SVGImages/Eth";
-import Ltc from "../../SVGImages/Ltc";
-import Neo from "../../SVGImages/Neo";
-
+import ContactItem from "./ContactItem";
 import WalletItem from "./WalletItem";
 
 const walletList = [
@@ -34,7 +40,39 @@ const walletList = [
     }
 ];
 
+const contactList = [
+    {
+        action: "LINK",
+        value: "linkedin.com/in/gregory-goijaerts/",
+        image: linkedin
+    },
+    {
+        action: "LINK",
+        value: "github.com/Crecket",
+        image: github
+    },
+    {
+        type: "Discord ID",
+        action: "COPY",
+        value: "Crecket#9979",
+        image: discord
+    },
+    {
+        action: "LINK",
+        value: "t.me/gregoryg",
+        image: telegram
+    },
+    {
+        action: "LINK",
+        value: "steamcommunity.com/id/Crecket",
+        image: steam
+    }
+];
+
 const Contact = () => {
+    const contactComponents = contactList.map((contact, index) => {
+        return <ContactItem key={index} contact={contact} />;
+    });
     const walletComponents = walletList.map((wallet, index) => {
         return <WalletItem key={index} wallet={wallet} />;
     });
@@ -44,8 +82,10 @@ const Contact = () => {
             <Helmet title="GregoryG - Contact" />
 
             <LandingSection className="text-wrapper" displayHomeLink>
-                <h1>Contact details</h1>
+                <h1>Contact</h1>
+                <div className="links">{contactComponents}</div>
 
+                <h3>Public addresses</h3>
                 <div className="links">{walletComponents}</div>
             </LandingSection>
         </div>

@@ -2,30 +2,45 @@
 
 .contact {
     .landing {
-        .wallet-item {
+        .wallet-item,
+        .contact-item {
             display: flex;
             align-items: center;
             padding: 8px;
             margin-bottom: 8px;
+            max-width: calc(100vw - 30px);
+            width: 1000px;
 
-            .address-field {
-                max-width: 390px;
-                width: 1000px;
+            @media (min-width: 500px) {
+                max-width: 470px;
             }
 
-            //font-size: 1rem;
-            //color: $greySecondary;
-            //transition: 0.5s;
-            //-o-transition: 0.5s;
-            //-ms-transition: 0.5s;
-            //-moz-transition: 0.5s;
-            //-webkit-transition: 0.5s;
-            //
-            //&:hover {
-            //    color: $redPrimary;
-            //}
+            a,
+            .address-field {
+                width: 100%;
+            }
 
+            .address-field {
+                cursor: pointer;
+                input {
+                    cursor: pointer;
+                }
+            }
+
+            svg,
+            img {
+                margin-right: 12px;
+            }
+        }
+
+        .wallet-item {
             svg {
+                width: 32px;
+                height: 32px;
+            }
+        }
+        .contact-item {
+            img {
                 width: 32px;
                 height: 32px;
             }

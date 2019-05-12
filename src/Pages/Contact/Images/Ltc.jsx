@@ -1,5 +1,5 @@
 import React from "react";
-import SvgIcon from "@material-ui/core/SvgIcon";
+import SvgIcon from "@material-ui/core/SvgIcon/index";
 
 export default ({ color = false, ...props }) => {
     if (color) {
