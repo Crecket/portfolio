@@ -7,7 +7,10 @@ import bunqDataSets from "./DataSets/bunqDataSets";
 
 require("dotenv").config();
 
-const invoiceIdOverwrites = [{ id: 1072130, newId: 1045465, date: "2019-02-08 22:18:10.491460" }];
+const invoiceIdOverwrites = [
+    { id: 1072130, newId: 1045465, date: "2019-02-08 22:18:10.491460" },
+    { id: 191665, newId: 179101, date: "2017-08-01 17:23:23.776410" }
+];
 
 Date.prototype.getWeek = function() {
     const onejan = new Date(this.getFullYear(), 0, 1);
