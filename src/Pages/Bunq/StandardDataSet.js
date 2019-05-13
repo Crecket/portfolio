@@ -1,4 +1,10 @@
-export default ({ datalabels, forceShowDataLabel = false, ...options }) => {
+export default ({ color = false, datalabels, forceShowDataLabel = false, ...options }) => {
+    if (color) {
+        options.pointBackgroundColor = color;
+        options.backgroundColor = color;
+        options.borderColor = color;
+    }
+
     const dataSet = {
         borderWidth: 1,
         datalabels: {

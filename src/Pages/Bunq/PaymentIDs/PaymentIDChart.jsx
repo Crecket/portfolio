@@ -6,7 +6,6 @@ import DefaultSwitch from "../../../Components/DefaultSwitch";
 
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
-import pluginTrendlineLinear from "../Plugins/trendLine";
 
 export default ({ payments }) => {
     const [logScale, toggleLogScale] = useState(false);
@@ -27,13 +26,7 @@ export default ({ payments }) => {
         data: paymentChartData,
         backgroundColor: "rgba(13, 97, 232, 0.4)",
         pointRadius: 0,
-        trendlineLinear: trendLine
-            ? {
-                  style: "#ff7a32",
-                  lineStyle: "dotted|line",
-                  width: 1
-              }
-            : false
+        trendlineLinear: false
     });
 
     const dataSets = [paymentDataSet];
@@ -49,7 +42,7 @@ export default ({ payments }) => {
                 <DefaultSwitch label="Trend line" checked={trendLine} onChange={toggleTrendLine} />
             </div>
             <Line
-                plugins={[pluginTrendlineLinear]}
+                className="chart"
                 data={{
                     datasets: dataSets
                 }}

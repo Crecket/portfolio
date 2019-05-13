@@ -64,13 +64,20 @@ const setup = async () => {
     return BunqClient;
 };
 
-const getGenericTypeRecursive = async (BunqClient, eventType, handlerKey, userId, accountId, olderId) => {
+const getGenericTypeRecursive = async (BunqClient, eventType, handlerKey, userId, accountId = false, olderId) => {
     const options = {
         count: 200
     };
     if (olderId) options.older_id = olderId;
 
-    const events = await BunqClient.api[handlerKey].list(userId, accountId, options);
+    // construct parameter list to make accountId optional
+    const parameters = [userId];
+    if (accountId) parameters.push(accountId);
+    parameters.push(options);
+
+    // call the actual endpoint
+    console.log(` -> Fetching ${eventType} data: ${JSON.stringify(parameters)}`);
+    const events = await BunqClient.api[handlerKey].list(...parameters);
     if (events.length < 200) return events;
 
     const oldestId = events[events.length - 1][eventType].id;
@@ -80,6 +87,7 @@ const getGenericTypeRecursive = async (BunqClient, eventType, handlerKey, userId
 };
 
 const getGenericType = (BunqClient, userId, accountId) => async (eventType, handlerKey) => {
+    console.log(`> Updating ${eventType}`);
     const events = await getGenericTypeRecursive(BunqClient, eventType, handlerKey, userId, accountId);
 
     const eventTracker = {};
@@ -103,10 +111,13 @@ const getGenericType = (BunqClient, userId, accountId) => async (eventType, hand
         }
     });
 
-    return Object.keys(eventTracker)
+    const result = Object.keys(eventTracker)
         .map(dateString => eventTracker[dateString])
         .sort((a, b) => (a.date > b.date ? -1 : 1))
         .reverse();
+
+    console.log(`= Updated ${eventType} data ${result.length}`);
+    return result;
 };
 
 /**
@@ -172,15 +183,12 @@ const getUpdatedDataset = async () => {
     console.log("updated invoice data", invoiceData.length);
 
     const getGenericTypeHandler = getGenericType(BunqClient, user.id, account.id);
+    const getNoAccountTypeHandler = getGenericType(BunqClient, user.id);
 
     const paymentData = await getGenericTypeHandler("Payment", "payment");
-    console.log("updated payment data", paymentData.length);
-
-    // const requestInquiryData = await getGenericTypeHandler("RequestInquiry", "requestInquiry");
-    // console.log("updated requestInquiry data", requestInquiryData.length);
-    //
-    // const masterCardActionData = await getGenericTypeHandler("MasterCardAction", "masterCardAction");
-    // console.log("updated masterCardAction data", masterCardActionData.length);
+    const cardData = await getNoAccountTypeHandler("CardDebit", "card");
+    const requestInquiryData = await getGenericTypeHandler("RequestInquiry", "requestInquiry");
+    const masterCardActionData = await getGenericTypeHandler("MasterCardAction", "masterCardAction");
 
     // write this dataset to the given dataset name
     const dataSetName = process.env.STORAGE_NAME ? process.env.STORAGE_NAME : "updated-bunq-data";
@@ -188,10 +196,11 @@ const getUpdatedDataset = async () => {
         `${__dirname}${path.sep}DataSets${path.sep}${dataSetName}.json`,
         JSON.stringify(
             {
+                cards: cardData,
                 payments: paymentData,
-                invoices: invoiceData
-                // requestInquiries: requestInquiryData,
-                // masterCardActions: masterCardActionData
+                invoices: invoiceData,
+                requestInquiries: requestInquiryData,
+                masterCardActions: masterCardActionData
             },
             null,
             2
@@ -255,21 +264,16 @@ const calculateInvoiceChangeValues = dataSet => {
     return combinedAdjustedChangeValues;
 };
 
-const calculatePaymentChangeValues = payments => {
-    const dataSetChangeValues = {};
-    if (payments.length === 0) return {};
+const calculateEventChangeValues = events => {
+    if (events.length === 0) return {};
 
-    const firstPaymentDate = new Date(payments[0].date);
-    const lastPaymentDate = new Date(payments[payments.length - 1].date);
+    const firstEventDate = new Date(events[0].date);
+    const lastEventDate = new Date(events[events.length - 1].date);
 
     // round the dates and get the first day of those weeks
-    const firstWeekDate = new Date(
-        firstPaymentDate.getFullYear(),
-        firstPaymentDate.getMonth(),
-        firstPaymentDate.getDate()
-    );
+    const firstWeekDate = new Date(firstEventDate.getFullYear(), firstEventDate.getMonth(), firstEventDate.getDate());
     firstWeekDate.setDate(firstWeekDate.getDate() - firstWeekDate.getDay());
-    const lastWeekDate = new Date(lastPaymentDate.getFullYear(), lastPaymentDate.getMonth(), lastPaymentDate.getDate());
+    const lastWeekDate = new Date(lastEventDate.getFullYear(), lastEventDate.getMonth(), lastEventDate.getDate());
     lastWeekDate.setDate(lastWeekDate.getDate() - lastWeekDate.getDay());
 
     // get the total days between the outer weeks
@@ -284,37 +288,37 @@ const calculatePaymentChangeValues = payments => {
 
     const weeklyValues = [];
     weeklyDates.forEach(weeklyDate => {
-        const beforeWeekPayment = payments.reverse().find(payment => {
-            const paymentDate = new Date(payment.date);
-            if (paymentDate < weeklyDate) return true;
+        const beforeWeekEvent = events.reverse().find(event => {
+            const eventDate = new Date(event.date);
+            if (eventDate < weeklyDate) return true;
 
             return false;
         });
         // reverse back
-        payments.reverse();
+        events.reverse();
 
-        const afterWeekPayment = payments.find(payment => {
-            const paymentDate = new Date(payment.date);
-            if (paymentDate > weeklyDate) return true;
+        const afterWeekEvent = events.find(event => {
+            const eventDate = new Date(event.date);
+            if (eventDate > weeklyDate) return true;
 
             return false;
         });
 
-        if (!beforeWeekPayment) return;
-        if (!afterWeekPayment) return;
+        if (!beforeWeekEvent) return;
+        if (!afterWeekEvent) return;
 
-        const paymentBeforeDate = new Date(beforeWeekPayment.date);
-        const paymentAfterDate = new Date(afterWeekPayment.date);
-        // total change between the two surrounding payments
-        const paymentIdChange = afterWeekPayment.id - beforeWeekPayment.id;
-        // calculate hours between the two surrounding payments
-        const hoursBetween = getTimeBetween(paymentBeforeDate, paymentAfterDate, ONE_HOUR);
-        // calculate the amount of hours from the before payment to the weekly date
-        const startToWeeklyDateBetween = getTimeBetween(paymentBeforeDate, weeklyDate, ONE_HOUR);
-        // how much payments/hour for the surrounding payments
-        const hourlyChange = paymentIdChange / hoursBetween;
+        const eventBeforeDate = new Date(beforeWeekEvent.date);
+        const eventAfterDate = new Date(afterWeekEvent.date);
+        // total change between the two surrounding events
+        const eventIdChange = afterWeekEvent.id - beforeWeekEvent.id;
+        // calculate hours between the two surrounding events
+        const hoursBetween = getTimeBetween(eventBeforeDate, eventAfterDate, ONE_HOUR);
+        // calculate the amount of hours from the before event to the weekly date
+        const startToWeeklyDateBetween = getTimeBetween(eventBeforeDate, weeklyDate, ONE_HOUR);
+        // how much events/hour for the surrounding events
+        const hourlyChange = eventIdChange / hoursBetween;
         // calculate weekly id estimate
-        const weeklyDateIdEstimate = Math.round(beforeWeekPayment.id + hourlyChange * startToWeeklyDateBetween);
+        const weeklyDateIdEstimate = Math.round(beforeWeekEvent.id + hourlyChange * startToWeeklyDateBetween);
 
         weeklyValues.push({
             date: weeklyDate,
@@ -322,11 +326,11 @@ const calculatePaymentChangeValues = payments => {
         });
     });
 
-    let previousId = payments[0].id;
-    let previousDate = new Date(payments[0].date);
+    let previousId = events[0].id;
+    let previousDate = new Date(events[0].date);
     weeklyValues.forEach((weeklyEstimate, index) => {
-        // change in payment ID versus previous payment
-        const paymentIdChange = weeklyEstimate.id - previousId;
+        // change in event ID versus previous event
+        const eventIdChange = weeklyEstimate.id - previousId;
         const daysBetweenDates = getTimeBetween(previousDate, weeklyEstimate.date, ONE_DAY, true);
 
         // store the values for next loop
@@ -334,10 +338,41 @@ const calculatePaymentChangeValues = payments => {
         previousId = weeklyEstimate.id;
 
         // push to the dataset stack
-        weeklyValues[index].change = paymentIdChange / daysBetweenDates;
+        weeklyValues[index].change = eventIdChange / daysBetweenDates;
     });
 
     return weeklyValues;
+};
+
+const normalizeEventCollections = (eventTracker, events) => {
+    if (!events || !Array.isArray(events)) return;
+
+    // get the first event for each week
+    events.forEach(event => {
+        const date = new Date(event.date);
+        const dateString = `${date.getFullYear()}:${date.getMonth()}:${date.getDate()}`;
+
+        if (!eventTracker[dateString]) {
+            eventTracker[dateString] = {
+                date: event.date,
+                id: event.id
+            };
+        } else {
+            const compareDate = new Date(eventTracker[dateString].date);
+            // get a event as early as possible for the date
+            if (compareDate > date) {
+                eventTracker[dateString].id = event.id;
+            }
+        }
+    });
+};
+const trackerToArray = eventTracker => {
+    return Object.keys(eventTracker)
+        .map(dateString => {
+            return eventTracker[dateString];
+        })
+        .sort((a, b) => (a.date > b.date ? -1 : 1))
+        .reverse();
 };
 
 const start = async () => {
@@ -346,6 +381,9 @@ const start = async () => {
 
     // group by week or month for each use case to get averages
     const paymentTracker = {};
+    const cardsTracker = {};
+    const masterCardActionTracker = {};
+    const requestInquiryTracker = {};
     const invoiceTracker = {};
 
     const dataSets = bunqDataSets(`${__dirname}/DataSets`);
@@ -366,24 +404,10 @@ const start = async () => {
 
     // go through data sets and combine them
     dataSets.forEach(dataSet => {
-        // get the first payment for each week
-        dataSet.payments.forEach(payment => {
-            const date = new Date(payment.date);
-            const dateString = `${date.getFullYear()}:${date.getMonth()}:${date.getDate()}`;
-
-            if (!paymentTracker[dateString]) {
-                paymentTracker[dateString] = {
-                    date: payment.date,
-                    id: payment.id
-                };
-            } else {
-                const compareDate = new Date(paymentTracker[dateString].date);
-                // get a payment as early as possible for the date
-                if (compareDate > date) {
-                    paymentTracker[dateString].id = payment.id;
-                }
-            }
-        });
+        normalizeEventCollections(paymentTracker, dataSet.payments);
+        normalizeEventCollections(cardsTracker, dataSet.cards);
+        normalizeEventCollections(masterCardActionTracker, dataSet.masterCardActions);
+        normalizeEventCollections(requestInquiryTracker, dataSet.requestInquiries);
 
         // combine the ids with the normalized change values
         const normalizedInvoices = calculateInvoiceChangeValues(dataSet);
@@ -420,24 +444,26 @@ const start = async () => {
         .reverse();
     console.log("combined invoiceData", invoiceData.length);
 
-    // map payments to a sorted list
-    const paymentsCombined = Object.keys(paymentTracker)
-        .map(dateString => {
-            return paymentTracker[dateString];
-        })
-        .sort((a, b) => (a.date > b.date ? -1 : 1))
-        .reverse();
-
     // calculate change values and adjusted changes values
-    const paymentChangeData = calculatePaymentChangeValues(paymentsCombined);
-    console.log("combined paymentData", paymentChangeData.length);
+    const paymentChangeData = calculateEventChangeValues(trackerToArray(paymentTracker));
+    console.log("combined payment data", paymentChangeData.length);
+    const masterCardActionChangeData = calculateEventChangeValues(trackerToArray(masterCardActionTracker));
+    console.log("combined masterCardAction data", masterCardActionChangeData.length);
+    const requestInquiryChangeData = calculateEventChangeValues(trackerToArray(requestInquiryTracker));
+    console.log("combined requestInquiry data", requestInquiryChangeData.length);
+
+    const cardChangeData = trackerToArray(cardsTracker);
+    console.log("combined card data", cardChangeData.length);
 
     // write to a file in public dir
     fs.writeFileSync(
         `${__dirname}${path.sep}..${path.sep}public${path.sep}bunq-data.json`,
         JSON.stringify({
+            cards: cardChangeData,
             invoices: invoiceData,
             payments: paymentChangeData,
+            masterCardActions: masterCardActionChangeData,
+            requestInquiries: requestInquiryChangeData,
             dataSets: dataSets
         })
     );

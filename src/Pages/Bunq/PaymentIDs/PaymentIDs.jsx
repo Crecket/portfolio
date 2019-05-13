@@ -11,14 +11,11 @@ import PaymentIDChangeChart from "./PaymentIDChangeChart";
 export default ({ match, bunqData }) => {
     const [chart, setChart] = useState("total");
 
-    useEffect(
-        () => {
-            if (match.params.chart && chart !== match.params.chart) {
-                setChart(match.params.chart);
-            }
-        },
-        [match.params.chart, chart]
-    );
+    useEffect(() => {
+        if (match.params.chart && chart !== match.params.chart) {
+            setChart(match.params.chart);
+        }
+    }, [match.params.chart, chart]);
 
     if (!bunqData) return null;
     let chartComponent = null;

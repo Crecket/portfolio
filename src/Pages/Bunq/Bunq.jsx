@@ -21,30 +21,24 @@ const Bunq = ({ history, match }) => {
     const [bunqData, setBunqData] = useState(false);
     const [tab, setTab] = useState("invoices");
 
-    useEffect(
-        () => {
-            axios
-                .get(`/bunq-data.json?v=v1`)
-                .then(response => response.data)
-                .then(setBunqData)
-                .catch(error => {
-                    console.error(error);
-                    console.error("Failed to get bunq data");
-                });
-        },
-        []
-    );
+    useEffect(() => {
+        axios
+            .get(`/bunq-data.json?v=v1`)
+            .then(response => response.data)
+            .then(setBunqData)
+            .catch(error => {
+                console.error(error);
+                console.error("Failed to get bunq data");
+            });
+    }, []);
 
-    useEffect(
-        () => {
-            if (match.params.tab && tab !== match.params.tab) {
-                setTab(match.params.tab);
-            } else if (!match.params.tab) {
-                // history.push(`/bunq/${tab}`);
-            }
-        },
-        [match.params.tab, tab]
-    );
+    useEffect(() => {
+        if (match.params.tab && tab !== match.params.tab) {
+            setTab(match.params.tab);
+        } else if (!match.params.tab) {
+            // history.push(`/bunq/${tab}`);
+        }
+    }, [match.params.tab, tab]);
 
     return (
         <div className="bunq-charts">

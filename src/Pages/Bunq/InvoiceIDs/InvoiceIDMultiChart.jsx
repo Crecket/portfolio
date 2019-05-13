@@ -17,21 +17,24 @@ export default ({ dataSets }) => {
                 color = "#e8300f";
                 break;
             case 1:
-                color = "#66ff4c";
+                color = "#12a4ff";
                 break;
             case 2:
-                color = "#12a4ff";
+                color = "#66ff4c";
                 break;
             case 3:
                 color = "#ffc234";
                 break;
             case 4:
-                color = "#ff04f4";
-                break;
-            case 5:
                 color = "#d8d7ff";
                 break;
+            case 5:
+                color = "#ff004b";
+                break;
             case 6:
+                color = "#ff04f4";
+                break;
+            case 7:
                 color = "#3cf5ff";
                 break;
             default:
@@ -70,6 +73,7 @@ export default ({ dataSets }) => {
                 <DefaultSwitch label="Bar charts" checked={barMode} onChange={setBarMode} />
             </div>
             <Component
+                className="chart"
                 data={{
                     datasets: invoiceChartDataSets
                 }}

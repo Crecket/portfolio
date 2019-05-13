@@ -5,11 +5,10 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
-import CombinedPaymentsAndInvoicesChart from "./CombinedPaymentsAndInvoicesChart";
-import CombinedPaymentsPerInvoice from "./CombinedPaymentsPerInvoice";
+import CombinedAll from "./CombinedAll";
 
 export default ({ match, bunqData }) => {
-    const [chart, setChart] = useState("payments-invoices");
+    const [chart, setChart] = useState("all");
 
     useEffect(() => {
         if (match.params.chart && chart !== match.params.chart) {
@@ -21,12 +20,9 @@ export default ({ match, bunqData }) => {
 
     let chartComponent = null;
     switch (chart) {
-        case "payments-per-invoice":
-            chartComponent = <CombinedPaymentsPerInvoice bunqData={bunqData} />;
-            break;
         default:
-        case "payments-invoices":
-            chartComponent = <CombinedPaymentsAndInvoicesChart bunqData={bunqData} />;
+        case "all":
+            chartComponent = <CombinedAll bunqData={bunqData} />;
             break;
     }
 
@@ -36,18 +32,7 @@ export default ({ match, bunqData }) => {
 
             <AppBar position="static">
                 <Tabs value={chart}>
-                    <Tab
-                        component={Link}
-                        to="/bunq/combined/payments-invoices"
-                        value="payments-invoices"
-                        label="Payments and Invoices"
-                    />
-                    <Tab
-                        component={Link}
-                        to="/bunq/combined/payments-per-invoice"
-                        value="payments-per-invoice"
-                        label="Payments per Invoice"
-                    />
+                    <Tab component={Link} to="/bunq/combined/all" value="all" label="All data" />
                 </Tabs>
             </AppBar>
 

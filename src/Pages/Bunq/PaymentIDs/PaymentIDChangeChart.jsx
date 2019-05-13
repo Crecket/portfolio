@@ -30,6 +30,7 @@ export default ({ payments }) => {
                 <DefaultSwitch label="Use 3 week moving average" checked={movingAverage} onChange={setMovingAverage} />
             </div>
             <Bar
+                className="chart"
                 data={{
                     datasets: [
                         StandardDataSet({

@@ -118,6 +118,7 @@ export default ({ invoices }) => {
             </div>
 
             <Line
+                className="chart"
                 data={{
                     datasets: [data]
                 }}

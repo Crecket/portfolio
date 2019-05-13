@@ -9,15 +9,12 @@ const useScrollPosition = (element = false) => {
         setScrollPosition(element.scrollY);
     };
 
-    useEffect(
-        () => {
-            element.addEventListener("scroll", getScrollPosition);
-            return () => {
-                element.removeEventListener("scroll", getScrollPosition);
-            };
-        },
-        [0]
-    );
+    useEffect(() => {
+        element.addEventListener("scroll", getScrollPosition);
+        return () => {
+            element.removeEventListener("scroll", getScrollPosition);
+        };
+    }, [0]);
 
     return scrollPosition;
 };
