@@ -25,7 +25,7 @@ export default ({ invoices }) => {
         };
     });
     // calculate moving average
-    const movingAverageChartData = MovingAverage(mappedInvoiceXY, 1, true);
+    const movingAverageChartData = MovingAverage(mappedInvoiceXY, 2, true);
 
     // wich dataset to use
     const invoiceList = movingAverage ? movingAverageChartData : mappedInvoiceXY;
@@ -55,17 +55,17 @@ export default ({ invoices }) => {
     const options = StandardChartOptions();
     const dataSets = [
         StandardDataSet({
+            label: "Invoices",
+            data: invoiceChartData,
+            backgroundColor: "#0d61e8",
+            forceShowDataLabel: true
+        }),
+        StandardDataSet({
             label: "Invoice change",
             data: invoiceChartDelta,
             backgroundColor: invoiceChartDeltaColors,
             datalabels: false
         }),
-        StandardDataSet({
-            label: "Invoices",
-            data: invoiceChartData,
-            backgroundColor: "#0d61e8",
-            forceShowDataLabel: true
-        })
     ];
 
     return (
@@ -79,7 +79,7 @@ export default ({ invoices }) => {
                 longer period of time the value stays green you can assume that bunq is gaining customers.
             </Typography>
             <div className="chart-content">
-                <DefaultSwitch label="Use 3 month moving average" checked={movingAverage} onChange={setMovingAverage} />
+                <DefaultSwitch label="Use 5 month moving average" checked={movingAverage} onChange={setMovingAverage} />
             </div>
             <Bar
                 options={options}

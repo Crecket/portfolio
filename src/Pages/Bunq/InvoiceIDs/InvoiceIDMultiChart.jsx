@@ -22,6 +22,18 @@ export default ({ dataSets }) => {
             case 2:
                 color = "#12a4ff";
                 break;
+            case 3:
+                color = "#ffc234";
+                break;
+            case 4:
+                color = "#ff04f4";
+                break;
+            case 5:
+                color = "#d8d7ff";
+                break;
+            case 6:
+                color = "#3cf5ff";
+                break;
             default:
                 color = "red";
                 break;
