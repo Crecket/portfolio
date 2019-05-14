@@ -82,6 +82,11 @@ export default ({ bunqData }) => {
         <div>
             <div className="chart-content">
                 <DefaultCheckbox
+                    label="Cards Y-axis"
+                    checked={showCardAxis}
+                    onChange={() => setShowCardAxis(!showCardAxis)}
+                />
+                <DefaultCheckbox
                     label="Payment Y-axis"
                     checked={showPaymentAxis}
                     onChange={() => setShowPaymentAxis(!showPaymentAxis)}
@@ -100,11 +105,6 @@ export default ({ bunqData }) => {
                     label="Request Inquiry Y-axis"
                     checked={showRequestInquiryAxis}
                     onChange={() => setShowRequestInquiryAxis(!showRequestInquiryAxis)}
-                />
-                <DefaultCheckbox
-                    label="Cards Y-axis"
-                    checked={showCardAxis}
-                    onChange={() => setShowCardAxis(!showCardAxis)}
                 />
             </div>
             <Line
@@ -130,6 +130,15 @@ export default ({ bunqData }) => {
                             datalabels: false
                         }),
                         StandardDataSet({
+                            label: `Invoices`,
+                            yAxisID: "invoices",
+                            data: invoiceChartData,
+                            fill: false,
+                            pointRadius: 0,
+                            color: "#67ff4d",
+                            datalabels: false
+                        }),
+                        StandardDataSet({
                             label: `Requests`,
                             yAxisID: "requestInquiries",
                             data: requestInquiryChartData,
@@ -145,15 +154,6 @@ export default ({ bunqData }) => {
                             fill: false,
                             pointRadius: 0,
                             color: "#00fff6",
-                            datalabels: false
-                        }),
-                        StandardDataSet({
-                            label: `Invoices`,
-                            yAxisID: "invoices",
-                            data: invoiceChartData,
-                            fill: false,
-                            pointRadius: 0,
-                            color: "#67ff4d",
                             datalabels: false
                         })
                     ]
