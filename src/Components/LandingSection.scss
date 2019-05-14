@@ -1,5 +1,9 @@
 @import "../styles/variables.scss";
 
+.sidebar-list-wrapper {
+    width: 250px;
+}
+
 .landing {
     position: relative;
     display: flex;
@@ -23,6 +27,13 @@
         &:hover {
             color: $redPrimary;
         }
+    }
+
+    .menu-button {
+        position: fixed;
+        z-index: 2;
+        top: 8px;
+        left: 8px;
     }
 
     .site-url,

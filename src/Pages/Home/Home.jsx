@@ -1,14 +1,14 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
-import "./Home.scss";
 
+import "./Home.scss";
 import LandingSection from "../../Components/LandingSection";
 
 import Github from "../../SVGImages/Github";
 import LinkedIn from "../../SVGImages/Linkedin";
-import CellphoneLinkSvg from "../../SVGImages/CellphoneLinkSvg";
 import AccountBadge from "../../SVGImages/AccountBadge";
+import CellphoneLinkSvg from "../../SVGImages/CellphoneLinkSvg";
 
 const Home = () => {
     return (

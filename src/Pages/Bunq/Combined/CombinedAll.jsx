@@ -1,14 +1,19 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
+import "chartjs-plugin-annotation";
 
+import { eventsToAnnotations, combinedEventList } from "../StandardAnnotations";
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
 import DefaultCheckbox from "../../../Components/DefaultCheckbox";
+import DefaultSwitch from "../../../Components/DefaultSwitch";
 
 const eventMapper = event => ({
     x: new Date(event.date),
     y: event.id
 });
+
+const annotationList = eventsToAnnotations(combinedEventList);
 
 export default ({ bunqData }) => {
     const paymentChartData = bunqData.payments.map(eventMapper);
@@ -17,13 +22,16 @@ export default ({ bunqData }) => {
     const invoiceChartData = bunqData.invoices.map(eventMapper);
     const cardsChartData = bunqData.cards.map(eventMapper);
 
+    const [showAnnotations, setShowAnnotations] = React.useState(false);
+
     const [showPaymentAxis, setShowPaymentAxis] = React.useState(true);
     const [showRequestInquiryAxis, setShowRequestInquiryAxis] = React.useState(false);
     const [showMasterCardActionAxis, setShowMasterCardActionAxis] = React.useState(false);
     const [showInvoiceAxis, setShowInvoiceAxis] = React.useState(false);
     const [showCardAxis, setShowCardAxis] = React.useState(false);
 
-    const options = { ...StandardChartOptions("nearest") };
+    const options = { ...StandardChartOptions("nearest", showAnnotations ? annotationList : []) };
+
     options.scales.yAxes[1] = {
         ...options.scales.yAxes[0],
         id: "invoices",
@@ -81,6 +89,7 @@ export default ({ bunqData }) => {
     return (
         <div>
             <div className="chart-content">
+                <DefaultSwitch label="Show annotations" checked={showAnnotations} onChange={setShowAnnotations} />
                 <DefaultCheckbox
                     label="Cards Y-axis"
                     checked={showCardAxis}

@@ -70,7 +70,7 @@ const Projects = () => {
         <div className="projects">
             <Helmet title="GregoryG - Projects" />
 
-            <LandingSection className="text-wrapper" height="40vh" displayHomeLink>
+            <LandingSection className="text-wrapper" height="40vh" displayMenuButton>
                 <h1>Projects</h1>
             </LandingSection>
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Bar } from "react-chartjs-2";
+import "chartjs-plugin-annotation";
 import Link from "react-router-dom/Link";
 import Typography from "@material-ui/core/Typography";
 
@@ -11,7 +12,11 @@ import StandardDataSet from "../StandardDataSet";
 import MovingAverage from "../../../Functions/MovingAverage";
 import TextField from "@material-ui/core/TextField";
 
+import { combinedEventList, eventsToAnnotations } from "../StandardAnnotations";
+const annotationList = eventsToAnnotations(combinedEventList);
+
 export default ({ invoices }) => {
+    const [showAnnotations, setShowAnnotations] = useState(false);
     const [movingAverage, setMovingAverage] = useState(true);
     const [compensation, setCompensation] = useState(10);
     const finalCompensation = (100 - compensation) / 100;
@@ -57,7 +62,7 @@ export default ({ invoices }) => {
         });
     });
 
-    const options = StandardChartOptions();
+    const options = StandardChartOptions("label", showAnnotations ? annotationList : []);
     const dataSets = [
         StandardDataSet({
             label: "Invoices",
@@ -88,6 +93,11 @@ export default ({ invoices }) => {
             </Typography>
             <div className="chart-content">
                 <DefaultSwitch label="Use 5 month moving average" checked={movingAverage} onChange={setMovingAverage} />
+                <DefaultSwitch
+                    label="Show annotations"
+                    checked={showAnnotations}
+                    onChange={setShowAnnotations}
+                />
                 <TextField
                     min="0"
                     type="number"

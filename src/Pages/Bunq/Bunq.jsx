@@ -17,13 +17,19 @@ import Predictions from "./Predictions/Predictions";
 // register the chartjs plugin
 import "chartjs-plugin-datalabels";
 
-const Bunq = ({ history, match }) => {
+const Bunq = ({ match }) => {
     const [bunqData, setBunqData] = useState(false);
     const [tab, setTab] = useState("invoices");
 
     useEffect(() => {
         axios
-            .get(`/bunq-data.json?v=v1`)
+            .get(`/bunq-data.json?v=v1`, {
+                // `onDownloadProgress` allows handling of progress events for downloads
+                // onDownloadProgress: progressEvent => {
+                //     console.log(progressEvent);
+                //     // Do whatever you want with the native progress event
+                // }
+            })
             .then(response => response.data)
             .then(setBunqData)
             .catch(error => {

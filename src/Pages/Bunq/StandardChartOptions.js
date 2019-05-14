@@ -1,4 +1,4 @@
-export default (tooltipMode = "label") => {
+export default (tooltipMode = "label", annotations = false) => {
     const options = {
         scales: {
             yAxes: [
@@ -48,6 +48,12 @@ export default (tooltipMode = "label") => {
     if (tooltipMode !== "label") {
         options.hover = {
             mode: tooltipMode
+        };
+    }
+
+    if (annotations) {
+        options.annotation = {
+            annotations: annotations
         };
     }
 

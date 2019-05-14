@@ -81,7 +81,7 @@ const Contact = () => {
         <div className="contact">
             <Helmet title="GregoryG - Contact" />
 
-            <LandingSection className="text-wrapper" displayHomeLink>
+            <LandingSection className="text-wrapper" displayMenuButton>
                 <h1>Contact</h1>
                 <div className="links">{contactComponents}</div>
 
