@@ -4,9 +4,11 @@ const StaticRouteLoader = require("../../server/HTTP/StaticRouteLoader");
 const publicAbsolutePath = path.join(__dirname, "..", "..", "build");
 
 const dynamicUrlToDependencyList = {
-    "/": `${publicAbsolutePath}/index.html`
+    "/": [`${publicAbsolutePath}/index.html`]
 };
-StaticRouteLoader().forEach(staticRoute => {
+
+const staticRoutes = StaticRouteLoader();
+staticRoutes.forEach(staticRoute => {
     dynamicUrlToDependencyList[staticRoute.url] = [
         path.normalize(`${publicAbsolutePath}${staticRoute.publicLocation}`)
     ];
@@ -34,7 +36,7 @@ module.exports = {
             handler: "networkFirst"
         },
         {
-            urlPattern: /.*(js|css|png|jpg|ico|woff|woff2)/,
+            urlPattern: /.*(js|css|png|jpg|svg|ico|woff|woff2)/,
             handler: "cacheFirst"
         }
     ]
