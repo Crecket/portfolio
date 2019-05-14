@@ -93,11 +93,7 @@ export default ({ invoices }) => {
             </Typography>
             <div className="chart-content">
                 <DefaultSwitch label="Use 5 month moving average" checked={movingAverage} onChange={setMovingAverage} />
-                <DefaultSwitch
-                    label="Show annotations"
-                    checked={showAnnotations}
-                    onChange={setShowAnnotations}
-                />
+                <DefaultSwitch label="Show annotations" checked={showAnnotations} onChange={setShowAnnotations} />
                 <TextField
                     min="0"
                     type="number"
