@@ -17,7 +17,7 @@
         "build:client": "react-scripts build",
         "postbuild:client": "react-snap && yarn run sw-precache",
         "sw-precache": "sw-precache --config=src/ServiceWorker/sw-precache-config.js",
-        "prettier": "./node_modules/.bin/prettier --tab-width 4 --print-width 120 --write \"+(tests|scripts|src|server)/**/**.+(js|json|jsx|css|scss)\"",
+        "prettier": "./node_modules/.bin/prettier --tab-width 4 --print-width 120 --write \"+(tests|scripts|src|server)/**/**.+(js|jsx|css|scss)\"",
         "generate-bunq-data": "babel-node scripts/generate-bunq-data.js"
     },
     "dependencies": {

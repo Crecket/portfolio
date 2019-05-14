@@ -1,5 +1,5 @@
-export default () => {
-    return {
+export default (tooltipMode = "label") => {
+    const options = {
         scales: {
             yAxes: [
                 {
@@ -29,7 +29,7 @@ export default () => {
             ]
         },
         tooltips: {
-            mode: "label",
+            mode: tooltipMode,
             intersect: false,
             label: "mylabel",
             callbacks: {
@@ -44,4 +44,12 @@ export default () => {
             }
         }
     };
+
+    if (tooltipMode !== "label") {
+        options.hover = {
+            mode: tooltipMode
+        };
+    }
+
+    return options;
 };

@@ -53,7 +53,7 @@ export default ({ dataSets }) => {
                 data={{
                     datasets: invoiceChartDataSets
                 }}
-                options={StandardChartOptions()}
+                options={StandardChartOptions("x")}
             />
         </div>
     );

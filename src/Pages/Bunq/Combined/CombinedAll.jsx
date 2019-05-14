@@ -3,6 +3,7 @@ import { Line } from "react-chartjs-2";
 
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
+import DefaultCheckbox from "../../../Components/DefaultCheckbox";
 
 const eventMapper = event => ({
     x: new Date(event.date),
@@ -16,13 +17,18 @@ export default ({ bunqData }) => {
     const invoiceChartData = bunqData.invoices.map(eventMapper);
     const cardsChartData = bunqData.cards.map(eventMapper);
 
-    const options = { ...StandardChartOptions() };
+    const [showPaymentAxis, setShowPaymentAxis] = React.useState(true);
+    const [showRequestInquiryAxis, setShowRequestInquiryAxis] = React.useState(false);
+    const [showMasterCardActionAxis, setShowMasterCardActionAxis] = React.useState(false);
+    const [showInvoiceAxis, setShowInvoiceAxis] = React.useState(false);
+    const [showCardAxis, setShowCardAxis] = React.useState(false);
+
+    const options = { ...StandardChartOptions("nearest") };
     options.scales.yAxes[1] = {
         ...options.scales.yAxes[0],
         id: "invoices",
         type: "linear",
-        position: "right",
-        display: false,
+        display: showInvoiceAxis,
         gridLines: {
             display: true,
             color: "#3d972c"
@@ -33,7 +39,7 @@ export default ({ bunqData }) => {
         id: "cards",
         type: "linear",
         position: "right",
-        display: false,
+        display: showCardAxis,
         gridLines: {
             display: true,
             color: "#a60a23"
@@ -44,7 +50,7 @@ export default ({ bunqData }) => {
         id: "requestInquiries",
         type: "linear",
         position: "right",
-        display: false,
+        display: showRequestInquiryAxis,
         gridLines: {
             display: true,
             color: "#9c0d7a"
@@ -55,7 +61,7 @@ export default ({ bunqData }) => {
         id: "masterCardActions",
         type: "linear",
         position: "right",
-        display: false,
+        display: showMasterCardActionAxis,
         gridLines: {
             display: true,
             color: "#009c96"
@@ -65,7 +71,7 @@ export default ({ bunqData }) => {
     options.scales.yAxes[0] = {
         ...options.scales.yAxes[0],
         id: "payments",
-        display: false,
+        display: showPaymentAxis,
         gridLines: {
             display: true,
             color: "#0b489c"
@@ -74,6 +80,33 @@ export default ({ bunqData }) => {
 
     return (
         <div>
+            <div className="chart-content">
+                <DefaultCheckbox
+                    label="Payment Y-axis"
+                    checked={showPaymentAxis}
+                    onChange={() => setShowPaymentAxis(!showPaymentAxis)}
+                />
+                <DefaultCheckbox
+                    label="Invoice Y-axis"
+                    checked={showInvoiceAxis}
+                    onChange={() => setShowInvoiceAxis(!showInvoiceAxis)}
+                />
+                <DefaultCheckbox
+                    label="Card payment Y-axis"
+                    checked={showMasterCardActionAxis}
+                    onChange={() => setShowMasterCardActionAxis(!showMasterCardActionAxis)}
+                />
+                <DefaultCheckbox
+                    label="Request Inquiry Y-axis"
+                    checked={showRequestInquiryAxis}
+                    onChange={() => setShowRequestInquiryAxis(!showRequestInquiryAxis)}
+                />
+                <DefaultCheckbox
+                    label="Cards Y-axis"
+                    checked={showCardAxis}
+                    onChange={() => setShowCardAxis(!showCardAxis)}
+                />
+            </div>
             <Line
                 className="chart"
                 data={{
