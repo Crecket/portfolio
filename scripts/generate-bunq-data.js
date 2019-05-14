@@ -3,7 +3,7 @@ import * as path from "path";
 import BunqJSClient from "@bunq-community/bunq-js-client";
 import JSONFileStore from "@bunq-community/bunq-js-client/dist/Stores/JSONFileStore";
 
-import bunqDataSets from "./DataSets/bunqDataSets";
+import bunqDataSets from "../src/DataSets/bunqDataSets";
 
 require("dotenv").config();
 
@@ -87,7 +87,7 @@ const getGenericTypeRecursive = async (BunqClient, eventType, handlerKey, userId
 };
 
 const getGenericType = (BunqClient, userId, accountId) => async (eventType, handlerKey) => {
-    console.log(`> Updating ${eventType}`);
+    console.log(`\n> Updating ${eventType}`);
     const events = await getGenericTypeRecursive(BunqClient, eventType, handlerKey, userId, accountId);
 
     const eventTracker = {};
@@ -193,7 +193,7 @@ const getUpdatedDataset = async () => {
     // write this dataset to the given dataset name
     const dataSetName = process.env.STORAGE_NAME ? process.env.STORAGE_NAME : "updated-bunq-data";
     fs.writeFileSync(
-        `${__dirname}${path.sep}DataSets${path.sep}${dataSetName}.json`,
+        `${__dirname}${path.sep}..${path.sep}src${path.sep}DataSets${path.sep}${dataSetName}.json`,
         JSON.stringify(
             {
                 cards: cardData,
@@ -386,7 +386,7 @@ const start = async () => {
     const requestInquiryTracker = {};
     const invoiceTracker = {};
 
-    const dataSets = bunqDataSets(`${__dirname}/DataSets`);
+    const dataSets = bunqDataSets(`${__dirname}${path.sep}..${path.sep}src${path.sep}DataSets`);
 
     dataSets.forEach((dataSet, dataSetIndex) => {
         dataSet.invoices.forEach((item, index) => {
