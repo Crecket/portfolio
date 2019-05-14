@@ -6,41 +6,17 @@ import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
 import DefaultSwitch from "../../../Components/DefaultSwitch";
 
+const selectColor = (colorNum, count) => {
+    if (count < 1) count = 1;
+    return "hsl(" + ((colorNum * (360 / count)) % 360) + ",100%,50%)";
+};
+
 export default ({ dataSets }) => {
     const [barMode, setBarMode] = React.useState(false);
 
     const invoiceChartDataSets = [];
     dataSets.forEach((dataSet, index) => {
-        let color;
-        switch (index) {
-            case 0:
-                color = "#e8300f";
-                break;
-            case 1:
-                color = "#12a4ff";
-                break;
-            case 2:
-                color = "#66ff4c";
-                break;
-            case 3:
-                color = "#ffc234";
-                break;
-            case 4:
-                color = "#d8d7ff";
-                break;
-            case 5:
-                color = "#ff004b";
-                break;
-            case 6:
-                color = "#ff04f4";
-                break;
-            case 7:
-                color = "#3cf5ff";
-                break;
-            default:
-                color = "red";
-                break;
-        }
+        const color = selectColor(index, dataSets.length);
 
         const data = dataSet.invoices.map(invoice => {
             return {
