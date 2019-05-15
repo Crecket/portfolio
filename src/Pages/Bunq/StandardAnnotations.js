@@ -1,5 +1,7 @@
-const defaultGenericOptions = { yAdjust: 30, color: "green" };
-export const genericEvents = [{ label: "Offline Cards", date: new Date("2018-10-08"), ...defaultGenericOptions }];
+// const defaultGenericOptions = { yAdjust: 30, color: "green" };
+export const genericEvents = [
+    // { label: "Offline Cards", date: new Date("2018-10-08"), ...defaultGenericOptions }
+];
 
 const defaultBunqOptions = {};
 export const bunqUpdates = [

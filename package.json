@@ -47,6 +47,7 @@
         "glob": "^7.1.3",
         "http-server": "^0.11.1",
         "json-store": "^1.0.0",
+        "loadable-components": "2.2.3",
         "node-sass": "^4.11.0",
         "prettier": "^1.17.1",
         "react": "^16.8.5",
@@ -69,6 +70,7 @@
     },
     "reactSnap": {
         "skipThirdPartyRequests": true,
+        "http2PushManifest": true,
         "inlineCss": true
     },
     "browserslist": [
