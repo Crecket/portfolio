@@ -1,12 +1,3 @@
-import ConfigParser from "./ConfigParser";
-
-const site = {
-    development: {
-        baseName: "/"
-    },
-    production: {
-        baseName: "/"
-    }
+export default {
+    baseName: "/"
 };
-
-export default ConfigParser(site);

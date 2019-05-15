@@ -2,13 +2,12 @@
 
 .home .landing {
     .links {
-        a,
-        svg {
+        a {
             display: flex;
             align-items: center;
 
             text-decoration: none;
-            margin-right: 16px;
+            margin-right: 12px;
 
             svg {
                 width: 20px;
