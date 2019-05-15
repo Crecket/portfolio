@@ -1,4 +1,5 @@
-import React, { lazy, Suspense } from "react";
+import React from "react";
+import loadable from "loadable-components";
 import { Switch, Route } from "react-router-dom";
 
 import NotFound from "./Pages/NotFound/NotFound";
@@ -10,7 +11,10 @@ const RouteComponents = Object.keys(routes).map(routePattern => {
     const routeName = routes[routePattern];
 
     // wrap component in a lazy load element
-    const Component = lazy(() => import(`./Pages/${routeName}/${routeName}.jsx`));
+    const Component = loadable(() => import(`./Pages/${routeName}/${routeName}.jsx`), {
+        // dumb hack to ensure that loadable realizes there is content without showing the "Loading" text
+        LoadingComponent: () => <div>.</div>
+    });
 
     const props = {
         key: routePattern,
@@ -25,13 +29,13 @@ const RouteComponents = Object.keys(routes).map(routePattern => {
 
 const Routes = () => {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <div>
             <Switch>
                 {RouteComponents}
 
                 <Route component={NotFound} />
             </Switch>
-        </Suspense>
+        </div>
     );
 };
 

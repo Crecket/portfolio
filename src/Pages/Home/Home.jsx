@@ -30,7 +30,7 @@ const Home = () => {
                         <CellphoneLinkSvg /> Projects
                     </Link>
                     <Link to="/contact">
-                        <AccountBadge /> More
+                        <AccountBadge /> Other
                     </Link>
 
                     <div style={{ display: "none" }}>
