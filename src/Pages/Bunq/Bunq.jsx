@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import loadable from "loadable-components";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import { Route, Link } from "react-router-dom";
@@ -9,13 +10,13 @@ import Paper from "@material-ui/core/Paper";
 
 import "./Bunq.scss";
 
-import PaymentIDs from "./PaymentIDs/PaymentIDs";
-import InvoiceIDs from "./InvoiceIDs/InvoiceIDs";
-import Combined from "./Combined/Combined";
-import Predictions from "./Predictions/Predictions";
-
 // register the chartjs plugin
 import "chartjs-plugin-datalabels";
+
+const PaymentIDs = loadable(() => import(`./PaymentIDs/PaymentIDs`));
+const InvoiceIDs = loadable(() => import(`./InvoiceIDs/InvoiceIDs`));
+const Combined = loadable(() => import(`./Combined/Combined`));
+const Predictions = loadable(() => import(`./Predictions/Predictions`));
 
 const Bunq = ({ match }) => {
     const [bunqData, setBunqData] = useState(false);
@@ -23,13 +24,7 @@ const Bunq = ({ match }) => {
 
     useEffect(() => {
         axios
-            .get(`/bunq-data.json?v=v1`, {
-                // `onDownloadProgress` allows handling of progress events for downloads
-                // onDownloadProgress: progressEvent => {
-                //     console.log(progressEvent);
-                //     // Do whatever you want with the native progress event
-                // }
-            })
+            .get(`/bunq-data.json?v=v1`)
             .then(response => response.data)
             .then(setBunqData)
             .catch(error => {
