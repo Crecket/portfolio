@@ -7,23 +7,26 @@ import DefaultSwitch from "../../../Components/DefaultSwitch";
 
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
+import MovingAverage from "../../../Functions/MovingAverage";
 
 const lastMonthsCount = 5;
 const defaultMonthlyInterval = 1;
 const defaultPercentageIncrease = 10;
-const defaultMonthsShown = 36;
+const defaultMonthsShown = 24;
+
 export default ({ invoices }) => {
     const [logScale, toggleLogScale] = useState(false);
     const [monthlyInterval, setMonthlyInterval] = useState(defaultMonthlyInterval);
     const [changePercentage, setChangePercentage] = useState(defaultPercentageIncrease);
     const [monthsShown, setMonthsShown] = useState(defaultMonthsShown);
 
-    const invoiceChartData = invoices.map(invoice => {
+    const invoiceChartDataRaw = invoices.map(invoice => {
         return {
             x: new Date(invoice.date),
             y: invoice.change
         };
     });
+    const invoiceChartData = MovingAverage(invoiceChartDataRaw, 2, false);
 
     // remove the first 10 unstable months
     invoiceChartData.splice(0, 10);
