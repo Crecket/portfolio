@@ -15,6 +15,7 @@ import "chartjs-plugin-datalabels";
 
 const PaymentIDs = loadable(() => import(`./PaymentIDs/PaymentIDs`));
 const InvoiceIDs = loadable(() => import(`./InvoiceIDs/InvoiceIDs`));
+const TogetherIDs = loadable(() => import(`./TogetherIDs/TogetherIDs`));
 const Combined = loadable(() => import(`./Combined/Combined`));
 const Predictions = loadable(() => import(`./Predictions/Predictions`));
 
@@ -51,6 +52,7 @@ const Bunq = ({ match }) => {
                             <Tab component={Link} to={"/bunq/invoices"} value="invoices" label="Invoices" />
                             <Tab component={Link} to={"/bunq/payments"} value="payments" label="Payments" />
                             <Tab component={Link} to={"/bunq/combined"} value="combined" label="Combined" />
+                            <Tab component={Link} to={"/bunq/together"} value="together" label="Together users" />
                             <Tab component={Link} to={"/bunq/predictions"} value="predictions" label="Predictions" />
                         </Tabs>
                     </AppBar>
@@ -63,6 +65,8 @@ const Bunq = ({ match }) => {
                             switch (selectedTab) {
                                 case "payments":
                                     return <PaymentIDs bunqData={bunqData} {...props} />;
+                                case "together":
+                                    return <TogetherIDs bunqData={bunqData} {...props} />;
                                 case "combined":
                                     return <Combined bunqData={bunqData} {...props} />;
                                 case "predictions":

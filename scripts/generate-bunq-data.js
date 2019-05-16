@@ -309,41 +309,40 @@ const getUpdatedTogetherDataset = async () => {
  * calculates an average value
  * @param dataSet
  */
-const calculateInvoiceChangeValues = dataSet => {
-    const invoices = dataSet.invoices;
+const calculateInvoiceChangeValues = events => {
     const dataSetAdjustedChangeValues = {};
-    if (invoices.length === 0) return {};
+    if (events.length === 0) return {};
 
-    let previousId = invoices[0].id;
-    let previousDate = new Date(invoices[0].date);
-    invoices.forEach((invoice, index) => {
-        const date = new Date(invoice.date);
+    let previousId = events[0].id;
+    let previousDate = new Date(events[0].date);
+    events.forEach((event, index) => {
+        const date = new Date(event.date);
         const dateDay = date.getDate();
         const dateString = `${date.getFullYear()}:${date.getMonthString()}`;
         if (!dataSetAdjustedChangeValues[dateString]) {
             dataSetAdjustedChangeValues[dateString] = [];
         }
-        const invoiceId = invoice.id;
+        const eventId = event.id;
 
-        // change in invoice ID versus previous invoice
-        const invoiceIdChange = invoiceId - previousId;
+        // change in event ID versus previous event
+        const eventIdChange = eventId - previousId;
         // default adjusted value to actual value
-        let adjustedChangeValue = invoiceIdChange;
+        let adjustedChangeValue = eventIdChange;
 
         // attempt to get a decent estimate for what the value was at the 15th of the month
         const daysBetweenValue = getTimeBetween(date, previousDate, ONE_DAY, false);
         if (daysBetweenValue !== 0) {
-            const invoiceIdSecondChange = invoiceId - previousId;
-            const estimatedDailyChange = invoiceIdSecondChange / daysBetweenValue;
+            const eventIdSecondChange = eventId - previousId;
+            const estimatedDailyChange = eventIdSecondChange / daysBetweenValue;
             const daysUntil15th = 15 - dateDay;
             const adjustmentValue = daysUntil15th * estimatedDailyChange;
-            const adjustedInvoiceId = invoiceId + adjustmentValue;
-            adjustedChangeValue = adjustedInvoiceId - previousId;
+            const adjustedEventId = eventId + adjustmentValue;
+            adjustedChangeValue = adjustedEventId - previousId;
         }
 
         // store the values for next loop
         previousDate = date;
-        previousId = invoiceId;
+        previousId = eventId;
 
         // push to the dataset stack
         dataSetAdjustedChangeValues[dateString].push(adjustedChangeValue);
@@ -448,13 +447,24 @@ const calculateEventChangeValues = events => {
 /**
  * turn a key value collection into a long array with corrected values
  */
-const normalizeEventCollections = (eventTracker, events) => {
+const normalizeEventCollections = (eventTracker, events, dateSeparatorType = "day") => {
     if (!events || !Array.isArray(events)) return;
 
-    // get the first event for each week
+    // get the first event for each day
     events.forEach(event => {
         const date = new Date(event.date);
-        const dateString = `${date.getFullYear()}:${date.getMonth()}:${date.getDate()}`;
+        let dateString;
+        switch (dateSeparatorType) {
+            case "day":
+                dateString = `${date.getFullYear()}:${date.getMonth()}:${date.getDate()}`;
+                break;
+            case "week":
+                dateString = `${date.getFullYear()}:${date.getWeek()}`;
+                break;
+            case "month":
+                dateString = `${date.getFullYear()}:${date.getMonth()}`;
+                break;
+        }
 
         if (!eventTracker[dateString]) {
             eventTracker[dateString] = {
@@ -473,9 +483,7 @@ const normalizeEventCollections = (eventTracker, events) => {
 
 const trackerToArray = eventTracker => {
     return Object.keys(eventTracker)
-        .map(dateString => {
-            return eventTracker[dateString];
-        })
+        .map(dateString => eventTracker[dateString])
         .sort((a, b) => (a.date > b.date ? -1 : 1))
         .reverse();
 };
@@ -493,6 +501,7 @@ const start = async () => {
     const masterCardActionTracker = {};
     const requestInquiryTracker = {};
     const invoiceTracker = {};
+    const togetherUserTracker = {};
 
     const dataSets = bunqDataSets(`${__dirname}${path.sep}..${path.sep}src${path.sep}DataSets`);
 
@@ -510,6 +519,39 @@ const start = async () => {
         });
     });
 
+    // combine the ids with the normalized change values
+    const normalizedTogetherUsers = calculateInvoiceChangeValues(togetherDataSet);
+    togetherDataSet.forEach(togetherUser => {
+        const date = new Date(togetherUser.date);
+        const dateString = `${date.getFullYear()}:${date.getMonthString()}`;
+        if (!togetherUserTracker[dateString]) {
+            togetherUserTracker[dateString] = {
+                date: togetherUser.date,
+                count: 0,
+                change: 0,
+                amount: 0
+            };
+        }
+
+        togetherUserTracker[dateString].count += 1;
+        togetherUserTracker[dateString].amount += togetherUser.id;
+        togetherUserTracker[dateString].change += normalizedTogetherUsers[dateString];
+    });
+    // calculate averages and push to data list
+    const togetherUserData = Object.keys(togetherUserTracker)
+        .map(dateString => {
+            const object = togetherUserTracker[dateString];
+
+            return {
+                id: Math.round(object.amount / object.count),
+                change: Math.round(object.change / object.count),
+                date: object.date
+            };
+        })
+        .sort((a, b) => (a.date > b.date ? -1 : 1))
+        .reverse();
+    console.log("combined togetherUserChange data", togetherUserData.length);
+
     // go through data sets and combine them
     dataSets.forEach(dataSet => {
         normalizeEventCollections(paymentTracker, dataSet.payments);
@@ -518,7 +560,7 @@ const start = async () => {
         normalizeEventCollections(requestInquiryTracker, dataSet.requestInquiries);
 
         // combine the ids with the normalized change values
-        const normalizedInvoices = calculateInvoiceChangeValues(dataSet);
+        const normalizedInvoices = calculateInvoiceChangeValues(dataSet.invoices);
         dataSet.invoices.forEach(invoice => {
             const date = new Date(invoice.date);
             const dateString = `${date.getFullYear()}:${date.getMonthString()}`;
@@ -572,7 +614,7 @@ const start = async () => {
             payments: paymentChangeData,
             masterCardActions: masterCardActionChangeData,
             requestInquiries: requestInquiryChangeData,
-            togetherData: togetherDataSet,
+            togetherData: togetherUserData,
             dataSets: dataSets
         })
     );

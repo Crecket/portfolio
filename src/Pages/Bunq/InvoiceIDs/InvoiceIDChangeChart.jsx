@@ -62,6 +62,9 @@ export default ({ invoices }) => {
         });
     });
 
+    // first month always 0
+    invoiceChartDelta[0].y = 0;
+
     const options = StandardChartOptions("label", showAnnotations ? annotationList : []);
     const dataSets = [
         StandardDataSet({
