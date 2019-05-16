@@ -16,12 +16,7 @@ import "./LandingSection.scss";
 
 // const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-const LandingSection = ({
-    children,
-    className = "",
-    height = "100vh",
-    displayMenuButton = false
-}) => {
+const LandingSection = ({ children, className = "", height = "100vh", displayMenuButton = false }) => {
     // const { width } = useWindowSize();
     // const [menuOpen, setMenuOpen] = React.useState(false);
     // const toggleOpen = event => {

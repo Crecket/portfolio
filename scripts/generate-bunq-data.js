@@ -1,11 +1,13 @@
 import * as fs from "fs";
 import * as path from "path";
+import axios from "axios";
 import BunqJSClient from "@bunq-community/bunq-js-client";
 import JSONFileStore from "@bunq-community/bunq-js-client/dist/Stores/JSONFileStore";
 
 import bunqDataSets from "../src/DataSets/bunqDataSets";
 
 require("dotenv").config();
+const awaiting = require("awaiting");
 
 const invoiceIdOverwrites = [
     { id: 1072130, newId: 1045465, date: "2019-02-08 22:18:10.491460" },
@@ -64,6 +66,9 @@ const setup = async () => {
     return BunqClient;
 };
 
+/**
+ * Get generic API data recursively
+ */
 const getGenericTypeRecursive = async (BunqClient, eventType, handlerKey, userId, accountId = false, olderId) => {
     const options = {
         count: 200
@@ -85,7 +90,6 @@ const getGenericTypeRecursive = async (BunqClient, eventType, handlerKey, userId
 
     return [...events, ...nestedEvents];
 };
-
 const getGenericType = (BunqClient, userId, accountId) => async (eventType, handlerKey) => {
     console.log(`\n> Updating ${eventType}`);
     const events = await getGenericTypeRecursive(BunqClient, eventType, handlerKey, userId, accountId);
@@ -159,12 +163,13 @@ const getUpdatedDataset = async () => {
         if (!invoiceTracker[dateString]) {
             // store this month as already existing
             invoiceTracker[dateString] = {
-                date: info.created,
+                date: 0,
                 count: 0,
                 amount: 0
             };
         }
 
+        invoiceTracker[dateString].date += date.getTime();
         invoiceTracker[dateString].count += 1;
         invoiceTracker[dateString].amount += info.invoice_number;
     });
@@ -175,7 +180,8 @@ const getUpdatedDataset = async () => {
 
             return {
                 id: Math.round(object.amount / object.count),
-                date: object.date
+                // get average data unix value
+                date: new Date(Math.round(object.date / object.count))
             };
         })
         .sort((a, b) => (a.date > b.date ? -1 : 1))
@@ -206,6 +212,96 @@ const getUpdatedDataset = async () => {
             4
         )
     );
+};
+
+/**
+ * Recursively updates together IDs at the given increment and dleay
+ * @param currentData
+ * @param id
+ * @param incrementAmount
+ * @param delay
+ * @returns {Promise<Array>}
+ */
+const updateTogetherRecursive = async (currentData, id, incrementAmount = 10000, delay = 500) => {
+    console.log(`> Updating together data { startId: ${id}, incrementAmount: ${incrementAmount}, delay: ${delay} }`);
+
+    const oldestItem = currentData[currentData.length - 1];
+
+    let active = true;
+    const togetherData = [];
+    while (active) {
+        const dataExists = currentData.find(item => item.id === id);
+        if (!dataExists) {
+            try {
+                console.log(` -> Fetch together API data { id: ${id} }`);
+                const data = await axios
+                    .get(`https://together.bunq.com/api/users/${id}`)
+                    .then(response => response.data);
+
+                togetherData.push(data);
+                active = true;
+
+                await awaiting.delay(delay);
+            } catch (error) {
+                // keep going if we have an older item, some IDs don't exist and may have been deleted
+                if (oldestItem && oldestItem.id > id) {
+                    if (error.response && error.response.status !== 404) {
+                        active = false;
+                    } else {
+                        console.log(`Not found: ${id}`);
+
+                        // do nothing except delay the next request
+                        await awaiting.delay(delay);
+                    }
+                } else {
+                    active = false;
+                }
+            }
+        }
+
+        id = id + incrementAmount;
+    }
+
+    return togetherData;
+};
+
+/**
+ * Gets together IDs
+ */
+const getUpdatedTogetherDataset = async () => {
+    const togetherDataLocation = `${__dirname}${path.sep}..${path.sep}src${path.sep}DataSets${path.sep}together.json`;
+    // get current data
+    const currentTogetherData = require(togetherDataLocation);
+
+    if (process.env.UPDATE_TOGETHER_DATA === "true") {
+        // user current data to fetch new data while preventing duplicate calls
+        // minimum value, all IDs before that won't be accurate
+        const togetherData = await updateTogetherRecursive(currentTogetherData, 180000, 1000, 1000);
+
+        // combine and sort the data
+        const mappedTogetherData = {};
+        currentTogetherData.forEach(togetherUser => {
+            mappedTogetherData[togetherUser.id] = togetherUser;
+        });
+        togetherData.forEach(togetherUser => {
+            const userId = parseFloat(togetherUser.data.id);
+            mappedTogetherData[userId] = {
+                id: userId,
+                date: new Date(togetherUser.data.attributes.joinTime)
+            };
+        });
+        const combinedData = Object.keys(mappedTogetherData)
+            .sort((a, b) => (parseFloat(a) < parseFloat(b) ? -1 : 1))
+            .map(userId => mappedTogetherData[userId]);
+
+        // store the list to a file
+        fs.writeFileSync(togetherDataLocation, JSON.stringify(combinedData, null, 4));
+
+        console.log(`= Finished updating together IDs length: ${combinedData.length}`);
+        return combinedData;
+    }
+
+    return currentTogetherData;
 };
 
 /**
@@ -264,6 +360,11 @@ const calculateInvoiceChangeValues = dataSet => {
     return combinedAdjustedChangeValues;
 };
 
+/**
+ *
+ * @param events
+ * @returns {{}|Array}
+ */
 const calculateEventChangeValues = events => {
     if (events.length === 0) return {};
 
@@ -344,6 +445,9 @@ const calculateEventChangeValues = events => {
     return weeklyValues;
 };
 
+/**
+ * turn a key value collection into a long array with corrected values
+ */
 const normalizeEventCollections = (eventTracker, events) => {
     if (!events || !Array.isArray(events)) return;
 
@@ -366,6 +470,7 @@ const normalizeEventCollections = (eventTracker, events) => {
         }
     });
 };
+
 const trackerToArray = eventTracker => {
     return Object.keys(eventTracker)
         .map(dateString => {
@@ -378,6 +483,9 @@ const trackerToArray = eventTracker => {
 const start = async () => {
     // get a updated set for the current API user
     await getUpdatedDataset();
+
+    // get together IDs
+    const togetherDataSet = await getUpdatedTogetherDataset();
 
     // group by week or month for each use case to get averages
     const paymentTracker = {};
@@ -464,6 +572,7 @@ const start = async () => {
             payments: paymentChangeData,
             masterCardActions: masterCardActionChangeData,
             requestInquiries: requestInquiryChangeData,
+            togetherData: togetherDataSet,
             dataSets: dataSets
         })
     );

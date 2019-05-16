@@ -1,6 +1,7 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
 import "chartjs-plugin-annotation";
+import Typography from "@material-ui/core/Typography";
 
 import { eventsToAnnotations, combinedEventList } from "../StandardAnnotations";
 import StandardChartOptions from "../StandardChartOptions";
@@ -19,6 +20,7 @@ export default ({ bunqData }) => {
     const paymentChartData = bunqData.payments.map(eventMapper);
     const requestInquiryChartData = bunqData.requestInquiries.map(eventMapper);
     const masterCardActionChartData = bunqData.masterCardActions.map(eventMapper);
+    const togetherChartData = bunqData.togetherData.map(eventMapper);
     const invoiceChartData = bunqData.invoices.map(eventMapper);
     const cardsChartData = bunqData.cards.map(eventMapper);
 
@@ -27,6 +29,7 @@ export default ({ bunqData }) => {
     const [showPaymentAxis, setShowPaymentAxis] = React.useState(true);
     const [showRequestInquiryAxis, setShowRequestInquiryAxis] = React.useState(false);
     const [showMasterCardActionAxis, setShowMasterCardActionAxis] = React.useState(false);
+    const [showTogetherDataAxis, setShowTogetherDataAxis] = React.useState(false);
     const [showInvoiceAxis, setShowInvoiceAxis] = React.useState(false);
     const [showCardAxis, setShowCardAxis] = React.useState(false);
 
@@ -75,6 +78,17 @@ export default ({ bunqData }) => {
             color: "#009c96"
         }
     };
+    options.scales.yAxes[5] = {
+        ...options.scales.yAxes[0],
+        id: "togetherData",
+        type: "linear",
+        position: "right",
+        display: showTogetherDataAxis,
+        gridLines: {
+            display: true,
+            color: "#c2772e"
+        }
+    };
 
     options.scales.yAxes[0] = {
         ...options.scales.yAxes[0],
@@ -90,30 +104,36 @@ export default ({ bunqData }) => {
         <div>
             <div className="chart-content">
                 <DefaultSwitch label="Show annotations" checked={showAnnotations} onChange={setShowAnnotations} />
+            </div>
+            <div className="chart-content">
+                <Typography variant="body1">Use the checkboxes below to hide/show the axis you need.</Typography>
+            </div>
+            <div className="chart-content">
+                <DefaultCheckbox label="Cards" checked={showCardAxis} onChange={() => setShowCardAxis(!showCardAxis)} />
                 <DefaultCheckbox
-                    label="Cards Y-axis"
-                    checked={showCardAxis}
-                    onChange={() => setShowCardAxis(!showCardAxis)}
-                />
-                <DefaultCheckbox
-                    label="Payment Y-axis"
+                    label="Payment"
                     checked={showPaymentAxis}
                     onChange={() => setShowPaymentAxis(!showPaymentAxis)}
                 />
                 <DefaultCheckbox
-                    label="Invoice Y-axis"
+                    label="Invoice"
                     checked={showInvoiceAxis}
                     onChange={() => setShowInvoiceAxis(!showInvoiceAxis)}
                 />
                 <DefaultCheckbox
-                    label="Card payment Y-axis"
+                    label="Card payment"
                     checked={showMasterCardActionAxis}
                     onChange={() => setShowMasterCardActionAxis(!showMasterCardActionAxis)}
                 />
                 <DefaultCheckbox
-                    label="Request Inquiry Y-axis"
+                    label="Request inquiry"
                     checked={showRequestInquiryAxis}
                     onChange={() => setShowRequestInquiryAxis(!showRequestInquiryAxis)}
+                />
+                <DefaultCheckbox
+                    label="Together users"
+                    checked={showTogetherDataAxis}
+                    onChange={() => setShowTogetherDataAxis(!showTogetherDataAxis)}
                 />
             </div>
             <Line
@@ -163,6 +183,15 @@ export default ({ bunqData }) => {
                             fill: false,
                             pointRadius: 0,
                             color: "#00fff6",
+                            datalabels: false
+                        }),
+                        StandardDataSet({
+                            label: `Together users`,
+                            yAxisID: "togetherData",
+                            data: togetherChartData,
+                            fill: false,
+                            pointRadius: 0,
+                            color: "#ff9d3c",
                             datalabels: false
                         })
                     ]
