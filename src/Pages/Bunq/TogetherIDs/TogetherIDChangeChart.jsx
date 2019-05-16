@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Bar } from "react-chartjs-2";
 import "chartjs-plugin-annotation";
-import Link from "react-router-dom/Link";
 import Typography from "@material-ui/core/Typography";
 
 import DefaultSwitch from "../../../Components/DefaultSwitch";

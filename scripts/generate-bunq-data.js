@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import axios from "axios";
+import gzipSize from "gzip-size";
 import BunqJSClient from "@bunq-community/bunq-js-client";
 import JSONFileStore from "@bunq-community/bunq-js-client/dist/Stores/JSONFileStore";
 
@@ -13,7 +14,18 @@ const invoiceIdOverwrites = [
     { id: 1072130, newId: 1045465, date: "2019-02-08 22:18:10.491460" },
     { id: 191665, newId: 179101, date: "2017-08-01 17:23:23.776410" }
 ];
+const ignoredTogetherIds = [181000, 209500, 218000];
 
+const togetherDataConfig = {
+    startId: 180000,
+    increment: 500,
+    delay: 1000
+};
+
+const ONE_DAY = 24 * 60 * 60 * 1000;
+const ONE_HOUR = 60 * 60 * 1000;
+
+// helper functions for date manipulation
 Date.prototype.getWeek = function() {
     const onejan = new Date(this.getFullYear(), 0, 1);
     const millisecsInDay = 86400000;
@@ -28,14 +40,34 @@ Date.prototype.addDays = function(days) {
     date.setDate(date.getDate() + days);
     return date;
 };
-
-const ONE_DAY = 24 * 60 * 60 * 1000;
-const ONE_HOUR = 60 * 60 * 1000;
 const getTimeBetween = (date1, date2, interval, rounded = true) => {
     const daysBetweenUnrounded = Math.abs((date1.getTime() - date2.getTime()) / interval);
     if (rounded) return Math.round(daysBetweenUnrounded);
 
     return daysBetweenUnrounded;
+};
+
+/**
+ * Stores a file to a given location
+ * @param location
+ * @param data
+ * @param prettify
+ */
+const writeFile = async (location, data, prettify = false) => {
+    const fileLocation = path.normalize(location);
+    const fileContents = JSON.stringify(data, null, prettify ? 2 : 0);
+    fs.writeFileSync(fileLocation, fileContents);
+
+    const fileStat = fs.statSync(fileLocation);
+    const gzipEstimate = await gzipSize(fileContents);
+
+    const fileSizePretty = number => {
+        const estimateString = (number / 1024).toFixed(2);
+        return `${estimateString}Kb`;
+    };
+
+    const fileSizeText = `${fileSizePretty(fileStat.size)} raw, ${fileSizePretty(gzipEstimate)} gzipped`;
+    console.log(`Written file to ${fileLocation}. ${fileSizeText}`);
 };
 
 /**
@@ -198,19 +230,16 @@ const getUpdatedDataset = async () => {
 
     // write this dataset to the given dataset name
     const dataSetName = process.env.STORAGE_NAME ? process.env.STORAGE_NAME : "updated-bunq-data";
-    fs.writeFileSync(
+    await writeFile(
         `${__dirname}${path.sep}..${path.sep}src${path.sep}DataSets${path.sep}${dataSetName}.json`,
-        JSON.stringify(
-            {
-                cards: cardData,
-                payments: paymentData,
-                invoices: invoiceData,
-                requestInquiries: requestInquiryData,
-                masterCardActions: masterCardActionData
-            },
-            null,
-            4
-        )
+        {
+            cards: cardData,
+            payments: paymentData,
+            invoices: invoiceData,
+            requestInquiries: requestInquiryData,
+            masterCardActions: masterCardActionData
+        },
+        true
     );
 };
 
@@ -231,7 +260,7 @@ const updateTogetherRecursive = async (currentData, id, incrementAmount = 10000,
     const togetherData = [];
     while (active) {
         const dataExists = currentData.find(item => item.id === id);
-        if (!dataExists) {
+        if (!dataExists && !ignoredTogetherIds.includes(id)) {
             try {
                 console.log(` -> Fetch together API data { id: ${id} }`);
                 const data = await axios
@@ -276,7 +305,12 @@ const getUpdatedTogetherDataset = async () => {
     if (process.env.UPDATE_TOGETHER_DATA === "true") {
         // user current data to fetch new data while preventing duplicate calls
         // minimum value, all IDs before that won't be accurate
-        const togetherData = await updateTogetherRecursive(currentTogetherData, 180000, 1000, 1000);
+        const togetherData = await updateTogetherRecursive(
+            currentTogetherData,
+            togetherDataConfig.startId,
+            togetherDataConfig.increment,
+            togetherDataConfig.delay
+        );
 
         // combine and sort the data
         const mappedTogetherData = {};
@@ -295,7 +329,7 @@ const getUpdatedTogetherDataset = async () => {
             .map(userId => mappedTogetherData[userId]);
 
         // store the list to a file
-        fs.writeFileSync(togetherDataLocation, JSON.stringify(combinedData, null, 4));
+        await writeFile(togetherDataLocation, combinedData, true);
 
         console.log(`= Finished updating together IDs length: ${combinedData.length}`);
         return combinedData;
@@ -309,9 +343,9 @@ const getUpdatedTogetherDataset = async () => {
  * calculates an average value
  * @param dataSet
  */
-const calculateInvoiceChangeValues = events => {
+const calculateChangeValues = events => {
     const dataSetAdjustedChangeValues = {};
-    if (events.length === 0) return {};
+    if (!events || events.length === 0) return {};
 
     let previousId = events[0].id;
     let previousDate = new Date(events[0].date);
@@ -357,6 +391,47 @@ const calculateInvoiceChangeValues = events => {
     });
 
     return combinedAdjustedChangeValues;
+};
+
+// updates the tracker by creating data
+const normalizeChangeValueList = (tracker, data, changeValues) => {
+    if (!data || !Array.isArray(data)) return;
+
+    data.forEach(item => {
+        const date = new Date(item.date);
+        const dateString = `${date.getFullYear()}:${date.getMonthString()}`;
+        if (!tracker[dateString]) {
+            tracker[dateString] = {
+                date: item.date,
+                count: 0,
+                change: 0,
+                amount: 0
+            };
+        }
+
+        tracker[dateString].count += 1;
+        tracker[dateString].amount += item.id;
+        tracker[dateString].change += changeValues[dateString];
+    });
+};
+
+// turns the tracker back into a single array
+const combineChangeValues = tracker => {
+    // calculate averages and push to data list
+    const normalizedData = Object.keys(tracker)
+        .map(dateString => {
+            const object = tracker[dateString];
+
+            return {
+                id: Math.round(object.amount / object.count),
+                change: Math.round(object.change / object.count),
+                date: object.date
+            };
+        })
+        .sort((a, b) => (a.date > b.date ? -1 : 1))
+        .reverse();
+
+    return normalizedData;
 };
 
 /**
@@ -491,9 +566,11 @@ const trackerToArray = eventTracker => {
 const start = async () => {
     // get a updated set for the current API user
     await getUpdatedDataset();
+    console.log("");
 
     // get together IDs
     const togetherDataSet = await getUpdatedTogetherDataset();
+    console.log("");
 
     // group by week or month for each use case to get averages
     const paymentTracker = {};
@@ -506,50 +583,27 @@ const start = async () => {
     const dataSets = bunqDataSets(`${__dirname}${path.sep}..${path.sep}src${path.sep}DataSets`);
 
     dataSets.forEach((dataSet, dataSetIndex) => {
-        dataSet.invoices.forEach((item, index) => {
-            // check each override for each dataset item
-            invoiceIdOverwrites.forEach(override => {
-                if (item.id !== override.id) return;
+        if (dataSet.invoices) {
+            dataSet.invoices.forEach((item, index) => {
+                // check each override for each dataset item
+                invoiceIdOverwrites.forEach(override => {
+                    if (item.id !== override.id) return;
 
-                dataSets[dataSetIndex].invoices[index] = {
-                    id: override.newId,
-                    date: override.date
-                };
+                    dataSets[dataSetIndex].invoices[index] = {
+                        id: override.newId,
+                        date: override.date
+                    };
+                });
             });
-        });
-    });
-
-    // combine the ids with the normalized change values
-    const normalizedTogetherUsers = calculateInvoiceChangeValues(togetherDataSet);
-    togetherDataSet.forEach(togetherUser => {
-        const date = new Date(togetherUser.date);
-        const dateString = `${date.getFullYear()}:${date.getMonthString()}`;
-        if (!togetherUserTracker[dateString]) {
-            togetherUserTracker[dateString] = {
-                date: togetherUser.date,
-                count: 0,
-                change: 0,
-                amount: 0
-            };
         }
-
-        togetherUserTracker[dateString].count += 1;
-        togetherUserTracker[dateString].amount += togetherUser.id;
-        togetherUserTracker[dateString].change += normalizedTogetherUsers[dateString];
     });
-    // calculate averages and push to data list
-    const togetherUserData = Object.keys(togetherUserTracker)
-        .map(dateString => {
-            const object = togetherUserTracker[dateString];
 
-            return {
-                id: Math.round(object.amount / object.count),
-                change: Math.round(object.change / object.count),
-                date: object.date
-            };
-        })
-        .sort((a, b) => (a.date > b.date ? -1 : 1))
-        .reverse();
+    // calculate the actual change values
+    const togetherUserChangeValues = calculateChangeValues(togetherDataSet);
+    // combine the ids with the normalized change values
+    normalizeChangeValueList(togetherUserTracker, togetherDataSet, togetherUserChangeValues);
+    // combine tracker data back into a single array
+    const togetherUserData = combineChangeValues(togetherUserTracker);
     console.log("combined togetherUserChange data", togetherUserData.length);
 
     // go through data sets and combine them
@@ -559,40 +613,16 @@ const start = async () => {
         normalizeEventCollections(masterCardActionTracker, dataSet.masterCardActions);
         normalizeEventCollections(requestInquiryTracker, dataSet.requestInquiries);
 
-        // combine the ids with the normalized change values
-        const normalizedInvoices = calculateInvoiceChangeValues(dataSet.invoices);
-        dataSet.invoices.forEach(invoice => {
-            const date = new Date(invoice.date);
-            const dateString = `${date.getFullYear()}:${date.getMonthString()}`;
-            if (!invoiceTracker[dateString]) {
-                invoiceTracker[dateString] = {
-                    date: invoice.date,
-                    count: 0,
-                    change: 0,
-                    amount: 0
-                };
-            }
+        // calculate change values
+        const invoiceChangeData = calculateChangeValues(dataSet.invoices);
 
-            invoiceTracker[dateString].count += 1;
-            invoiceTracker[dateString].amount += invoice.id;
-            invoiceTracker[dateString].change += normalizedInvoices[dateString];
-        });
+        // combine the ids with the normalized change values
+        normalizeChangeValueList(invoiceTracker, dataSet.invoices, invoiceChangeData);
     });
 
     // calculate averages and push to data list
-    const invoiceData = Object.keys(invoiceTracker)
-        .map(dateString => {
-            const object = invoiceTracker[dateString];
-
-            return {
-                id: Math.round(object.amount / object.count),
-                change: Math.round(object.change / object.count),
-                date: object.date
-            };
-        })
-        .sort((a, b) => (a.date > b.date ? -1 : 1))
-        .reverse();
-    console.log("combined invoiceData", invoiceData.length);
+    const invoiceData = combineChangeValues(invoiceTracker);
+    console.log("combined invoice data", invoiceData.length);
 
     // calculate change values and adjusted changes values
     const paymentChangeData = calculateEventChangeValues(trackerToArray(paymentTracker));
@@ -606,18 +636,16 @@ const start = async () => {
     console.log("combined card data", cardChangeData.length);
 
     // write to a file in public dir
-    fs.writeFileSync(
-        `${__dirname}${path.sep}..${path.sep}public${path.sep}bunq-data.json`,
-        JSON.stringify({
-            cards: cardChangeData,
-            invoices: invoiceData,
-            payments: paymentChangeData,
-            masterCardActions: masterCardActionChangeData,
-            requestInquiries: requestInquiryChangeData,
-            togetherData: togetherUserData,
-            dataSets: dataSets
-        })
-    );
+    const fileLocation = `${__dirname}${path.sep}..${path.sep}public${path.sep}bunq-data.json`;
+    await writeFile(fileLocation, {
+        cards: cardChangeData,
+        invoices: invoiceData,
+        payments: paymentChangeData,
+        masterCardActions: masterCardActionChangeData,
+        requestInquiries: requestInquiryChangeData,
+        togetherData: togetherUserData,
+        dataSets: dataSets
+    });
 };
 
 start()
