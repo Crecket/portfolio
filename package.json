@@ -72,7 +72,7 @@
     "reactSnap": {
         "skipThirdPartyRequests": true,
         "http2PushManifest": true,
-        "concurrency": 10,
+        "concurrency": 6,
         "inlineCss": true
     },
     "browserslist": [
