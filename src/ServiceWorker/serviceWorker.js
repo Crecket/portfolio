@@ -63,9 +63,7 @@ function registerValidSW(swUrl, config) {
                             }
 
                             // force reload page
-                            setTimeout(() => {
-                                window.location.reload();
-                            }, 1000)
+                            setTimeout(() => window.location.reload(), 1000);
                         } else {
                             // At this point, everything has been precached.
                             // It's the perfect time to display a
