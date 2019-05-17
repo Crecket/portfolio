@@ -22,13 +22,20 @@ temp/*
 .env.development.local
 .env.test.local
 .env.production.local
-public/bunq-data.json
-scripts/DataSets/updated-bunq-data.json
 
+# generated data
+public/bunq-data.json
+src/DataSets/updated-bunq-data.json
+storage.json
+
+# ignored local assets
+/ignored-assets
+
+# debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# private details
 .env
 !.env.example
-storage.json

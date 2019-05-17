@@ -72,7 +72,7 @@ const LandingSection = ({ children, className = "", height = "100vh", displayMen
                     </IconButton>
                 )}
 
-                <div className={`content fadeIn ${className}`}>{children}</div>
+                <div className={`content ${className}`}>{children}</div>
             </div>
         </>
     );

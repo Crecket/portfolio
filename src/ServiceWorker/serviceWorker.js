@@ -55,12 +55,17 @@ function registerValidSW(swUrl, config) {
                             // but the previous service worker will still serve the older
                             // content until all client tabs are closed.
                             window.openSnackbar &&
-                                window.openSnackbar("New content is available! Refresh the page to see it.");
+                                window.openSnackbar("New content is available! The page will refresh now.");
 
                             // Execute callback
                             if (config && config.onUpdate) {
                                 config.onUpdate(registration);
                             }
+
+                            // force reload page
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1000)
                         } else {
                             // At this point, everything has been precached.
                             // It's the perfect time to display a

@@ -1,49 +1,71 @@
 @import "../../styles/variables.scss";
 
 .contact {
-    .landing {
-        .wallet-item,
-        .contact-item {
-            display: flex;
-            align-items: center;
-            padding: 8px;
-            margin-bottom: 8px;
-            max-width: calc(100vw - 30px);
-            width: 1000px;
+    .content {
+        @media (min-width: 500px) {
+            max-width: 470px;
+        }
+        transition: width 1s;
+    }
 
-            @media (min-width: 500px) {
-                max-width: 470px;
-            }
+    .contact-subheader {
+        margin-bottom: 4px;
+    }
 
-            a,
-            .address-field {
-                width: 100%;
-            }
+    .contact-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
 
-            .address-field {
+    .selection-button {
+        .selection-image {
+            width: 36px;
+        }
+    }
+
+    .contact-item {
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        margin-top: 16px;
+        width: 1000px;
+        max-width: calc(100vw - 30px);
+        background-color: lighten($darkBackgroundColor, 17);
+
+        @media (min-width: 500px) {
+            max-width: 360px;
+        }
+
+        img {
+            margin-right: 12px;
+            width: 32px;
+            height: 32px;
+        }
+
+        .divider {
+            width: 1px;
+            height: 28px;
+            margin: 4px;
+            margin-right: 0px;
+            margin-left: 8px;
+        }
+
+        .address-link,
+        .address-field {
+            width: 100%;
+        }
+
+        .address-field {
+            cursor: pointer;
+            input {
                 cursor: pointer;
-                input {
-                    cursor: pointer;
-                }
-            }
-
-            svg,
-            img {
-                margin-right: 12px;
             }
         }
 
-        .wallet-item {
-            svg {
-                width: 32px;
-                height: 32px;
-            }
-        }
-        .contact-item {
-            img {
-                width: 32px;
-                height: 32px;
-            }
+        .secondary-link {
+            margin-left: 6px;
         }
     }
 }

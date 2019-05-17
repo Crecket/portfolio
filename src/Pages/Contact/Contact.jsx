@@ -1,54 +1,34 @@
 import React from "react";
 import { Helmet } from "react-helmet";
+import Collapse from "@material-ui/core/Collapse";
 
 import "./Contact.scss";
+import LandingSection from "../../Components/LandingSection";
+import ContactSelectionButton from "./ContactSelectionButton";
+import ContactItem from "./ContactItem";
+
 import discord from "./Images/discord.svg";
 import github from "./Images/github.svg";
 import linkedin from "./Images/linkedin.svg";
 import steam from "./Images/steam.svg";
 import telegram from "./Images/telegram.svg";
 
-import Btc from "./Images/Btc";
-import Eth from "./Images/Eth";
-import Ltc from "./Images/Ltc";
-import Neo from "./Images/Neo";
-
-import LandingSection from "../../Components/LandingSection";
-import ContactItem from "./ContactItem";
-import WalletItem from "./WalletItem";
-
-const walletList = [
-    {
-        ticker: "BTC",
-        address: "3FXM2FYXn36WgdWexGiuisZwNuYyae1jxA",
-        Icon: Btc
-    },
-    {
-        ticker: "ETH",
-        address: "0x62BA3D118ddA5447649bFD27f298927B2dA957bA",
-        Icon: Eth
-    },
-    {
-        ticker: "LTC",
-        address: "3Pj6F7SjRm1DmodUhGeBWmD5AFHTiKmKsa",
-        Icon: Ltc
-    },
-    {
-        ticker: "NEO",
-        address: "AXKCSsnPRh4EfeDa1J9R37q8Gx8SqWbHyF",
-        Icon: Neo
-    }
-];
+import bunq from "./Images/bunq.svg";
+import btc from "./Images/btc.svg";
+import eth from "./Images/eth.svg";
+import ltc from "./Images/ltc.svg";
+import neo from "./Images/neo.svg";
+import xrp from "./Images/xrp.svg";
 
 const contactList = [
     {
         action: "LINK",
-        value: "linkedin.com/in/gregory-goijaerts/",
+        value: "https://linkedin.com/in/gregory-goijaerts/",
         image: linkedin
     },
     {
         action: "LINK",
-        value: "github.com/Crecket",
+        value: "https://github.com/Crecket",
         image: github
     },
     {
@@ -59,34 +39,89 @@ const contactList = [
     },
     {
         action: "LINK",
-        value: "t.me/gregoryg",
+        value: "https://t.me/gregoryg",
         image: telegram
     },
     {
         action: "LINK",
-        value: "steamcommunity.com/id/Crecket",
+        value: "https://steamcommunity.com/id/Crecket",
         image: steam
     }
 ];
 
+const walletList = [
+    {
+        action: "LINK",
+        value: "https://bunq.me/gregory",
+        image: bunq
+    },
+    {
+        type: "Bitcoin Address",
+        action: "COPY",
+        value: "3FXM2FYXn36WgdWexGiuisZwNuYyae1jxA",
+        secondaryUrl: "bitcoin:3FXM2FYXn36WgdWexGiuisZwNuYyae1jxA",
+        image: btc
+    },
+    {
+        type: "Ether Address",
+        action: "COPY",
+        value: "0x62BA3D118ddA5447649bFD27f298927B2dA957bA",
+        image: eth
+    },
+    {
+        type: "Litecoin Address",
+        action: "COPY",
+        value: "3Pj6F7SjRm1DmodUhGeBWmD5AFHTiKmKsa",
+        image: ltc
+    },
+    {
+        type: "Neo Address",
+        action: "COPY",
+        value: "AXKCSsnPRh4EfeDa1J9R37q8Gx8SqWbHyF",
+        image: neo
+    },
+    {
+        type: "XRP Address",
+        action: "COPY",
+        value: "rUpmKwXMRzyA7VNWnFrnmbFg7mPCuKf2e9",
+        image: xrp
+    }
+];
+
+const contactCombined = {
+    contact: contactList,
+    wallet: walletList
+};
+
 const Contact = () => {
-    const contactComponents = contactList.map((contact, index) => {
-        return <ContactItem key={index} contact={contact} />;
+    const [selected, setSelected] = React.useState(null);
+
+    const onContactClick = index => () => setSelected({ type: "contact", index });
+    const onWalletClick = index => () => setSelected({ type: "wallet", index });
+
+    const contactSelectionButtons = contactList.map((contact, index) => {
+        return <ContactSelectionButton key={index} contact={contact} onClick={onContactClick(index)} />;
     });
-    const walletComponents = walletList.map((wallet, index) => {
-        return <WalletItem key={index} wallet={wallet} />;
+    const walletSelectionButtons = walletList.map((contact, index) => {
+        return <ContactSelectionButton key={index} contact={contact} onClick={onWalletClick(index)} />;
     });
 
     return (
         <div className="contact">
             <Helmet title="GregoryG - Contact" />
 
-            <LandingSection className="text-wrapper" displayMenuButton>
+            <LandingSection className="text-wrapper contact-content" displayMenuButton>
                 <h1>Contact</h1>
-                <div className="links">{contactComponents}</div>
 
-                <h3>Public addresses</h3>
-                <div className="links">{walletComponents}</div>
+                <h3 className="contact-subheader">Contact details</h3>
+                <div className="links">{contactSelectionButtons}</div>
+
+                <h3 className="contact-subheader">Payment details</h3>
+                <div className="links">{walletSelectionButtons}</div>
+
+                <Collapse in={selected !== null}>
+                    {selected && <ContactItem contact={contactCombined[selected.type][selected.index]} />}
+                </Collapse>
             </LandingSection>
         </div>
     );

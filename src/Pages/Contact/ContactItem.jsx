@@ -1,9 +1,12 @@
 import React from "react";
 import Paper from "@material-ui/core/Paper";
+import Divider from "@material-ui/core/Divider";
 import InputBase from "@material-ui/core/InputBase";
 
-const ContactItem = ({ contact, ...props }) => {
-    const { action, type, value, image } = contact;
+import UrlIcon from "@material-ui/icons/Link";
+
+const ContactItem = ({ mode = "full", contact, ...props }) => {
+    const { action, secondaryUrl, type, value, image } = contact;
 
     const onCopy = e => {
         e.target.select();
@@ -13,7 +16,7 @@ const ContactItem = ({ contact, ...props }) => {
 
     const component =
         action === "LINK" ? (
-            <a target="_blank" rel="noopener noreferrer" href={`https://${value}`}>
+            <a className="address-link" target="_blank" rel="noopener noreferrer" href={value}>
                 <InputBase readOnly className="address-field" value={value} />
             </a>
         ) : (
@@ -21,8 +24,16 @@ const ContactItem = ({ contact, ...props }) => {
         );
 
     return (
-        <Paper className="contact-item" {...props}>
+        <Paper className="contact-item" elevation={3} {...props}>
             <img src={image} alt={`${type} logo`} /> {component}
+            {secondaryUrl ? (
+                <>
+                    <Divider className="divider" />
+                    <a className="secondary-link" target="_blank" rel="noopener noreferrer" href={secondaryUrl}>
+                        <UrlIcon />
+                    </a>
+                </>
+            ) : null}
         </Paper>
     );
 };
