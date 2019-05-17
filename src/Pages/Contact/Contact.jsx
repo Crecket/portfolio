@@ -1,5 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
+import QRCodeReact from "qrcode.react";
 import Collapse from "@material-ui/core/Collapse";
 
 import "./Contact.scss";
@@ -60,30 +61,39 @@ const walletList = [
         action: "COPY",
         value: "3FXM2FYXn36WgdWexGiuisZwNuYyae1jxA",
         secondaryUrl: "bitcoin:3FXM2FYXn36WgdWexGiuisZwNuYyae1jxA",
+        qrValue: true,
         image: btc
     },
     {
         type: "Ether Address",
         action: "COPY",
         value: "0x62BA3D118ddA5447649bFD27f298927B2dA957bA",
+        secondaryUrl: "https://etherscan.io/address/0x62BA3D118ddA5447649bFD27f298927B2dA957bA",
+        qrValue: true,
         image: eth
     },
     {
         type: "Litecoin Address",
         action: "COPY",
         value: "3Pj6F7SjRm1DmodUhGeBWmD5AFHTiKmKsa",
+        secondaryUrl: "litecoin:3Pj6F7SjRm1DmodUhGeBWmD5AFHTiKmKsa",
+        qrValue: true,
         image: ltc
     },
     {
         type: "Neo Address",
         action: "COPY",
         value: "AXKCSsnPRh4EfeDa1J9R37q8Gx8SqWbHyF",
+        secondaryUrl: "https://neotracker.io/address/AXKCSsnPRh4EfeDa1J9R37q8Gx8SqWbHyF",
+        qrValue: true,
         image: neo
     },
     {
         type: "XRP Address",
         action: "COPY",
         value: "rUpmKwXMRzyA7VNWnFrnmbFg7mPCuKf2e9",
+        secondaryUrl: "https://bithomp.com/explorer/rUpmKwXMRzyA7VNWnFrnmbFg7mPCuKf2e9",
+        qrValue: true,
         image: xrp
     }
 ];
@@ -95,6 +105,7 @@ const contactCombined = {
 
 const Contact = () => {
     const [selected, setSelected] = React.useState(null);
+    const [qrValue, setQrValue] = React.useState(false);
 
     const onContactClick = index => () => setSelected({ type: "contact", index });
     const onWalletClick = index => () => setSelected({ type: "wallet", index });
@@ -106,9 +117,19 @@ const Contact = () => {
         return <ContactSelectionButton key={index} contact={contact} onClick={onWalletClick(index)} />;
     });
 
+    const qrOnClick = () => setQrValue(false);
+
     return (
         <div className="contact">
             <Helmet title="GregoryG - Contact" />
+
+            {qrValue && (
+                <div className="qr-wrapper" onClick={qrOnClick}>
+                    <div className="qr-content">
+                        <QRCodeReact className="qr-code" size={225} value={qrValue} />
+                    </div>
+                </div>
+            )}
 
             <LandingSection className="text-wrapper contact-content" displayMenuButton>
                 <h1>Contact</h1>
@@ -120,7 +141,9 @@ const Contact = () => {
                 <div className="links">{walletSelectionButtons}</div>
 
                 <Collapse in={selected !== null}>
-                    {selected && <ContactItem contact={contactCombined[selected.type][selected.index]} />}
+                    {selected && (
+                        <ContactItem contact={contactCombined[selected.type][selected.index]} setQrValue={setQrValue} />
+                    )}
                 </Collapse>
             </LandingSection>
         </div>

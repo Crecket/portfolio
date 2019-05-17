@@ -4,9 +4,31 @@ import Divider from "@material-ui/core/Divider";
 import InputBase from "@material-ui/core/InputBase";
 
 import UrlIcon from "@material-ui/icons/Link";
+import QrIcon from "../../SVGImages/QR";
 
-const ContactItem = ({ mode = "full", contact, ...props }) => {
-    const { action, secondaryUrl, type, value, image } = contact;
+const QrButton = ({ setQrValue, qrValue, value }) => {
+    if (!qrValue) return null;
+
+    const usedQrValue = qrValue === true ? value : qrValue;
+    return (
+        <span className="secondary-link" onClick={() => setQrValue(usedQrValue)}>
+            <QrIcon />
+        </span>
+    );
+};
+
+const SecondaryUrl = ({ secondaryUrl }) => {
+    if (!secondaryUrl) return null;
+
+    return (
+        <a className="secondary-link" target="_blank" rel="noopener noreferrer" href={secondaryUrl}>
+            <UrlIcon />
+        </a>
+    );
+};
+
+const ContactItem = ({ mode = "full", setQrValue, contact, ...props }) => {
+    const { action, secondaryUrl, type, value, qrValue, image } = contact;
 
     const onCopy = e => {
         e.target.select();
@@ -26,12 +48,11 @@ const ContactItem = ({ mode = "full", contact, ...props }) => {
     return (
         <Paper className="contact-item" elevation={3} {...props}>
             <img src={image} alt={`${type} logo`} /> {component}
-            {secondaryUrl ? (
+            {secondaryUrl || qrValue ? (
                 <>
                     <Divider className="divider" />
-                    <a className="secondary-link" target="_blank" rel="noopener noreferrer" href={secondaryUrl}>
-                        <UrlIcon />
-                    </a>
+                    <QrButton setQrValue={setQrValue} qrValue={qrValue} value={value} />
+                    <SecondaryUrl secondaryUrl={secondaryUrl} />
                 </>
             ) : null}
         </Paper>
