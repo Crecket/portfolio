@@ -39,7 +39,7 @@ export default ({ match, bunqData }) => {
         <div>
             <Helmet title="GregoryG - bunq invoices" />
 
-            <AppBar position="static" color="default" className="grey-gradient">
+            <AppBar position="static" color="default" className="appbar grey-gradient">
                 <Tabs value={chart}>
                     <Tab component={Link} to="/bunq/invoices/change" value="change" label="Invoices / month" />
                     <Tab component={Link} to="/bunq/invoices/total" value="total" label="Total invoices" />
