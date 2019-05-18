@@ -29,69 +29,74 @@
         transition: width 1s;
     }
 
-    .contact-subheader {
-        margin-bottom: 4px;
-    }
-
     .contact-content {
+        .contact-subheader {
+            margin-bottom: 4px;
+        }
+
+        .collapse {
+            display: flex;
+            justify-content: center;
+        }
+
         display: flex;
         flex-direction: column;
         justify-content: center;
         text-align: center;
-    }
 
-    .selection-button {
-        .selection-image {
-            width: 36px;
-        }
-    }
-
-    .contact-item {
-        display: flex;
-        align-items: center;
-        padding: 8px;
-        margin-top: 16px;
-        width: 1000px;
-        max-width: calc(100vw - 30px);
-        background-color: lighten($darkBackgroundColor, 17);
-
-        @media (min-width: 500px) {
-            max-width: 360px;
-        }
-
-        img {
-            margin-right: 12px;
-            width: 32px;
-            height: 32px;
-        }
-
-        .divider {
-            width: 1px;
-            height: 28px;
-            margin: 4px;
-            margin-right: 0px;
-            margin-left: 8px;
-        }
-
-        .address-link,
-        .address-field {
-            width: 100%;
-        }
-
-        .address-field {
-            cursor: pointer;
-            input {
-                cursor: pointer;
+        .selection-button {
+            .selection-image {
+                width: 36px;
             }
         }
 
-        .secondary-link {
-            margin-left: 6px;
-            color: white;
-            cursor: pointer;
+        .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            margin-top: 16px;
+            width: 1000px;
+            max-width: calc(100vw - 30px);
+            background-color: lighten($darkBackgroundColor, 17);
 
-            :hover {
-                color: $redPrimary;
+            @media (min-width: 500px) {
+                max-width: 360px;
+            }
+
+            img {
+                margin-right: 12px;
+                width: 32px;
+                height: 32px;
+            }
+
+            .divider {
+                width: 1px;
+                height: 28px;
+                margin: 4px;
+                margin-right: 0px;
+                margin-left: 8px;
+            }
+
+            .address-link,
+            .address-field {
+                width: 100%;
+            }
+
+            .address-field {
+                cursor: pointer;
+                input {
+                    cursor: pointer;
+                }
+            }
+
+            .secondary-link {
+                margin-left: 6px;
+                color: white;
+                cursor: pointer;
+
+                :hover {
+                    color: $redPrimary;
+                }
             }
         }
     }

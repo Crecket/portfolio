@@ -158,7 +158,7 @@ const Contact = () => {
                 <h3 className="contact-subheader">Payment details</h3>
                 <div className="links">{walletSelectionButtons}</div>
 
-                <Collapse in={selected !== null}>
+                <Collapse in={selected !== null} className="collapse">
                     {selected && (
                         <ContactItem contact={contactCombined[selected.type][selected.index]} setQrValue={setQrValue} />
                     )}

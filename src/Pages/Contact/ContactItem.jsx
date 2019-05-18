@@ -48,7 +48,6 @@ const ContactItem = ({ mode = "full", setQrValue, contact, ...props }) => {
     return (
         <Paper className="contact-item" elevation={3} {...props}>
             <img src={image} alt={`${title || type} logo`} /> {component}
-
             {secondaryUrl || qrValue ? (
                 <>
                     <Divider className="divider" />
