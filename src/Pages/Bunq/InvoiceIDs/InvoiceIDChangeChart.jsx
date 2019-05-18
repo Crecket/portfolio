@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import "chartjs-plugin-annotation";
 import Link from "react-router-dom/Link";
 import Typography from "@material-ui/core/Typography";
@@ -70,12 +70,15 @@ export default ({ invoices }) => {
         StandardDataSet({
             label: "Invoices",
             data: invoiceChartData,
-            backgroundColor: "#0d61e8"
+            fill: false,
+            color: "#0d61e8"
         }),
         StandardDataSet({
             label: "Invoice change",
             data: invoiceChartDelta,
             backgroundColor: invoiceChartDeltaColors,
+            fill: invoiceChartDeltaColors,
+            color: invoiceChartDeltaColors,
             datalabels: false
         })
     ];
@@ -106,7 +109,7 @@ export default ({ invoices }) => {
                     onChange={e => setCompensation(e.target.value)}
                 />
             </div>
-            <Bar
+            <Line
                 className="chart"
                 options={options}
                 data={{

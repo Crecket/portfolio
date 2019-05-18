@@ -10,10 +10,8 @@ import bunqDataSets from "../src/DataSets/bunqDataSets";
 require("dotenv").config();
 const awaiting = require("awaiting");
 
-const invoiceIdOverwrites = [
-    { id: 1072130, newId: 1045465, date: "2019-02-08 22:18:10.491460" },
-    { id: 191665, newId: 179101, date: "2017-08-01 17:23:23.776410" }
-];
+const invoiceIdOverwrites = [{ id: 1072130, newId: 1045465, date: "2019-02-08 22:18:10.491460" }];
+const ignoredInvoiceIds = [184361, 299222];
 const ignoredTogetherIds = [181000, 209500, 218000];
 
 const togetherDataConfig = {
@@ -365,10 +363,11 @@ const calculateChangeValues = events => {
 
         // attempt to get a decent estimate for what the value was at the 15th of the month
         const daysBetweenValue = getTimeBetween(date, previousDate, ONE_DAY, false);
-        if (daysBetweenValue !== 0) {
+        if (daysBetweenValue !== 0 && (daysBetweenValue > 27 && daysBetweenValue < 34)) {
             const eventIdSecondChange = eventId - previousId;
             const estimatedDailyChange = eventIdSecondChange / daysBetweenValue;
-            const daysUntil15th = 15 - dateDay;
+            const daysUntil15th = previousDate.getDate() - dateDay;
+
             const adjustmentValue = daysUntil15th * estimatedDailyChange;
             const adjustedEventId = eventId + adjustmentValue;
             adjustedChangeValue = adjustedEventId - previousId;
@@ -594,6 +593,10 @@ const start = async () => {
                         date: override.date
                     };
                 });
+
+                // check each override for each dataset item
+                const isIgnored = ignoredInvoiceIds.find(ignoredId => item.id === ignoredId);
+                if (isIgnored) dataSet.invoices.splice(index, 1);
             });
         }
     });
@@ -614,7 +617,7 @@ const start = async () => {
         normalizeEventCollections(requestInquiryTracker, dataSet.requestInquiries);
 
         // calculate change values
-        const invoiceChangeData = calculateChangeValues(dataSet.invoices);
+        const invoiceChangeData = calculateChangeValues(dataSet.invoices, true);
 
         // combine the ids with the normalized change values
         normalizeChangeValueList(invoiceTracker, dataSet.invoices, invoiceChangeData);

@@ -9,7 +9,6 @@ import StandardDataSet from "../StandardDataSet";
 
 export default ({ payments }) => {
     const [logScale, toggleLogScale] = useState(false);
-    const [trendLine, toggleTrendLine] = useState(false);
 
     const paymentChartData = payments.map(payment => {
         return {
@@ -39,7 +38,6 @@ export default ({ payments }) => {
             </Typography>
             <div className="chart-content">
                 <DefaultSwitch label="Log scale" checked={logScale} onChange={toggleLogScale} />
-                <DefaultSwitch label="Trend line" checked={trendLine} onChange={toggleTrendLine} />
             </div>
             <Line
                 className="chart"

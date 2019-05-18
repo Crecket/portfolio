@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
+import Paper from "@material-ui/core/Paper";
 import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 
 import PaymentIDChart from "./PaymentIDChart";
 import PaymentIDChangeChart from "./PaymentIDChangeChart";
+
+import Tab from "../../../Components/StyledTab";
+import Tabs from "../../../Components/StyledTabs";
 
 export default ({ match, bunqData }) => {
     const [chart, setChart] = useState("total");
@@ -33,14 +35,14 @@ export default ({ match, bunqData }) => {
         <div>
             <Helmet title="GregoryG - bunq payments" />
 
-            <AppBar position="static">
+            <AppBar position="static" color="default" className="appbar grey-gradient">
                 <Tabs value={chart}>
                     <Tab component={Link} to="/bunq/payments/total" value="total" label="Total payments" />
                     <Tab component={Link} to="/bunq/payments/average" value="average" label="Average payments" />
                 </Tabs>
             </AppBar>
 
-            {chartComponent}
+            <Paper className="paper grey-gradient">{chartComponent}</Paper>
         </div>
     );
 };

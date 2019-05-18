@@ -13,9 +13,11 @@ body {
 html,
 body,
 .standard-gradient {
-    background: $darkBackgroundColor;
-    background: -webkit-linear-gradient(to right, darken($darkBackgroundColor, 2), lighten($lighterBackgroundColor, 2));
-    background: linear-gradient(to right, darken($darkBackgroundColor, 2), lighten($lighterBackgroundColor, 2));
+    @include linear-gradient(to right, $darkBackgroundColor, $lighterBackgroundColor);
+}
+
+.grey-gradient {
+    @include linear-gradient(to right, $darkGrey, $lighterGray);
 }
 
 .fadeIn {

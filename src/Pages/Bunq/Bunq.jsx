@@ -4,11 +4,10 @@ import axios from "axios";
 import { Helmet } from "react-helmet";
 import { Route, Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Paper from "@material-ui/core/Paper";
 
 import NoscriptDisclaimer from "../../Components/NoscriptDisclaimer";
+import Tab from "../../Components/StyledTab";
+import Tabs from "../../Components/StyledTabs";
 
 import "./Bunq.scss";
 
@@ -48,40 +47,39 @@ const Bunq = ({ match }) => {
         <div className="bunq-charts">
             <Helmet title="GregoryG - bunq charts" />
             <div className="content">
-                <Paper className="paper">
-                    <AppBar position="static">
-                        <Tabs value={tab}>
-                            <Tab component={Link} to={"/bunq/invoices"} value="invoices" label="Invoices" />
-                            <Tab component={Link} to={"/bunq/payments"} value="payments" label="Payments" />
-                            <Tab component={Link} to={"/bunq/combined"} value="combined" label="Combined" />
-                            <Tab component={Link} to={"/bunq/together"} value="together" label="Together users" />
-                            <Tab component={Link} to={"/bunq/predictions"} value="predictions" label="Predictions" />
-                        </Tabs>
-                    </AppBar>
+                <AppBar position="static" color="default" className="appbar grey-gradient">
+                    <Tabs value={tab}>
+                        {/*<Tabs value={tab} variant="fullWidth">*/}
+                        <Tab component={Link} to={"/bunq/invoices"} value="invoices" label="Invoices" />
+                        <Tab component={Link} to={"/bunq/payments"} value="payments" label="Payments" />
+                        <Tab component={Link} to={"/bunq/combined"} value="combined" label="Combined" />
+                        <Tab component={Link} to={"/bunq/together"} value="together" label="Together users" />
+                        <Tab component={Link} to={"/bunq/predictions"} value="predictions" label="Predictions" />
+                    </Tabs>
+                </AppBar>
 
-                    <NoscriptDisclaimer />
+                <NoscriptDisclaimer />
 
-                    <Route
-                        path="/bunq/:tab?/:chart?"
-                        component={props => {
-                            const selectedTab = props.match.params.tab || "invoices";
+                <Route
+                    path="/bunq/:tab?/:chart?"
+                    component={props => {
+                        const selectedTab = props.match.params.tab || "invoices";
 
-                            switch (selectedTab) {
-                                case "payments":
-                                    return <PaymentIDs bunqData={bunqData} {...props} />;
-                                case "together":
-                                    return <TogetherIDs bunqData={bunqData} {...props} />;
-                                case "combined":
-                                    return <Combined bunqData={bunqData} {...props} />;
-                                case "predictions":
-                                    return <Predictions bunqData={bunqData} {...props} />;
-                                default:
-                                case "invoices":
-                                    return <InvoiceIDs bunqData={bunqData} {...props} />;
-                            }
-                        }}
-                    />
-                </Paper>
+                        switch (selectedTab) {
+                            case "payments":
+                                return <PaymentIDs bunqData={bunqData} {...props} />;
+                            case "together":
+                                return <TogetherIDs bunqData={bunqData} {...props} />;
+                            case "combined":
+                                return <Combined bunqData={bunqData} {...props} />;
+                            case "predictions":
+                                return <Predictions bunqData={bunqData} {...props} />;
+                            default:
+                            case "invoices":
+                                return <InvoiceIDs bunqData={bunqData} {...props} />;
+                        }
+                    }}
+                />
             </div>
         </div>
     );

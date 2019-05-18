@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
+import Paper from "@material-ui/core/Paper";
 import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 
 import PredictionsInvoices from "./PredictionsInvoices";
+
+import Tab from "../../../Components/StyledTab";
+import Tabs from "../../../Components/StyledTabs";
 
 export default ({ match, bunqData }) => {
     const [chart, setChart] = useState("invoices");
@@ -29,13 +31,13 @@ export default ({ match, bunqData }) => {
         <div>
             <Helmet title="GregoryG - bunq predictions" />
 
-            <AppBar position="static">
+            <AppBar position="static" color="default" className="appbar grey-gradient">
                 <Tabs value={chart}>
                     <Tab component={Link} to="/bunq/predictions/invoices" value="invoices" label="Invoices" />
                 </Tabs>
             </AppBar>
 
-            {chartComponent}
+            <Paper className="paper grey-gradient">{chartComponent}</Paper>
         </div>
     );
 };

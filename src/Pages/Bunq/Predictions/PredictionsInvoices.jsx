@@ -26,7 +26,7 @@ export default ({ invoices }) => {
             y: invoice.change
         };
     });
-    const invoiceChartData = MovingAverage(invoiceChartDataRaw, 2, false);
+    const invoiceChartData = MovingAverage(invoiceChartDataRaw, 2, true);
 
     // remove the first 10 unstable months
     invoiceChartData.splice(0, 10);
