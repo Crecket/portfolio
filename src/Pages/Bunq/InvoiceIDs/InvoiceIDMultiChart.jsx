@@ -18,23 +18,25 @@ export default ({ dataSets }) => {
     dataSets.forEach((dataSet, index) => {
         const color = selectColor(index, dataSets.length);
 
-        const data = dataSet.invoices.map(invoice => {
-            return {
-                x: new Date(invoice.date),
-                y: invoice.id
-            };
-        });
+        if (dataSet.invoices) {
+            const data = dataSet.invoices.map(invoice => {
+                return {
+                    x: new Date(invoice.date),
+                    y: invoice.id
+                };
+            });
 
-        invoiceChartDataSets.push(
-            StandardDataSet({
-                label: `Dateset #${index + 1}`,
-                data: data,
-                backgroundColor: color,
-                fill: false,
-                pointHitRadius: 1,
-                datalabels: false
-            })
-        );
+            invoiceChartDataSets.push(
+                StandardDataSet({
+                    label: `Dateset #${index + 1}`,
+                    data: data,
+                    backgroundColor: color,
+                    fill: false,
+                    pointHitRadius: 1,
+                    datalabels: false
+                })
+            );
+        }
     });
 
     const Component = barMode ? Bar : Line;

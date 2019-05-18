@@ -8,6 +8,8 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Paper from "@material-ui/core/Paper";
 
+import NoscriptDisclaimer from "../../Components/NoscriptDisclaimer";
+
 import "./Bunq.scss";
 
 // register the chartjs plugin
@@ -46,7 +48,7 @@ const Bunq = ({ match }) => {
         <div className="bunq-charts">
             <Helmet title="GregoryG - bunq charts" />
             <div className="content">
-                <Paper>
+                <Paper className="paper">
                     <AppBar position="static">
                         <Tabs value={tab}>
                             <Tab component={Link} to={"/bunq/invoices"} value="invoices" label="Invoices" />
@@ -56,6 +58,8 @@ const Bunq = ({ match }) => {
                             <Tab component={Link} to={"/bunq/predictions"} value="predictions" label="Predictions" />
                         </Tabs>
                     </AppBar>
+
+                    <NoscriptDisclaimer />
 
                     <Route
                         path="/bunq/:tab?/:chart?"

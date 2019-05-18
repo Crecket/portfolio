@@ -12,7 +12,7 @@ body {
 
 html,
 body,
-.standard-background {
+.standard-gradient {
     background: $darkBackgroundColor;
     background: -webkit-linear-gradient(to right, darken($darkBackgroundColor, 2), lighten($lighterBackgroundColor, 2));
     background: linear-gradient(to right, darken($darkBackgroundColor, 2), lighten($lighterBackgroundColor, 2));

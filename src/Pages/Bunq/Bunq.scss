@@ -3,12 +3,18 @@
 .bunq-charts {
     display: flex;
     justify-content: center;
+    height: 100%;
 
     .content {
         padding: 4px 16px;
         margin: 4px 16px;
         width: 100%;
+        height: 100%;
         max-width: 1024px;
+
+        .paper {
+            height: 100%;
+        }
 
         .inline-link {
             color: orange;

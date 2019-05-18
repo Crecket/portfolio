@@ -3,8 +3,10 @@ import { Helmet } from "react-helmet";
 import QRCodeReact from "qrcode.react";
 import Collapse from "@material-ui/core/Collapse";
 
-import "./Contact.scss";
 import LandingSection from "../../Components/LandingSection";
+import NoscriptDisclaimer from "../../Components/NoscriptDisclaimer";
+
+import "./Contact.scss";
 import ContactSelectionButton from "./ContactSelectionButton";
 import ContactItem from "./ContactItem";
 
@@ -19,6 +21,7 @@ import btc from "./Images/btc.svg";
 import eth from "./Images/eth.svg";
 import ltc from "./Images/ltc.svg";
 import neo from "./Images/neo.svg";
+import xmr from "./Images/xmr.svg";
 import xrp from "./Images/xrp.svg";
 
 const contactList = [
@@ -81,6 +84,13 @@ const walletList = [
         image: ltc
     },
     {
+        type: "Monero Address",
+        action: "COPY",
+        value: "4AtAKpWXacM2hQbGNnC27cM7nhWRUgrBUWMAzqpHTZWz2MVtuQLrQ1YjMYRFofsEzf7DgBKUYG2ZD5sZAm2V5FrmGBwVNT5",
+        qrValue: true,
+        image: xmr
+    },
+    {
         type: "Neo Address",
         action: "COPY",
         value: "AXKCSsnPRh4EfeDa1J9R37q8Gx8SqWbHyF",
@@ -133,6 +143,8 @@ const Contact = () => {
 
             <LandingSection className="text-wrapper contact-content" displayMenuButton>
                 <h1>Contact</h1>
+
+                <NoscriptDisclaimer />
 
                 <h3 className="contact-subheader">Contact details</h3>
                 <div className="links">{contactSelectionButtons}</div>
