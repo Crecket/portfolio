@@ -28,7 +28,7 @@ const SecondaryUrl = ({ secondaryUrl }) => {
 };
 
 const ContactItem = ({ mode = "full", setQrValue, contact, ...props }) => {
-    const { action, secondaryUrl, type, value, qrValue, image } = contact;
+    const { action, secondaryUrl, title, type, value, qrValue, image } = contact;
 
     const onCopy = e => {
         e.target.select();
@@ -47,7 +47,8 @@ const ContactItem = ({ mode = "full", setQrValue, contact, ...props }) => {
 
     return (
         <Paper className="contact-item" elevation={3} {...props}>
-            <img src={image} alt={`${type} logo`} /> {component}
+            <img src={image} alt={`${title || type} logo`} /> {component}
+
             {secondaryUrl || qrValue ? (
                 <>
                     <Divider className="divider" />

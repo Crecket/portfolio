@@ -26,27 +26,32 @@ import xrp from "./Images/xrp.svg";
 
 const contactList = [
     {
+        title: "LinkedIn",
         action: "LINK",
         value: "https://linkedin.com/in/gregory-goijaerts/",
         image: linkedin
     },
     {
+        title: "Github",
         action: "LINK",
         value: "https://github.com/Crecket",
         image: github
     },
     {
+        title: "Discord",
         type: "Discord ID",
         action: "COPY",
         value: "Crecket#9979",
         image: discord
     },
     {
+        title: "Telegram",
         action: "LINK",
         value: "https://t.me/gregoryg",
         image: telegram
     },
     {
+        title: "Steam",
         action: "LINK",
         value: "https://steamcommunity.com/id/Crecket",
         image: steam
@@ -55,6 +60,7 @@ const contactList = [
 
 const walletList = [
     {
+        title: "bunq",
         action: "LINK",
         value: "https://bunq.me/gregory",
         image: bunq
