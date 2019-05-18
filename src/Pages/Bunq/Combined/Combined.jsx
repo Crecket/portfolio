@@ -32,7 +32,7 @@ export default ({ match, bunqData }) => {
         <div>
             <Helmet title="GregoryG - bunq combined datasets" />
 
-            <AppBar position="static" color="default" className="grey-gradient">
+            <AppBar position="static" color="default" className="appbar grey-gradient">
                 <Tabs value={chart}>
                     <Tab component={Link} to="/bunq/combined/all" value="all" label="All data" />
                 </Tabs>
