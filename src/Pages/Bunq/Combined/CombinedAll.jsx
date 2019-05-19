@@ -29,6 +29,13 @@ export default ({ bunqData }) => {
 
     const [showAnnotations, setShowAnnotations] = React.useState(false);
 
+    const [showPayments, setShowPayments] = React.useState(true);
+    const [showRequestInquiries, setShowRequestInquiries] = React.useState(true);
+    const [showMasterCardActions, setShowMasterCardActions] = React.useState(true);
+    const [showTogetherData, setShowTogetherData] = React.useState(true);
+    const [showInvoices, setShowInvoices] = React.useState(true);
+    const [showCards, setShowCards] = React.useState(true);
+
     const [showPaymentAxis, setShowPaymentAxis] = React.useState(true);
     const [showRequestInquiryAxis, setShowRequestInquiryAxis] = React.useState(false);
     const [showMasterCardActionAxis, setShowMasterCardActionAxis] = React.useState(false);
@@ -42,7 +49,7 @@ export default ({ bunqData }) => {
         ...options.scales.yAxes[0],
         id: "invoices",
         type: "linear",
-        display: showInvoiceAxis,
+        display: showInvoices && showInvoiceAxis,
         gridLines: {
             display: true,
             color: green[700]
@@ -53,7 +60,7 @@ export default ({ bunqData }) => {
         id: "cards",
         type: "linear",
         position: "right",
-        display: showCardAxis,
+        display: showCards && showCardAxis,
         gridLines: {
             display: true,
             color: red[700]
@@ -64,7 +71,7 @@ export default ({ bunqData }) => {
         id: "requestInquiries",
         type: "linear",
         position: "right",
-        display: showRequestInquiryAxis,
+        display: showRequestInquiries && showRequestInquiryAxis,
         gridLines: {
             display: true,
             color: deepPurple[700]
@@ -75,7 +82,7 @@ export default ({ bunqData }) => {
         id: "masterCardActions",
         type: "linear",
         position: "right",
-        display: showMasterCardActionAxis,
+        display: showMasterCardActions && showMasterCardActionAxis,
         gridLines: {
             display: true,
             color: "#009c96"
@@ -86,7 +93,7 @@ export default ({ bunqData }) => {
         id: "togetherData",
         type: "linear",
         position: "right",
-        display: showTogetherDataAxis,
+        display: showTogetherData && showTogetherDataAxis,
         gridLines: {
             display: true,
             color: deepOrange[800]
@@ -96,12 +103,76 @@ export default ({ bunqData }) => {
     options.scales.yAxes[0] = {
         ...options.scales.yAxes[0],
         id: "payments",
-        display: showPaymentAxis,
+        display: showPayments && showPaymentAxis,
         gridLines: {
             display: true,
             color: blue[800]
         }
     };
+
+    const dataSets = [];
+
+    const cardsDataSet = StandardDataSet({
+        label: `Cards`,
+        yAxisID: "cards",
+        data: cardsChartData,
+        fill: false,
+        pointRadius: 0,
+        color: standardRed,
+        datalabels: false
+    });
+    const paymentsDataSet = StandardDataSet({
+        label: `Payments`,
+        yAxisID: "payments",
+        data: paymentChartData,
+        fill: false,
+        pointRadius: 0,
+        color: standardBlue,
+        datalabels: false
+    });
+    const invoicesDataset = StandardDataSet({
+        label: `Invoices`,
+        yAxisID: "invoices",
+        data: invoiceChartData,
+        fill: false,
+        pointRadius: 0,
+        color: standardGreen,
+        datalabels: false
+    });
+    const requestInquiryDataset = StandardDataSet({
+        label: `Requests`,
+        yAxisID: "requestInquiries",
+        data: requestInquiryChartData,
+        fill: false,
+        pointRadius: 0,
+        color: standardPurple,
+        datalabels: false
+    });
+    const masterCardActionDataset = StandardDataSet({
+        label: `Card payments`,
+        yAxisID: "masterCardActions",
+        data: masterCardActionChartData,
+        fill: false,
+        pointRadius: 0,
+        color: "#00fff6",
+        datalabels: false
+    });
+    const togetherUserDataset = StandardDataSet({
+        label: `Together users`,
+        yAxisID: "togetherData",
+        data: togetherChartData,
+        fill: false,
+        pointRadius: 0,
+        color: standardOrange,
+        datalabels: false
+    });
+
+    if (showCards) dataSets.push(cardsDataSet);
+    if (showPayments) dataSets.push(paymentsDataSet);
+    if (showInvoices) dataSets.push(invoicesDataset);
+    if (showRequestInquiries) dataSets.push(requestInquiryDataset);
+    if (showMasterCardActions) dataSets.push(masterCardActionDataset);
+    if (showTogetherData) dataSets.push(togetherUserDataset);
 
     return (
         <div>
@@ -109,10 +180,38 @@ export default ({ bunqData }) => {
                 <DefaultSwitch label="Show annotations" checked={showAnnotations} onChange={setShowAnnotations} />
             </div>
             <div className="chart-content">
-                <Typography variant="body1">
-                    Use the checkboxes below to hide/show the axis you need. You can click the different labels in the
-                    legend to hide or show them to your liking.
-                </Typography>
+                <Typography variant="subtitle1">Datasets</Typography>
+            </div>
+            <div className="chart-content">
+                <DefaultCheckbox label="Cards" checked={showCards} onChange={() => setShowCards(!showCards)} />
+                <DefaultCheckbox
+                    label="Payment"
+                    checked={showPayments}
+                    onChange={() => setShowPayments(!showPayments)}
+                />
+                <DefaultCheckbox
+                    label="Invoice"
+                    checked={showInvoices}
+                    onChange={() => setShowInvoices(!showInvoices)}
+                />
+                <DefaultCheckbox
+                    label="Card payment"
+                    checked={showMasterCardActions}
+                    onChange={() => setShowMasterCardActions(!showMasterCardActions)}
+                />
+                <DefaultCheckbox
+                    label="Request inquiry"
+                    checked={showRequestInquiries}
+                    onChange={() => setShowRequestInquiries(!showRequestInquiries)}
+                />
+                <DefaultCheckbox
+                    label="Together users"
+                    checked={showTogetherData}
+                    onChange={() => setShowTogetherData(!showTogetherData)}
+                />
+            </div>
+            <div className="chart-content">
+                <Typography variant="subtitle1">Y-axis for each dataset.</Typography>
             </div>
             <div className="chart-content">
                 <DefaultCheckbox label="Cards" checked={showCardAxis} onChange={() => setShowCardAxis(!showCardAxis)} />
@@ -146,62 +245,7 @@ export default ({ bunqData }) => {
                 <Line
                     className="chart"
                     data={{
-                        datasets: [
-                            StandardDataSet({
-                                label: `Cards`,
-                                yAxisID: "cards",
-                                data: cardsChartData,
-                                fill: false,
-                                pointRadius: 0,
-                                color: standardRed,
-                                datalabels: false
-                            }),
-                            StandardDataSet({
-                                label: `Payments`,
-                                yAxisID: "payments",
-                                data: paymentChartData,
-                                fill: false,
-                                pointRadius: 0,
-                                color: standardBlue,
-                                datalabels: false
-                            }),
-                            StandardDataSet({
-                                label: `Invoices`,
-                                yAxisID: "invoices",
-                                data: invoiceChartData,
-                                fill: false,
-                                pointRadius: 0,
-                                color: standardGreen,
-                                datalabels: false
-                            }),
-                            StandardDataSet({
-                                label: `Requests`,
-                                yAxisID: "requestInquiries",
-                                data: requestInquiryChartData,
-                                fill: false,
-                                pointRadius: 0,
-                                color: standardPurple,
-                                datalabels: false
-                            }),
-                            StandardDataSet({
-                                label: `Card payments`,
-                                yAxisID: "masterCardActions",
-                                data: masterCardActionChartData,
-                                fill: false,
-                                pointRadius: 0,
-                                color: "#00fff6",
-                                datalabels: false
-                            }),
-                            StandardDataSet({
-                                label: `Together users`,
-                                yAxisID: "togetherData",
-                                data: togetherChartData,
-                                fill: false,
-                                pointRadius: 0,
-                                color: standardOrange,
-                                datalabels: false
-                            })
-                        ]
+                        datasets: dataSets
                     }}
                     options={options}
                 />
