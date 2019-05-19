@@ -15,6 +15,8 @@ const styles = theme => ({
     }
 });
 
-const StyledTabs = props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />;
+const StyledTabs = props => (
+    <Tabs variant="scrollable" scrollButtons="auto" {...props} TabIndicatorProps={{ children: <div /> }} />
+);
 
 export default withStyles(styles)(StyledTabs);
