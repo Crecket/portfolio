@@ -8,9 +8,11 @@
     overflow: hidden;
     height: 100vh;
 
-    a {
+    .animated {
         @include animated-underline(#3f51b5);
+    }
 
+    a {
         font-size: 1rem;
         color: $greySecondary;
 

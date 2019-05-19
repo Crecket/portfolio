@@ -20,16 +20,21 @@ const Home = () => {
                 <h2>Software Engineer</h2>
 
                 <div className="links">
-                    <a target="_blank" rel="noopener noreferrer" href="https://github.com/Crecket">
+                    <a className="animated" target="_blank" rel="noopener noreferrer" href="https://github.com/Crecket">
                         <Github /> Github
                     </a>
-                    <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/gregory-goijaerts/">
+                    <a
+                        className="animated"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://www.linkedin.com/in/gregory-goijaerts/"
+                    >
                         <LinkedIn /> LinkedIn
                     </a>
-                    <Link to="/projects">
+                    <Link className="animated" to="/projects">
                         <CellphoneLinkSvg /> Projects
                     </Link>
-                    <Link to="/contact">
+                    <Link className="animated" to="/contact">
                         <AccountBadge /> Contact
                     </Link>
 

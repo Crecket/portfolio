@@ -28,7 +28,7 @@ const SecondaryUrl = ({ secondaryUrl }) => {
 };
 
 const ContactItem = ({ mode = "full", setQrValue, contact, ...props }) => {
-    const { action, secondaryUrl, title, type, value, qrValue, image } = contact;
+    const { secondaryUrl, title, type, value, qrValue, image } = contact;
 
     const onCopy = e => {
         e.target.select();
@@ -36,18 +36,12 @@ const ContactItem = ({ mode = "full", setQrValue, contact, ...props }) => {
         window.openSnackbar(`Copied the ${type} to your clipboard!`);
     };
 
-    const component =
-        action === "LINK" ? (
-            <a className="address-link" target="_blank" rel="noopener noreferrer" href={value}>
-                <InputBase readOnly className="address-field" value={value} />
-            </a>
-        ) : (
-            <InputBase readOnly className="address-field" value={value} onClick={onCopy} />
-        );
-
     return (
         <Paper className="contact-item" elevation={3} {...props}>
-            <img src={image} alt={`${title || type} logo`} /> {component}
+            <img src={image} alt={`${title || type} logo`} />
+
+            <InputBase multiline readOnly className="address-field" value={value} onClick={onCopy} />
+
             {secondaryUrl || qrValue ? (
                 <>
                     <Divider className="divider" />
