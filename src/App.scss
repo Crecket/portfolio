@@ -13,7 +13,7 @@ body {
 html,
 body,
 .standard-gradient {
-    @include linear-gradient(to right, $darkBackgroundColor, $lighterBackgroundColor);
+    @include linear-gradient(to top, $darkBackgroundColor, $lighterBackgroundColor);
 }
 
 .grey-gradient {

@@ -2,6 +2,7 @@ import React from "react";
 import "./ProjectItem.scss";
 import Tilt from "react-tilt";
 
+import DomainIcon from "@material-ui/icons/Domain";
 import DownloadIcon from "../../SVGImages/Download";
 import AccountGroupIcon from "../../SVGImages/AccountGroup";
 import AccountMultipleIcon from "../../SVGImages/AccountMultiple";
@@ -35,7 +36,16 @@ const UserCount = ({ users }) => {
 
     return (
         <p>
-            <AccountMultipleIcon /> {formattedUsers} active users
+            <AccountMultipleIcon /> {formattedUsers} users
+        </p>
+    );
+};
+const PrivateText = ({ privateText }) => {
+    if (!privateText) return null;
+
+    return (
+        <p>
+            <DomainIcon /> {privateText}
         </p>
     );
 };
@@ -46,6 +56,7 @@ const ProjectItem = ({
     image,
     url,
     downloadCount,
+    privateText = false,
     viewCount = false,
     userCount = false,
     relativeUrl = false
@@ -55,6 +66,7 @@ const ProjectItem = ({
             <DownloadCount downloads={downloadCount} />
             <ViewCount views={viewCount} />
             <UserCount users={userCount} />
+            <PrivateText privateText={privateText} />
         </div>
     );
 
