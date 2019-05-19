@@ -23,7 +23,7 @@
             display: flex;
             flex-wrap: wrap;
             a {
-                margin-bottom: 8px;
+                padding-bottom: 8px;
             }
         }
 
@@ -31,7 +31,7 @@
             width: 95vw;
 
             .links {
-                display: block;
+                flex-direction: column;
                 a {
                     margin-bottom: 12px;
                 }

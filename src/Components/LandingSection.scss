@@ -1,8 +1,4 @@
-@import "../styles/variables.scss";
-
-.sidebar-list-wrapper {
-    width: 250px;
-}
+@import "../styles/main.scss";
 
 .landing {
     position: relative;
@@ -13,6 +9,8 @@
     height: 100vh;
 
     a {
+        @include animated-underline(#3f51b5);
+
         font-size: 1rem;
         color: $greySecondary;
 
