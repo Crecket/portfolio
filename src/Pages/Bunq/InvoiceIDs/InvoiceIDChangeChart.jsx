@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import "chartjs-plugin-annotation";
 import Link from "react-router-dom/Link";
 import TextField from "@material-ui/core/TextField";
@@ -12,6 +12,7 @@ import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
 import { combinedEventList, eventsToAnnotations } from "../StandardAnnotations";
 import { standardBlue, standardGreen, standardRed } from "../ChartColors";
+import useBunqCanvasPattern from "../../../Hooks/useBunqCanvasPattern";
 
 const annotationList = eventsToAnnotations(combinedEventList);
 
@@ -19,8 +20,11 @@ export default ({ invoices }) => {
     const [showAnnotations, setShowAnnotations] = useState(false);
     const [movingAverage, setMovingAverage] = useState(true);
     const [compensation, setCompensation] = useState(10);
-    const finalCompensation = (100 - compensation) / 100;
+    const [useFillPattern, setUseFillPattern] = useState(false);
 
+    const fillPattern = useBunqCanvasPattern(standardBlue);
+
+    const finalCompensation = (100 - compensation) / 100;
     let previousChange = 0;
     const invoiceChartDelta = [];
     const invoiceChartDeltaColors = [];
@@ -68,20 +72,27 @@ export default ({ invoices }) => {
     const options = StandardChartOptions("label", showAnnotations ? annotationList : []);
     const dataSets = [
         StandardDataSet({
+            type: "line",
             label: "Invoices",
             data: invoiceChartData,
-            fill: false,
-            color: standardBlue
-        }),
-        StandardDataSet({
-            label: "Invoice change",
-            data: invoiceChartDelta,
-            backgroundColor: invoiceChartDeltaColors,
-            fill: invoiceChartDeltaColors,
-            color: invoiceChartDeltaColors,
-            datalabels: false
+            fill: useFillPattern,
+            color: useFillPattern ? fillPattern : standardBlue
         })
     ];
+
+    if (!useFillPattern) {
+        dataSets.push(
+            StandardDataSet({
+                type: "bar",
+                label: "Invoice change",
+                data: invoiceChartDelta,
+                backgroundColor: invoiceChartDeltaColors,
+                fill: invoiceChartDeltaColors,
+                color: invoiceChartDeltaColors,
+                datalabels: true
+            })
+        );
+    }
 
     return (
         <div>
@@ -100,6 +111,7 @@ export default ({ invoices }) => {
             <div className="chart-content">
                 <DefaultSwitch label="Use 5 month moving average" checked={movingAverage} onChange={setMovingAverage} />
                 <DefaultSwitch label="Show annotations" checked={showAnnotations} onChange={setShowAnnotations} />
+                <DefaultSwitch label="bunq mode" checked={useFillPattern} onChange={setUseFillPattern} />
                 <TextField
                     min="0"
                     type="number"
@@ -110,7 +122,7 @@ export default ({ invoices }) => {
                 />
             </div>
             <div className="chart-wrapper">
-                <Line
+                <Bar
                     className="chart"
                     options={options}
                     data={{
