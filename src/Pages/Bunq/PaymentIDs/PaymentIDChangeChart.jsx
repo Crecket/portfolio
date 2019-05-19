@@ -2,10 +2,12 @@ import React from "react";
 import { Bar } from "react-chartjs-2";
 import Typography from "@material-ui/core/Typography";
 
+import DefaultSwitch from "../../../Components/DefaultSwitch";
+import MovingAverage from "../../../Functions/MovingAverage";
+
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
-import MovingAverage from "../../../Functions/MovingAverage";
-import DefaultSwitch from "../../../Components/DefaultSwitch";
+import { standardBlue } from "../ChartColors";
 
 export default ({ payments }) => {
     const [movingAverage, setMovingAverage] = React.useState(true);
@@ -29,21 +31,23 @@ export default ({ payments }) => {
             <div className="chart-content">
                 <DefaultSwitch label="Use 3 week moving average" checked={movingAverage} onChange={setMovingAverage} />
             </div>
-            <Bar
-                className="chart"
-                data={{
-                    datasets: [
-                        StandardDataSet({
-                            label: "Payments",
-                            data: paymentChartData,
-                            borderWidth: 1,
-                            backgroundColor: "#0d61e8",
-                            datalabels: false
-                        })
-                    ]
-                }}
-                options={StandardChartOptions()}
-            />
+            <div className="chart-wrapper">
+                <Bar
+                    className="chart"
+                    data={{
+                        datasets: [
+                            StandardDataSet({
+                                label: "Payments",
+                                data: paymentChartData,
+                                borderWidth: 1,
+                                backgroundColor: standardBlue,
+                                datalabels: false
+                            })
+                        ]
+                    }}
+                    options={StandardChartOptions()}
+                />
+            </div>
         </div>
     );
 };

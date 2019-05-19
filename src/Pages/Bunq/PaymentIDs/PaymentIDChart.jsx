@@ -6,6 +6,7 @@ import DefaultSwitch from "../../../Components/DefaultSwitch";
 
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
+import { standardBlue } from "../ChartColors";
 
 export default ({ payments }) => {
     const [logScale, toggleLogScale] = useState(false);
@@ -23,7 +24,7 @@ export default ({ payments }) => {
     const paymentDataSet = StandardDataSet({
         label: "Payments",
         data: paymentChartData,
-        backgroundColor: "rgba(13, 97, 232, 0.4)",
+        backgroundColor: standardBlue,
         pointRadius: 0,
         trendlineLinear: false
     });
@@ -39,13 +40,15 @@ export default ({ payments }) => {
             <div className="chart-content">
                 <DefaultSwitch label="Log scale" checked={logScale} onChange={toggleLogScale} />
             </div>
-            <Line
-                className="chart"
-                data={{
-                    datasets: dataSets
-                }}
-                options={options}
-            />
+            <div className="chart-wrapper">
+                <Line
+                    className="chart"
+                    data={{
+                        datasets: dataSets
+                    }}
+                    options={options}
+                />
+            </div>
         </div>
     );
 };

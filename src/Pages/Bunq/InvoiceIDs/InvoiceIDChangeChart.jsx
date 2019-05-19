@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import "chartjs-plugin-annotation";
 import Link from "react-router-dom/Link";
+import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
 import DefaultSwitch from "../../../Components/DefaultSwitch";
+import MovingAverage from "../../../Functions/MovingAverage";
 
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
-
-import MovingAverage from "../../../Functions/MovingAverage";
-import TextField from "@material-ui/core/TextField";
-
 import { combinedEventList, eventsToAnnotations } from "../StandardAnnotations";
+import { standardBlue, standardGreen, standardRed } from "../ChartColors";
+
 const annotationList = eventsToAnnotations(combinedEventList);
 
 export default ({ invoices }) => {
@@ -48,7 +48,7 @@ export default ({ invoices }) => {
 
         // calculate difference in new invoices between now and last month
         const changeVsLastMonth = invoiceIdChange - previousChange;
-        const color = changeVsLastMonth < 0 ? "#ff171f" : "#67ff4d";
+        const color = changeVsLastMonth < 0 ? standardRed : standardGreen;
         invoiceChartDelta.push({
             x: invoice.x,
             y: changeVsLastMonth
@@ -71,7 +71,7 @@ export default ({ invoices }) => {
             label: "Invoices",
             data: invoiceChartData,
             fill: false,
-            color: "#0d61e8"
+            color: standardBlue
         }),
         StandardDataSet({
             label: "Invoice change",
@@ -109,13 +109,15 @@ export default ({ invoices }) => {
                     onChange={e => setCompensation(e.target.value)}
                 />
             </div>
-            <Line
-                className="chart"
-                options={options}
-                data={{
-                    datasets: dataSets
-                }}
-            />
+            <div className="chart-wrapper">
+                <Line
+                    className="chart"
+                    options={options}
+                    data={{
+                        datasets: dataSets
+                    }}
+                />
+            </div>
         </div>
     );
 };

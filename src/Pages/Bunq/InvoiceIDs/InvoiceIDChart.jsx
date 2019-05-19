@@ -3,8 +3,10 @@ import { Line } from "react-chartjs-2";
 import Typography from "@material-ui/core/Typography";
 
 import DefaultSwitch from "../../../Components/DefaultSwitch";
+
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
+import { standardBlue } from "../ChartColors";
 
 export default ({ invoices }) => {
     const [logScale, toggleLogScale] = useState(false);
@@ -22,7 +24,7 @@ export default ({ invoices }) => {
     const data = StandardDataSet({
         label: "Invoices",
         data: invoiceChartData,
-        backgroundColor: "rgba(13, 97, 232, 0.4)",
+        backgroundColor: standardBlue,
         pointRadius: 0,
         trendlineLinear: false
     });
@@ -36,13 +38,15 @@ export default ({ invoices }) => {
             <div className="chart-content">
                 <DefaultSwitch label="Log scale" checked={logScale} onChange={toggleLogScale} />
             </div>
-            <Line
-                className="chart"
-                data={{
-                    datasets: [data]
-                }}
-                options={options}
-            />
+            <div className="chart-wrapper">
+                <Line
+                    className="chart"
+                    data={{
+                        datasets: [data]
+                    }}
+                    options={options}
+                />
+            </div>
         </div>
     );
 };

@@ -4,10 +4,11 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 
 import DefaultSwitch from "../../../Components/DefaultSwitch";
+import MovingAverage from "../../../Functions/MovingAverage";
 
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
-import MovingAverage from "../../../Functions/MovingAverage";
+import { standardBlue } from "../ChartColors";
 
 const lastMonthsCount = 5;
 const defaultMonthlyInterval = 1;
@@ -75,7 +76,7 @@ export default ({ invoices }) => {
     const data = StandardDataSet({
         label: "Invoice prediction",
         data: invoiceChartData,
-        backgroundColor: "rgba(13, 97, 232, 0.4)",
+        backgroundColor: standardBlue,
         pointRadius: 0,
         trendlineLinear: false
     });
@@ -119,14 +120,15 @@ export default ({ invoices }) => {
                 />
                 <DefaultSwitch className="switch" label="Log scale" checked={logScale} onChange={toggleLogScale} />
             </div>
-
-            <Line
-                className="chart"
-                data={{
-                    datasets: [data]
-                }}
-                options={options}
-            />
+            <div className="chart-wrapper">
+                <Line
+                    className="chart"
+                    data={{
+                        datasets: [data]
+                    }}
+                    options={options}
+                />
+            </div>
         </div>
     );
 };

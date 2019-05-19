@@ -50,13 +50,15 @@ export default ({ dataSets }) => {
             <div className="chart-content">
                 <DefaultSwitch label="Bar charts" checked={barMode} onChange={setBarMode} />
             </div>
-            <Component
-                className="chart"
-                data={{
-                    datasets: invoiceChartDataSets
-                }}
-                options={StandardChartOptions("x")}
-            />
+            <div className="chart-wrapper">
+                <Component
+                    className="chart"
+                    data={{
+                        datasets: invoiceChartDataSets
+                    }}
+                    options={StandardChartOptions("x")}
+                />
+            </div>
         </div>
     );
 };

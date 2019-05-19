@@ -44,6 +44,7 @@
             margin: 8px;
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
 
             .text-field {
                 margin: 4px;
@@ -51,6 +52,16 @@
             }
             .switch {
                 margin: 4px;
+            }
+        }
+        .chart-wrapper {
+            height: calc(100vh - 150px);
+
+            @media (min-width: 500px) {
+                height: calc(100vh - 250px);
+            }
+            @media (min-width: 1200px) {
+                height: calc(100vh - 300px);
             }
         }
     }

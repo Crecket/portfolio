@@ -5,11 +5,11 @@ import Typography from "@material-ui/core/Typography";
 
 import DefaultSwitch from "../../../Components/DefaultSwitch";
 
-import StandardChartOptions from "../StandardChartOptions";
-import StandardDataSet from "../StandardDataSet";
-
 import MovingAverage from "../../../Functions/MovingAverage";
 
+import { standardRed, standardGreen, standardBlue } from "../ChartColors";
+import StandardChartOptions from "../StandardChartOptions";
+import StandardDataSet from "../StandardDataSet";
 import { combinedEventList, eventsToAnnotations } from "../StandardAnnotations";
 const annotationList = eventsToAnnotations(combinedEventList);
 
@@ -48,7 +48,7 @@ export default ({ together }) => {
 
         // calculate difference in new togethers between now and last month
         const changeVsLastMonth = togetherIdChange - previousChange;
-        const color = changeVsLastMonth < 0 ? "#ff171f" : "#67ff4d";
+        const color = changeVsLastMonth < 0 ? standardRed : standardGreen;
         togetherChartDelta.push({
             x: together.x,
             y: changeVsLastMonth
@@ -70,7 +70,7 @@ export default ({ together }) => {
         StandardDataSet({
             label: "New together users",
             data: togetherChartData,
-            backgroundColor: "#0d61e8"
+            backgroundColor: standardBlue
         }),
         StandardDataSet({
             label: "Delta",
@@ -90,13 +90,15 @@ export default ({ together }) => {
                 <DefaultSwitch label="Use 5 month moving average" checked={movingAverage} onChange={setMovingAverage} />
                 <DefaultSwitch label="Show annotations" checked={showAnnotations} onChange={setShowAnnotations} />
             </div>
-            <Bar
-                className="chart"
-                options={options}
-                data={{
-                    datasets: dataSets
-                }}
-            />
+            <div className="chart-wrapper">
+                <Bar
+                    className="chart"
+                    options={options}
+                    data={{
+                        datasets: dataSets
+                    }}
+                />
+            </div>
         </div>
     );
 };

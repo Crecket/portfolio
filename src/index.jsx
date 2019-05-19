@@ -25,10 +25,10 @@ if (rootElement.hasChildNodes()) {
 } else {
     render(application, rootElement);
 
-    if (process.env.NODE_ENV === "development" && module.hot) {
-        module.hot.accept("./App", () => {
-            const NextApp = require("./App").default;
-            render(<NextApp />, rootElement);
-        });
-    }
+    // if (process.env.NODE_ENV === "development" && module.hot) {
+    //     module.hot.accept("./App", () => {
+    //         const NextApp = require("./App").default;
+    //         render(<NextApp />, rootElement);
+    //     });
+    // }
 }
