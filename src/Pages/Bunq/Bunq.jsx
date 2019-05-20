@@ -23,7 +23,7 @@ const Predictions = loadable(() => import(`./Predictions/Predictions`));
 
 const Bunq = ({ match }) => {
     const [bunqData, setBunqData] = useState(false);
-    const [tab, setTab] = useState("invoices");
+    const [tab, setTab] = useState(match.params.tab || "invoices");
 
     useEffect(() => {
         axios

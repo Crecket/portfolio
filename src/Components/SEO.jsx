@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Helmet from "react-helmet";
+import { Helmet } from "react-helmet";
 
 const absoluteUrl = path => `https://gregoryg.dev${path}`;
 
@@ -67,6 +67,10 @@ getHtmlAttributes.propTypes = {
 const Seo = ({ schema, title, description, path = "/", contentType, published, updated, category, tags, image }) => {
     const fullTitle = title ? `${title} - GregoryG.dev` : "GregoryG.dev";
 
+    const htmlAttributes = getHtmlAttributes({
+        schema
+    });
+
     // get all meta tags
     const metaTags = getMetaTags({
         title,
@@ -85,9 +89,7 @@ const Seo = ({ schema, title, description, path = "/", contentType, published, u
 
     return (
         <Helmet
-            htmlAttributes={getHtmlAttributes({
-                schema
-            })}
+            htmlAttributes={htmlAttributes}
             title={fullTitle}
             link={[{ rel: "canonical", href: absoluteUrl(path) }]}
         >

@@ -10,7 +10,7 @@ import Tab from "../../../Components/StyledTab";
 import Tabs from "../../../Components/StyledTabs";
 
 export default ({ match, bunqData }) => {
-    const [chart, setChart] = useState("invoices");
+    const [chart, setChart] = useState(match.params.chart || "invoices");
 
     useEffect(() => {
         if (match.params.chart && chart !== match.params.chart) {
