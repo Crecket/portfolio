@@ -29,7 +29,11 @@ export default ({ match, bunqData }) => {
 
     return (
         <div>
-            <SEO title="bunq predictions" />
+            <SEO
+                title="bunq predictions"
+                path="/bunq/predictions"
+                description="Predictions on how many users bunq will have based on current growth"
+            />
 
             <AppBar position="static" color="default" className="appbar grey-gradient">
                 <Tabs value={chart}>

@@ -37,7 +37,11 @@ export default ({ match, bunqData }) => {
 
     return (
         <div>
-            <SEO title="bunq invoices" />
+            <SEO
+                title="bunq invoices"
+                path="/bunq/invoices"
+                description="View the amount of invoices and currently paying bunq users"
+            />
 
             <AppBar position="static" color="default" className="appbar grey-gradient">
                 <Tabs value={chart}>

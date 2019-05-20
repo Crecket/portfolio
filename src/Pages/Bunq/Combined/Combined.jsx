@@ -30,7 +30,11 @@ export default ({ match, bunqData }) => {
 
     return (
         <div>
-            <SEO title="bunq combined datasets" />
+            <SEO
+                title="bunq combined datasets"
+                path="/bunq/combined"
+                description="View multiple bunq datasets in a single graph"
+            />
 
             <AppBar position="static" color="default" className="appbar grey-gradient">
                 <Tabs value={chart}>

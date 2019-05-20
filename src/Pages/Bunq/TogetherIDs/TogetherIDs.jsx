@@ -33,7 +33,11 @@ export default ({ match, bunqData }) => {
 
     return (
         <div>
-            <SEO title="bunq together IDs" />
+            <SEO
+                title="bunq together IDs"
+                path="/bunq/together"
+                description="View the amount of currently registered bunq Together users"
+            />
 
             <AppBar position="static" color="default" className="appbar grey-gradient">
                 <Tabs value={chart}>

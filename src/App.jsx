@@ -21,7 +21,6 @@ const App = () => {
     const toggleOpen = () => setOpen(!open);
 
     window.openSnackbar = openSnackbar;
-    window.toggleOpen = toggleOpen;
 
     return (
         <div className="app">

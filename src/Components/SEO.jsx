@@ -4,25 +4,32 @@ import Helmet from "react-helmet";
 
 const absoluteUrl = path => `https://gregoryg.dev${path}`;
 
-const getMetaTags = ({ fullTitle, description, url, contentType, published, updated, category, tags, image }) => {
+const getMetaTags = options => {
+    const { fullTitle, description, url, contentType, published, updated, category, tags, image } = options;
+
     const metaTags = [
-        { itemprop: "name", content: fullTitle },
-        { itemprop: "description", content: description },
-        { name: "description", content: description },
-        { name: "twitter:title", content: fullTitle },
-        { name: "twitter:description", content: description },
-        { name: "og:title", content: fullTitle },
-        { name: "og:type", content: contentType },
         { name: "og:url", content: url },
-        { name: "og:description", content: description },
         { name: "og:site_name", content: "GregoryG.dev" },
         { name: "og:locale", content: "en_EN" }
     ];
 
+    if (contentType) metaTags.push({ name: "og:type", content: contentType });
     if (published) metaTags.push({ name: "article:published_time", content: published });
     if (updated) metaTags.push({ name: "article:modified_time", content: updated });
     if (category) metaTags.push({ name: "article:section", content: category });
     if (tags) metaTags.push({ name: "article:tag", content: tags });
+
+    if (fullTitle) {
+        metaTags.push({ itemprop: "name", content: fullTitle });
+        metaTags.push({ name: "twitter:title", content: fullTitle });
+        metaTags.push({ name: "og:title", content: fullTitle });
+    }
+    if (description) {
+        metaTags.push({ itemprop: "description", content: description });
+        metaTags.push({ name: "description", content: description });
+        metaTags.push({ name: "twitter:description", content: description });
+        metaTags.push({ name: "og:description", content: description });
+    }
     if (image) {
         metaTags.push({ itemprop: "image", content: absoluteUrl(image) });
         metaTags.push({ name: "twitter:image:src", content: absoluteUrl(image) });
@@ -53,8 +60,25 @@ getHtmlAttributes.propTypes = {
     schema: PropTypes.string
 };
 
-const Seo = ({ schema, title, description, path, contentType, published, updated, category, tags, image }) => {
-    const fullTitle = `${title} - GregoryG.dev`;
+const Seo = ({ schema, title, description, path = "/", contentType, published, updated, category, tags, image }) => {
+    const fullTitle = title ? `${title} - GregoryG.dev` : "GregoryG.dev";
+
+    // get all meta tags
+    const metaTags = getMetaTags({
+        title,
+        fullTitle,
+        image,
+        description,
+        contentType,
+        url: absoluteUrl(path),
+        published,
+        updated,
+        category,
+        tags
+    });
+    // render as component so nested meta tags don't overwrite the parent SEO component
+    const metaTagComponents = metaTags.map((props, key) => <meta key={key} {...props} />);
+
     return (
         <Helmet
             htmlAttributes={getHtmlAttributes({
@@ -62,19 +86,21 @@ const Seo = ({ schema, title, description, path, contentType, published, updated
             })}
             title={fullTitle}
             link={[{ rel: "canonical", href: absoluteUrl(path) }]}
-            meta={getMetaTags({
-                title,
-                fullTitle,
-                image,
-                description,
-                contentType,
-                url: absoluteUrl(path),
-                published,
-                updated,
-                category,
-                tags
-            })}
-        />
+        >
+            {metaTagComponents}
+            <script type="application/ld+json">{`
+                    {
+                        "@context": "https://schema.org",
+                        "@type": "Person",
+                        "name": "Gregory Goijaerts",
+                        "url": "https://gregoryg.dev",
+                        "sameAs": [
+                            "https://www.linkedin.com/in/gregory-goijaerts/",
+                            "https://github.com/Crecket"
+                        ]
+                    }
+                `}</script>
+        </Helmet>
     );
 };
 
