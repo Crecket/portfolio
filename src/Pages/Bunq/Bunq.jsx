@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import loadable from "loadable-components";
 import axios from "axios";
-import { Helmet } from "react-helmet";
 import { Route, Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 
+import SEO from "../../Components/SEO";
 import NoscriptDisclaimer from "../../Components/NoscriptDisclaimer";
 import Tab from "../../Components/StyledTab";
 import Tabs from "../../Components/StyledTabs";
 
 import "./Bunq.scss";
+import bunqThumbnail from "../Projects/images/bunq-charts.png";
 
 // register the chartjs plugin
 import "chartjs-plugin-datalabels";
@@ -43,7 +44,6 @@ const Bunq = ({ match }) => {
         }
     }, [match.params.tab, tab]);
 
-
     // https://developers.google.com/web/progressive-web-apps/checklist
     // and
     // https://developers.google.com/web/updates/2016/09/navigator-share
@@ -59,7 +59,13 @@ const Bunq = ({ match }) => {
 
     return (
         <div className="bunq-charts">
-            <Helmet title="GregoryG - bunq charts" />
+            <SEO
+                title="GregoryG - bunq charts"
+                description="Charts showing the different datasets collected through the bunq API"
+                path="/bunq"
+                image={bunqThumbnail}
+            />
+
             <div className="content">
                 <AppBar position="static" color="default" className="appbar grey-gradient">
                     <Tabs value={tab}>

@@ -1,18 +1,22 @@
 import React from "react";
-import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
-import "./NotFound.scss";
 
+import SEO from "../../Components/SEO";
 import LandingSection from "../../Components/LandingSection";
+
+import "./NotFound.scss";
 
 const NotFound = () => {
     return (
         <div className="notfound">
-            <Helmet title="GregoryG - 404 page not found" />
+            <SEO title="GregoryG - 404 page not found" path="/404" description="Page not found" />
 
             <LandingSection>
                 <h1>Page not found!</h1>
-                <Link to="/">Looking for the homepage?</Link>
+
+                <Link className="" to="/">
+                    Looking for the homepage?
+                </Link>
             </LandingSection>
         </div>
     );

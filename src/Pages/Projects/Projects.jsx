@@ -1,9 +1,9 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+
+import SEO from "../../Components/SEO";
+import LandingSection from "../../Components/LandingSection";
 
 import "./Projects.scss";
-
-import LandingSection from "../../Components/LandingSection";
 import ProjectItem from "./ProjectItem";
 
 import bunqDesktopImage from "./images/bunq-desktop.png";
@@ -91,7 +91,11 @@ const projects = [
 const Projects = () => {
     return (
         <div className="projects">
-            <Helmet title="GregoryG - Projects" />
+            <SEO
+                title="GregoryG - Projects"
+                description="Projects I have developed"
+                path="/projects"
+            />
 
             <LandingSection className="text-wrapper" height="40vh" displayMenuButton>
                 <h1>Projects</h1>

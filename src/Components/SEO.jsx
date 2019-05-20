@@ -2,25 +2,21 @@ import React from "react";
 import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 
-const absoluteUrl = path => `https://yagd-9d9f8.firebaseapp.com${path}`;
-const seoImageURL = file => `https://yagd-9d9f8.firebaseapp.com/images/${file}`;
+const absoluteUrl = path => `https://gregoryg.dev${path}`;
 
-const getMetaTags = ({ title, description, url, contentType, published, updated, category, tags, twitter, image }) => {
+const getMetaTags = ({ title, description, url, contentType, published, updated, category, tags, image }) => {
     const metaTags = [
         { itemprop: "name", content: title },
         { itemprop: "description", content: description },
         { name: "description", content: description },
-        { name: "twitter:site", content: "@stereobooster" },
-        { name: "twitter:title", content: `${title} | yagd-9d9f8.firebaseapp.com` },
+        { name: "twitter:title", content: `${title} | Gregory Goijaerts` },
         { name: "twitter:description", content: description },
-        { name: "twitter:creator", content: twitter || "@stereobooster" },
-        { name: "og:title", content: `${title} | yagd-9d9f8.firebaseapp.com` },
+        { name: "og:title", content: `${title} | gregoryg.dev` },
         { name: "og:type", content: contentType },
         { name: "og:url", content: url },
         { name: "og:description", content: description },
-        { name: "og:site_name", content: "yagd-9d9f8.firebaseapp.com" },
+        { name: "og:site_name", content: "GregoryG.dev" },
         { name: "og:locale", content: "en_EN" }
-        // { name: 'fb:app_id', content: '<FB App ID>' },
     ];
 
     if (published) metaTags.push({ name: "article:published_time", content: published });
@@ -28,9 +24,9 @@ const getMetaTags = ({ title, description, url, contentType, published, updated,
     if (category) metaTags.push({ name: "article:section", content: category });
     if (tags) metaTags.push({ name: "article:tag", content: tags });
     if (image) {
-        metaTags.push({ itemprop: "image", content: seoImageURL(image) });
-        metaTags.push({ name: "twitter:image:src", content: seoImageURL(image) });
-        metaTags.push({ name: "og:image", content: seoImageURL(image) });
+        metaTags.push({ itemprop: "image", content: absoluteUrl(image) });
+        metaTags.push({ name: "twitter:image:src", content: absoluteUrl(image) });
+        metaTags.push({ name: "og:image", content: absoluteUrl(image) });
         metaTags.push({ name: "twitter:card", content: "summary_large_image" });
     } else {
         metaTags.push({ name: "twitter:card", content: "summary" });
@@ -57,7 +53,7 @@ getHtmlAttributes.propTypes = {
     schema: PropTypes.string
 };
 
-const Seo = ({ schema, title, description, path, contentType, published, updated, category, tags, twitter }) => (
+const Seo = ({ schema, title, description, path, contentType, published, updated, category, tags, image }) => (
     <Helmet
         htmlAttributes={getHtmlAttributes({
             schema
@@ -66,14 +62,14 @@ const Seo = ({ schema, title, description, path, contentType, published, updated
         link={[{ rel: "canonical", href: absoluteUrl(path) }]}
         meta={getMetaTags({
             title,
+            image,
             description,
             contentType,
             url: absoluteUrl(path),
             published,
             updated,
             category,
-            tags,
-            twitter
+            tags
         })}
     />
 );
@@ -88,7 +84,6 @@ Seo.propTypes = {
     updated: PropTypes.string,
     category: PropTypes.string,
     tags: PropTypes.array,
-    twitter: PropTypes.string,
     image: PropTypes.string
 };
 

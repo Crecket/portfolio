@@ -1,8 +1,7 @@
 import React from "react";
-import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 
-import "./Home.scss";
+import SEO from "../../Components/SEO";
 import LandingSection from "../../Components/LandingSection";
 
 import Github from "../../SVGImages/Github";
@@ -10,10 +9,12 @@ import LinkedIn from "../../SVGImages/Linkedin";
 import AccountBadge from "../../SVGImages/AccountBadge";
 import CellphoneLinkSvg from "../../SVGImages/CellphoneLinkSvg";
 
+import "./Home.scss";
+
 const Home = () => {
     return (
         <div className="home">
-            <Helmet title="GregoryG - Home" />
+            <SEO title="GregoryG - Home" path="/" description="Homepage" />
 
             <LandingSection className="text-wrapper">
                 <h1>Gregory Goijaerts</h1>

@@ -1,8 +1,8 @@
 import React from "react";
-import { Helmet } from "react-helmet";
 import QRCodeReact from "qrcode.react";
 import Collapse from "@material-ui/core/Collapse";
 
+import SEO from "../../Components/SEO";
 import LandingSection from "../../Components/LandingSection";
 import NoscriptDisclaimer from "../../Components/NoscriptDisclaimer";
 
@@ -137,7 +137,7 @@ const Contact = () => {
 
     return (
         <div className="contact">
-            <Helmet title="GregoryG - Contact" />
+            <SEO title="GregoryG - Contact" path="/contact" description="My public contact and payment details" />
 
             {qrValue && (
                 <div className="qr-wrapper" onClick={qrOnClick}>
