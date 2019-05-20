@@ -29,13 +29,13 @@ const RouteComponents = Object.keys(routes).map(routePattern => {
 
 const Routes = () => {
     return (
-        <div>
+        <main>
             <Switch>
                 {RouteComponents}
 
                 <Route component={NotFound} />
             </Switch>
-        </div>
+        </main>
     );
 };
 
