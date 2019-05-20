@@ -1,0 +1,12 @@
+@import "../styles/main.scss";
+
+.drawer {
+    .drawer-content{
+        width: auto;
+        padding-top: 32px;
+
+        .list {
+            width: 250px;
+        }
+    }
+}

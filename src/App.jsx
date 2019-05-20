@@ -8,31 +8,41 @@ import "./App.scss";
 import siteConfig from "./Config/site";
 import MuiTheme from "./Config/MuiTheme";
 
-import Routes from "./Routes";
 import useSnackbar from "./Hooks/useSnackbar";
+import Routes from "./Routes";
+import Drawer from "./Components/Drawer";
 
+export const DrawerContext = React.createContext({});
 const theme = createMuiTheme(MuiTheme);
 
 const App = () => {
     const { message, openSnackbar, closeSnackbar } = useSnackbar();
+    const [open, setOpen] = React.useState(false);
+    const toggleOpen = () => setOpen(!open);
+
     window.openSnackbar = openSnackbar;
+    window.toggleOpen = toggleOpen;
 
     return (
         <div className="app">
             <BrowserRouter basename={siteConfig.baseName} forceRefresh={false}>
                 <MuiThemeProvider theme={theme}>
-                    <Routes />
+                    <DrawerContext.Provider value={{ open, toggleOpen }}>
+                        <Routes />
 
-                    <Snackbar
-                        autoHideDuration={5000}
-                        anchorOrigin={{
-                            vertical: "top",
-                            horizontal: "right"
-                        }}
-                        open={!!message}
-                        message={message}
-                        onClose={closeSnackbar}
-                    />
+                        <Drawer />
+
+                        <Snackbar
+                            autoHideDuration={5000}
+                            anchorOrigin={{
+                                vertical: "top",
+                                horizontal: "right"
+                            }}
+                            open={!!message}
+                            message={message}
+                            onClose={closeSnackbar}
+                        />
+                    </DrawerContext.Provider>
                 </MuiThemeProvider>
             </BrowserRouter>
         </div>

@@ -43,6 +43,20 @@ const Bunq = ({ match }) => {
         }
     }, [match.params.tab, tab]);
 
+
+    // https://developers.google.com/web/progressive-web-apps/checklist
+    // and
+    // https://developers.google.com/web/updates/2016/09/navigator-share
+    // if (navigator.share) {
+    //     navigator.share({
+    //         title: 'bunq charts',
+    //         text: 'Check out Web Fundamentals — it rocks!',
+    //         url: 'https://gregoryg.dev/bunq',
+    //     })
+    //         .then(() => console.log('Successful share'))
+    //         .catch((error) => console.log('Error sharing', error));
+    // }
+
     return (
         <div className="bunq-charts">
             <Helmet title="GregoryG - bunq charts" />

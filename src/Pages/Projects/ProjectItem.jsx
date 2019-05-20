@@ -73,7 +73,7 @@ const ProjectItem = ({
     const content = (
         <div className={`project-item ${image ? "has-image" : ""}`}>
             <Tilt options={{ max: 35, scale: 1.05, perspective: 1000 }}>
-                <div className="project-content">
+                <div className="project-content purple-gradient">
                     <div className={image ? "text-content-image" : "text-content"}>
                         <h3>{title}</h3>
                         <p>{description}</p>

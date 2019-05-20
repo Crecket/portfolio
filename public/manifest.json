@@ -1,10 +1,10 @@
 {
     "short_name": "GregoryG",
-    "name": "Gregory Portfolio",
+    "name": "Gregory Goijaerts Portfolio",
     "start_url": ".",
     "display": "standalone",
-    "theme_color": "#282931",
-    "background_color": "#282931",
+    "theme_color": "#1e2243",
+    "background_color": "#10152d",
     "icons": [
         {
             "src": "favicon.ico",

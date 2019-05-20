@@ -1,11 +1,11 @@
 $redPrimary: #fc3565;
 $greySecondary: #bbbbc4;
 
-//$darkBackgroundColor: #282931;
-//$lighterBackgroundColor: #343640;
+$purple: #4d3fd4;
+$lightPurple: #6866cf;
 
-$darkBackgroundColor: #10152d;
-$lighterBackgroundColor: #1e2243;
+$darkBackgroundColor: darken($purple, 33);
+$lighterBackgroundColor: darken($lightPurple, 33);
 
 $darkGrey: #282931;
 $lighterGray: lighten($darkGrey, 5);
