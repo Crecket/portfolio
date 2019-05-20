@@ -10,30 +10,34 @@ const getMetaTags = options => {
     const metaTags = [
         { name: "og:url", content: url },
         { name: "og:site_name", content: "GregoryG.dev" },
-        { name: "og:locale", content: "en_EN" }
+        { name: "og:locale", content: "en_EN" },
+        { name: "profile:first_name", content: "Gregory" },
+        { name: "profile:last_name", content: "Goijaerts" },
+        { name: "profile:username", content: "Crecket" }
     ];
 
     if (contentType) metaTags.push({ name: "og:type", content: contentType });
+
     if (published) metaTags.push({ name: "article:published_time", content: published });
     if (updated) metaTags.push({ name: "article:modified_time", content: updated });
     if (category) metaTags.push({ name: "article:section", content: category });
     if (tags) metaTags.push({ name: "article:tag", content: tags });
 
     if (fullTitle) {
+        metaTags.push({ name: "og:title", content: fullTitle });
         metaTags.push({ itemprop: "name", content: fullTitle });
         metaTags.push({ name: "twitter:title", content: fullTitle });
-        metaTags.push({ name: "og:title", content: fullTitle });
     }
     if (description) {
+        metaTags.push({ name: "og:description", content: description });
         metaTags.push({ itemprop: "description", content: description });
         metaTags.push({ name: "description", content: description });
         metaTags.push({ name: "twitter:description", content: description });
-        metaTags.push({ name: "og:description", content: description });
     }
     if (image) {
+        metaTags.push({ name: "og:image", content: absoluteUrl(image) });
         metaTags.push({ itemprop: "image", content: absoluteUrl(image) });
         metaTags.push({ name: "twitter:image:src", content: absoluteUrl(image) });
-        metaTags.push({ name: "og:image", content: absoluteUrl(image) });
         metaTags.push({ name: "twitter:card", content: "summary_large_image" });
     } else {
         metaTags.push({ name: "twitter:card", content: "summary" });
@@ -93,6 +97,7 @@ const Seo = ({ schema, title, description, path = "/", contentType, published, u
                         "@context": "https://schema.org",
                         "@type": "Person",
                         "name": "Gregory Goijaerts",
+                        "jobTitle": "Software Engineer",
                         "url": "https://gregoryg.dev",
                         "sameAs": [
                             "https://www.linkedin.com/in/gregory-goijaerts/",
