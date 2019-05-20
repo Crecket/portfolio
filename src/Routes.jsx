@@ -7,8 +7,9 @@ import NotFound from "./Pages/NotFound/NotFound";
 const routes = require("./Config/routes");
 
 // map config to Page components
-const RouteComponents = Object.keys(routes).map(routePattern => {
-    const routeName = routes[routePattern];
+const RouteComponents = Object.keys(routes).map(routeName => {
+    const routeDetails = routes[routeName];
+    const routePath = routeDetails.path;
 
     // wrap component in a lazy load element
     const Component = loadable(() => import(`./Pages/${routeName}/${routeName}.jsx`), {
@@ -17,11 +18,11 @@ const RouteComponents = Object.keys(routes).map(routePattern => {
     });
 
     const props = {
-        key: routePattern,
-        path: routePattern,
+        key: routePath,
+        path: routePath,
         render: props => <Component {...props} />
     };
-    if (routePattern === "/") props.exact = true;
+    if (routePath === "/") props.exact = true;
 
     // return the Route component
     return <Route {...props} />;

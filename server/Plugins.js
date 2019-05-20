@@ -1,4 +1,6 @@
 import * as path from "path";
+import SitemapPlugin from "./SitemapPlugin";
+
 const fastifyHelmet = require("fastify-helmet");
 const fastifyCompress = require("fastify-compress");
 const fastifyAuth = require("fastify-auth");
@@ -11,4 +13,5 @@ export default app => {
     app.register(fastifyStatic, {
         root: path.join(__dirname, "..", "build")
     });
+    app.register(SitemapPlugin);
 };
