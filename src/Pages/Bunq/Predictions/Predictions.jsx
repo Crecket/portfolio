@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import AppBar from "@material-ui/core/AppBar";
 
 import PredictionsInvoices from "./PredictionsInvoices";
 
+import SEO from "../../../Components/SEO";
 import Tab from "../../../Components/StyledTab";
 import Tabs from "../../../Components/StyledTabs";
 
@@ -29,7 +29,7 @@ export default ({ match, bunqData }) => {
 
     return (
         <div>
-            <Helmet title="GregoryG - bunq predictions" />
+            <SEO title="bunq predictions" />
 
             <AppBar position="static" color="default" className="appbar grey-gradient">
                 <Tabs value={chart}>

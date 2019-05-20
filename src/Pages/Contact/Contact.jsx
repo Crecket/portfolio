@@ -137,7 +137,7 @@ const Contact = () => {
 
     return (
         <div className="contact">
-            <SEO title="GregoryG - Contact" path="/contact" description="My public contact and payment details" />
+            <SEO title="Contact" path="/contact" description="My public contact and payment details" />
 
             {qrValue && (
                 <div className="qr-wrapper" onClick={qrOnClick}>

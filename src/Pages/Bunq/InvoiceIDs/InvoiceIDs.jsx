@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import AppBar from "@material-ui/core/AppBar";
@@ -8,6 +7,7 @@ import InvoiceIDChart from "./InvoiceIDChart";
 import InvoiceIDMultiChart from "./InvoiceIDMultiChart";
 import InvoiceIDChangeChart from "./InvoiceIDChangeChart";
 
+import SEO from "../../../Components/SEO";
 import Tab from "../../../Components/StyledTab";
 import Tabs from "../../../Components/StyledTabs";
 
@@ -37,7 +37,7 @@ export default ({ match, bunqData }) => {
 
     return (
         <div>
-            <Helmet title="GregoryG - bunq invoices" />
+            <SEO title="bunq invoices" />
 
             <AppBar position="static" color="default" className="appbar grey-gradient">
                 <Tabs value={chart}>

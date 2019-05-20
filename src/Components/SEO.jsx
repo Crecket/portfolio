@@ -4,14 +4,14 @@ import Helmet from "react-helmet";
 
 const absoluteUrl = path => `https://gregoryg.dev${path}`;
 
-const getMetaTags = ({ title, description, url, contentType, published, updated, category, tags, image }) => {
+const getMetaTags = ({ fullTitle, description, url, contentType, published, updated, category, tags, image }) => {
     const metaTags = [
-        { itemprop: "name", content: title },
+        { itemprop: "name", content: fullTitle },
         { itemprop: "description", content: description },
         { name: "description", content: description },
-        { name: "twitter:title", content: `${title} | Gregory Goijaerts` },
+        { name: "twitter:title", content: fullTitle },
         { name: "twitter:description", content: description },
-        { name: "og:title", content: `${title} | gregoryg.dev` },
+        { name: "og:title", content: fullTitle },
         { name: "og:type", content: contentType },
         { name: "og:url", content: url },
         { name: "og:description", content: description },
@@ -53,26 +53,30 @@ getHtmlAttributes.propTypes = {
     schema: PropTypes.string
 };
 
-const Seo = ({ schema, title, description, path, contentType, published, updated, category, tags, image }) => (
-    <Helmet
-        htmlAttributes={getHtmlAttributes({
-            schema
-        })}
-        title={title}
-        link={[{ rel: "canonical", href: absoluteUrl(path) }]}
-        meta={getMetaTags({
-            title,
-            image,
-            description,
-            contentType,
-            url: absoluteUrl(path),
-            published,
-            updated,
-            category,
-            tags
-        })}
-    />
-);
+const Seo = ({ schema, title, description, path, contentType, published, updated, category, tags, image }) => {
+    const fullTitle = `${title} - GregoryG.dev`;
+    return (
+        <Helmet
+            htmlAttributes={getHtmlAttributes({
+                schema
+            })}
+            title={fullTitle}
+            link={[{ rel: "canonical", href: absoluteUrl(path) }]}
+            meta={getMetaTags({
+                title,
+                fullTitle,
+                image,
+                description,
+                contentType,
+                url: absoluteUrl(path),
+                published,
+                updated,
+                category,
+                tags
+            })}
+        />
+    );
+};
 
 Seo.propTypes = {
     schema: PropTypes.string,

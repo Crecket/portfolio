@@ -91,11 +91,7 @@ const projects = [
 const Projects = () => {
     return (
         <div className="projects">
-            <SEO
-                title="GregoryG - Projects"
-                description="Projects I have developed"
-                path="/projects"
-            />
+            <SEO title="Projects" description="Projects I have developed" path="/projects" />
 
             <LandingSection className="text-wrapper" height="40vh" displayMenuButton>
                 <h1>Projects</h1>

@@ -14,7 +14,7 @@ import "./Home.scss";
 const Home = () => {
     return (
         <div className="home">
-            <SEO title="GregoryG - Home" path="/" description="Homepage" />
+            <SEO title="Home" path="/" description="Homepage" />
 
             <LandingSection className="text-wrapper">
                 <h1>Gregory Goijaerts</h1>

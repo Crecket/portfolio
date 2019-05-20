@@ -60,7 +60,7 @@ const Bunq = ({ match }) => {
     return (
         <div className="bunq-charts">
             <SEO
-                title="GregoryG - bunq charts"
+                title="bunq charts"
                 description="Charts showing the different datasets collected through the bunq API"
                 path="/bunq"
                 image={bunqThumbnail}
