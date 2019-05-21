@@ -80,7 +80,7 @@ const Bunq = ({ match }) => {
                         ariaLabel="Share and save the charts"
                         shareValue={shareData}
                     />
-                    <a aria-hidden="true" id="hidden-link" href="none">
+                    <a aria-hidden="true" id="hidden-link" href="/bunq">
                         Helper link to download canvas
                     </a>
 
