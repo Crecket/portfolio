@@ -50,12 +50,19 @@ const SpeedDialWrapper = ({ shareValue, onSave, onSaveLabel, className = "", ...
             onMouseLeave={closeSpeedDial}
             {...props}
         >
-            {canShare && <SpeedDialAction icon={<ShareIcon />} tooltipTitle="Share" onClick={onShare} />}
+            {canShare && (
+                <SpeedDialAction
+                    className="grey-gradient"
+                    tooltipTitle="Share"
+                    icon={<ShareIcon />}
+                    onClick={onShare}
+                />
+            )}
             {onSave && (
                 <SpeedDialAction
                     className="grey-gradient"
-                    icon={<SaveIcon />}
                     tooltipTitle={onSaveLabel || "Save"}
+                    icon={<SaveIcon />}
                     onClick={onSaveWrap}
                 />
             )}
