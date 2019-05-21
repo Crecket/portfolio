@@ -40,6 +40,7 @@
         }
         @media (max-width: 1148px) {
             margin-top: 56px;
+            margin-bottom: 56px;
         }
         @media (min-width: 1400px) {
             max-width: 1200px;
@@ -69,6 +70,9 @@
             height: calc(100vh - 150px);
 
             @media (min-width: 500px) {
+                height: calc(100vh - 100px);
+            }
+            @media (min-width: 750px) {
                 height: calc(100vh - 250px);
             }
             @media (min-width: 1200px) {
