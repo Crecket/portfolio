@@ -15,7 +15,7 @@ staticRoutes.forEach(staticRoute => {
 });
 
 module.exports = {
-    staticFileGlobs: ["build/*.ico", "build/static/**/*.css"],
+    staticFileGlobs: ["build/static/**/*.js", "build/static/**/*.css", "build/*.ico", "build/*.svg"],
     swFilePath: "./build/service-worker.js",
     stripPrefix: "build/",
     navigateFallback: "/200.html",

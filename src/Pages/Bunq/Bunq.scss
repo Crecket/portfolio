@@ -13,15 +13,23 @@
         height: 100%;
         max-width: 1024px;
 
+        .menu-button {
+            position: fixed;
+            z-index: 2;
+            top: 8px;
+            left: 8px;
+        }
+
+        #hidden-link {
+            display: none;
+        }
         .appbar {
             margin-bottom: 12px;
         }
-
         .paper {
             height: 100%;
             padding: 8px;
         }
-
         .inline-link {
             color: orange;
             text-decoration: none;
@@ -29,6 +37,9 @@
 
         @media (max-width: 1024px) {
             margin: 0px;
+        }
+        @media (max-width: 1148px) {
+            margin-top: 56px;
         }
         @media (min-width: 1400px) {
             max-width: 1200px;

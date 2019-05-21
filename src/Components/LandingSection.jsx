@@ -13,7 +13,7 @@ const LandingSection = ({ children, className = "", height = "100vh", displayMen
     return (
         <div className="landing standard-gradient" style={{ height: height }}>
             {displayMenuButton && (
-                <IconButton role="presentation" aria-label="Home" className="menu-button" onClick={toggleOpen}>
+                <IconButton role="presentation" aria-label="Menu" className="menu-button" onClick={toggleOpen}>
                     <MenuIcon />
                 </IconButton>
             )}

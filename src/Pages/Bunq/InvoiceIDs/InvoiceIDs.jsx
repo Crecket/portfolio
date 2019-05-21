@@ -3,16 +3,22 @@ import { Link } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import AppBar from "@material-ui/core/AppBar";
 
+import SEO from "../../../Components/SEO";
+import Tab from "../../../Components/StyledTab";
+import Tabs from "../../../Components/StyledTabs";
+import useShareValueSetter from "../../../Hooks/useShareValueSetter";
+
 import InvoiceIDChart from "./InvoiceIDChart";
 import InvoiceIDMultiChart from "./InvoiceIDMultiChart";
 import InvoiceIDChangeChart from "./InvoiceIDChangeChart";
 
-import SEO from "../../../Components/SEO";
-import Tab from "../../../Components/StyledTab";
-import Tabs from "../../../Components/StyledTabs";
-
 export default ({ match, bunqData }) => {
     const [chart, setChart] = useState(match.params.chart || "change");
+
+    useShareValueSetter({
+        title: "Estimate the amount of paying bunq users over time",
+        url: "https://gregoryg.dev/bunq/invoices"
+    });
 
     useEffect(() => {
         if (match.params.chart && chart !== match.params.chart) {

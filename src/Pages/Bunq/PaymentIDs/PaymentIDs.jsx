@@ -3,15 +3,18 @@ import { Link } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import AppBar from "@material-ui/core/AppBar";
 
-import PaymentIDChart from "./PaymentIDChart";
-import PaymentIDChangeChart from "./PaymentIDChangeChart";
-
 import SEO from "../../../Components/SEO";
 import Tab from "../../../Components/StyledTab";
 import Tabs from "../../../Components/StyledTabs";
+import useShareValueSetter from "../../../Hooks/useShareValueSetter";
+
+import PaymentIDChart from "./PaymentIDChart";
+import PaymentIDChangeChart from "./PaymentIDChangeChart";
 
 export default ({ match, bunqData }) => {
     const [chart, setChart] = useState(match.params.chart || "total");
+
+    useShareValueSetter({ title: "Total amount of bunq payments", url: "https://gregoryg.dev/bunq/together" });
 
     useEffect(() => {
         if (match.params.chart && chart !== match.params.chart) {

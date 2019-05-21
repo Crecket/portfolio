@@ -7,12 +7,13 @@ import Typography from "@material-ui/core/Typography";
 
 import DefaultSwitch from "../../../Components/DefaultSwitch";
 import MovingAverage from "../../../Functions/MovingAverage";
+import useBunqCanvasPattern from "../../../Hooks/useBunqCanvasPattern";
 
 import StandardChartOptions from "../StandardChartOptions";
+import StandardPlugins from "../StandardPlugins";
 import StandardDataSet from "../StandardDataSet";
 import { combinedEventList, eventsToAnnotations } from "../StandardAnnotations";
 import { standardBlue, standardGreen, standardRed } from "../ChartColors";
-import useBunqCanvasPattern from "../../../Hooks/useBunqCanvasPattern";
 
 const annotationList = eventsToAnnotations(combinedEventList);
 
@@ -125,6 +126,7 @@ export default ({ invoices }) => {
                 <Bar
                     className="chart"
                     options={options}
+                    plugins={StandardPlugins()}
                     data={{
                         datasets: dataSets
                     }}

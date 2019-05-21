@@ -6,6 +6,7 @@ import DefaultSwitch from "../../../Components/DefaultSwitch";
 
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
+import StandardPlugins from "../StandardPlugins";
 import { standardBlue } from "../ChartColors";
 
 export default ({ together }) => {
@@ -44,6 +45,7 @@ export default ({ together }) => {
                         datasets: [data]
                     }}
                     options={options}
+                    plugins={StandardPlugins()}
                 />
             </div>
         </div>

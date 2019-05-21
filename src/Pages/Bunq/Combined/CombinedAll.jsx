@@ -10,6 +10,7 @@ import DefaultSwitch from "../../../Components/DefaultSwitch";
 import { eventsToAnnotations, combinedEventList } from "../StandardAnnotations";
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
+import StandardPlugins from "../StandardPlugins";
 import { standardBlue, standardGreen, standardOrange, standardPurple, standardRed } from "../ChartColors";
 
 const eventMapper = event => ({
@@ -248,6 +249,7 @@ export default ({ bunqData }) => {
                         datasets: dataSets
                     }}
                     options={options}
+                    plugins={StandardPlugins()}
                 />
             </div>
         </div>

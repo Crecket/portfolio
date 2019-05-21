@@ -10,6 +10,7 @@ import MovingAverage from "../../../Functions/MovingAverage";
 import { standardRed, standardGreen, standardBlue } from "../ChartColors";
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
+import StandardPlugins from "../StandardPlugins";
 import { combinedEventList, eventsToAnnotations } from "../StandardAnnotations";
 const annotationList = eventsToAnnotations(combinedEventList);
 
@@ -94,6 +95,7 @@ export default ({ together }) => {
                 <Bar
                     className="chart"
                     options={options}
+                    plugins={StandardPlugins()}
                     data={{
                         datasets: dataSets
                     }}

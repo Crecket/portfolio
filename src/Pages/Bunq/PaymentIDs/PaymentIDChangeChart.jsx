@@ -7,6 +7,7 @@ import MovingAverage from "../../../Functions/MovingAverage";
 
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
+import StandardPlugins from "../StandardPlugins";
 import { standardBlue } from "../ChartColors";
 
 export default ({ payments }) => {
@@ -46,6 +47,7 @@ export default ({ payments }) => {
                         ]
                     }}
                     options={StandardChartOptions()}
+                    plugins={StandardPlugins()}
                 />
             </div>
         </div>

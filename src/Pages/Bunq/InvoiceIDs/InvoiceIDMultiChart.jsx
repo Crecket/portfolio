@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
+import StandardPlugins from "../StandardPlugins";
 import DefaultSwitch from "../../../Components/DefaultSwitch";
 
 const selectColor = (colorNum, count) => {
@@ -57,6 +58,7 @@ export default ({ dataSets }) => {
                         datasets: invoiceChartDataSets
                     }}
                     options={StandardChartOptions("x")}
+                    plugins={StandardPlugins()}
                 />
             </div>
         </div>

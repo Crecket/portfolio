@@ -8,6 +8,7 @@ import MovingAverage from "../../../Functions/MovingAverage";
 
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
+import StandardPlugins from "../StandardPlugins";
 import { standardBlue } from "../ChartColors";
 
 const lastMonthsCount = 5;
@@ -127,6 +128,7 @@ export default ({ invoices }) => {
                         datasets: [data]
                     }}
                     options={options}
+                    plugins={StandardPlugins()}
                 />
             </div>
         </div>
