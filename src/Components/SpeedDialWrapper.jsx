@@ -33,8 +33,6 @@ const SpeedDialWrapper = ({ shareValue, onSave, onSaveLabel, className = "", ...
         onSave(event);
     };
 
-    console.log(shareValue);
-
     return (
         <SpeedDial
             open={speedDialOpen}
