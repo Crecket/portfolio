@@ -17,8 +17,19 @@ import { DrawerContext } from "../App";
 
 const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
+const LinkWrapper = ({ onClose }) => ({ to, icon, primary, secondary = "", ...props }) => {
+    return (
+        <ListItem button component={Link} to={to} onClick={onClose} {...props}>
+            <ListItemIcon>{icon}</ListItemIcon>
+            <ListItemText primary={primary} />
+        </ListItem>
+    );
+};
+
 const Drawer = () => {
     const { open, toggleOpen } = React.useContext(DrawerContext);
+
+    const LinkWrapperComponent = LinkWrapper({ onClose: toggleOpen });
 
     return (
         <SwipeableDrawer
@@ -34,36 +45,16 @@ const Drawer = () => {
         >
             <div role="presentation" className="drawer-content">
                 <List className="list">
-                    <ListItem button component={Link} to="/">
-                        <ListItemIcon>
-                            <HomeIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Home" />
-                    </ListItem>
+                    <LinkWrapperComponent to="/" primary="Home" icon={<HomeIcon />} />
                 </List>
                 <Divider />
                 <List className="list">
-                    <ListItem button component={Link} to="/projects">
-                        <ListItemIcon>
-                            <CellphoneLinkSvg />
-                        </ListItemIcon>
-                        <ListItemText primary="Projects" />
-                    </ListItem>
-                    <ListItem button component={Link} to="/contact">
-                        <ListItemIcon>
-                            <AccountBadge />
-                        </ListItemIcon>
-                        <ListItemText primary="Contact" />
-                    </ListItem>
+                    <LinkWrapperComponent to="/projects" primary="Projects" icon={<CellphoneLinkSvg />} />
+                    <LinkWrapperComponent to="/contact" primary="Contact" icon={<AccountBadge />} />
                 </List>
                 <Divider />
                 <List className="list">
-                    <ListItem button component={Link} to="/bunq">
-                        <ListItemIcon>
-                            <ChartIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="bunq charts" />
-                    </ListItem>
+                    <LinkWrapperComponent to="/bunq" primary="bunq charts" icon={<ChartIcon />} />
                 </List>
             </div>
         </SwipeableDrawer>
