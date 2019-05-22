@@ -1,5 +1,5 @@
 import React from "react";
-import bunqColors from "../SVGImages/bunq_Colors.svg";
+import bunqColors from "../Images/bunq_Colors.svg";
 
 export default (defaultColor = "transparent", target = null) => {
     const [pattern, setPattern] = React.useState(defaultColor);

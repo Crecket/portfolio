@@ -4,13 +4,16 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
 
 import "./App.scss";
+import Routes from "./Routes";
 
 import siteConfig from "./Config/site";
 import MuiTheme from "./Config/MuiTheme";
 
 import useSnackbar from "./Hooks/useSnackbar";
-import Routes from "./Routes";
+
 import Drawer from "./Components/Drawer";
+import SEO from "./Components/SEO";
+import logoImage from "./Images/logo-192x192.png";
 
 export const DrawerContext = React.createContext({});
 const theme = createMuiTheme(MuiTheme);
@@ -24,6 +27,8 @@ const App = () => {
 
     return (
         <div className="app">
+            <SEO path="/" description="Gregory Goijaerts personal website" image={logoImage} />
+
             <BrowserRouter basename={siteConfig.baseName} forceRefresh={false}>
                 <MuiThemeProvider theme={theme}>
                     <DrawerContext.Provider value={{ open, toggleOpen }}>

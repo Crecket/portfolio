@@ -95,18 +95,18 @@ const Seo = ({ schema, title, description, path = "/", contentType, published, u
         >
             {metaTagComponents}
             <script type="application/ld+json">{`
-                    {
-                        "@context": "https://schema.org",
-                        "@type": "Person",
-                        "name": "Gregory Goijaerts",
-                        "jobTitle": "Software Engineer",
-                        "url": "https://gregoryg.dev",
-                        "sameAs": [
-                            "https://www.linkedin.com/in/gregory-goijaerts/",
-                            "https://github.com/Crecket"
-                        ]
-                    }
-                `}</script>
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Gregory Goijaerts",
+        "jobTitle": "Software Engineer",
+        "url": "https://gregoryg.dev",
+        "sameAs": [
+            "https://www.linkedin.com/in/gregory-goijaerts/",
+            "https://github.com/Crecket"
+        ]
+    }
+`}</script>
         </Helmet>
     );
 };
