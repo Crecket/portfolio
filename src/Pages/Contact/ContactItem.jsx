@@ -1,7 +1,10 @@
 import React from "react";
+import classNames from "classnames";
 import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
-import InputBase from "@material-ui/core/InputBase";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
 
 import UrlIcon from "@material-ui/icons/Link";
 import QrIcon from "../../SVGImages/QR";
@@ -27,7 +30,7 @@ const SecondaryUrl = ({ secondaryUrl }) => {
     );
 };
 
-const ContactItem = ({ mode = "full", setQrValue, contact, ...props }) => {
+const ContactItem = ({ mode = "full", visible = false, setQrValue, contact, ...props }) => {
     const { secondaryUrl, title, type, value, qrValue, image } = contact;
 
     const onCopy = e => {
@@ -37,10 +40,13 @@ const ContactItem = ({ mode = "full", setQrValue, contact, ...props }) => {
     };
 
     return (
-        <Paper className="contact-item" elevation={3} {...props}>
-            <img src={image} alt={`${title || type} logo`} />
+        <Paper className={classNames("contact-item", "purple-gradient", visible && "visible")} elevation={3} {...props}>
+            {image && <img src={image} alt={`${title || type} logo`} />}
 
-            <InputBase multiline readOnly className="address-field" value={value} onClick={onCopy} />
+            <FormControl className="address-field">
+                <InputLabel htmlFor="adornment-password">{title || type || ""}</InputLabel>
+                <Input multiline readOnly value={value || ""} onClick={onCopy} />
+            </FormControl>
 
             {secondaryUrl || qrValue ? (
                 <>

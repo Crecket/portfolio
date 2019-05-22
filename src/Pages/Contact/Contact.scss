@@ -34,11 +34,6 @@
             margin-bottom: 4px;
         }
 
-        .collapse {
-            display: flex;
-            justify-content: center;
-        }
-
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -50,6 +45,10 @@
             }
         }
 
+        .visible {
+            opacity: 1 !important;
+        }
+
         .contact-item {
             display: flex;
             align-items: center;
@@ -57,7 +56,9 @@
             margin-top: 16px;
             width: 1000px;
             max-width: calc(100vw - 30px);
-            background-color: lighten($darkBackgroundColor, 17);
+            opacity: 0;
+            transition-duration: 0.4s;
+            transition-property: opacity;
 
             @media (min-width: 500px) {
                 max-width: 400px;
@@ -67,6 +68,7 @@
                 margin-right: 12px;
                 width: 32px !important;
                 height: 32px !important;
+                flex-grow: 1;
             }
 
             .divider {

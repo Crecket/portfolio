@@ -1,6 +1,5 @@
 import React from "react";
 import QRCodeReact from "qrcode.react";
-import Collapse from "@material-ui/core/Collapse";
 
 import SEO from "../../Components/SEO";
 import LandingSection from "../../Components/LandingSection";
@@ -123,8 +122,16 @@ const Contact = () => {
     const [selected, setSelected] = React.useState(null);
     const [qrValue, setQrValue] = React.useState(false);
 
-    const onContactClick = index => () => setSelected({ type: "contact", index });
-    const onWalletClick = index => () => setSelected({ type: "wallet", index });
+    const onClickHandler = type => index => {
+        console.log(type, index);
+        if (selected && selected.open && selected.type === type && selected.index === index) {
+            setSelected({ ...selected, open: false });
+        } else {
+            setSelected({ type, index, open: true });
+        }
+    };
+    const onContactClick = index => () => onClickHandler("contact")(index);
+    const onWalletClick = index => () => onClickHandler("wallet")(index);
 
     const contactSelectionButtons = contactList.map((contact, index) => {
         return <ContactSelectionButton key={index} contact={contact} onClick={onContactClick(index)} />;
@@ -158,11 +165,11 @@ const Contact = () => {
                 <h3 className="contact-subheader">Payment details</h3>
                 <div className="links">{walletSelectionButtons}</div>
 
-                <Collapse in={selected !== null} className="collapse">
-                    {selected && (
-                        <ContactItem contact={contactCombined[selected.type][selected.index]} setQrValue={setQrValue} />
-                    )}
-                </Collapse>
+                <ContactItem
+                    visible={selected && selected.open}
+                    contact={!selected ? {} : contactCombined[selected.type][selected.index]}
+                    setQrValue={setQrValue}
+                />
             </LandingSection>
         </div>
     );
