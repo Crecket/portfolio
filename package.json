@@ -16,6 +16,7 @@
         "build:client": "react-app-rewired build",
         "postbuild:client": "react-snap && yarn run sw-precache",
         "sw-precache": "sw-precache --config=src/ServiceWorker/sw-precache-config.js",
+        "optimize-images": "babel-node scripts/optimize-images.js",
         "prettier": "./node_modules/.bin/prettier --tab-width 4 --print-width 120 --write \"+(tests|scripts|src|server)/**/**.+(js|jsx|css|scss)\"",
         "generate-bunq-data": "babel-node scripts/generate-bunq-data.js"
     },
@@ -50,6 +51,8 @@
         "glob": "^7.1.3",
         "gzip-size": "^5.1.0",
         "http-server": "^0.11.1",
+        "imagemin": "^6.1.0",
+        "imagemin-pngquant": "^7.0.0",
         "json-store": "^1.0.0",
         "loadable-components": "2.2.3",
         "node-sass": "^4.12.0",
@@ -67,6 +70,7 @@
         "react-snap": "^1.23.0",
         "react-tilt": "^0.1.4",
         "react-use": "^5.1.1",
+        "sharp": "^0.22.1",
         "sw-precache": "^5.2.1",
         "three": "^0.102.1"
     },

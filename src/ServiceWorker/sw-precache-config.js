@@ -15,12 +15,12 @@ staticRoutes.forEach(staticRoute => {
 });
 
 module.exports = {
-    staticFileGlobs: ["build/static/**/*.js", "build/static/**/*.css", "build/*.ico", "build/*.svg"],
-    swFilePath: "./build/service-worker.js",
+    minify: true,
     stripPrefix: "build/",
     navigateFallback: "/200.html",
+    staticFileGlobs: ["build/static/**/*.js", "build/static/**/*.css", "build/media/*.{svg|png}", "build/*.ico"],
+    swFilePath: "./build/service-worker.js",
     navigateFallbackWhitelist: [/https\:\/\/[^/]+($|\/(?!api)\/?.*$)/],
-    minify: true,
     dynamicUrlToDependencies: dynamicUrlToDependencyList,
     runtimeCaching: [
         {
