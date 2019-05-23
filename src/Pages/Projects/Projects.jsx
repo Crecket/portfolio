@@ -6,15 +6,15 @@ import LandingSection from "../../Components/LandingSection";
 import "./Projects.scss";
 import ProjectItem from "./ProjectItem";
 
-import bunqDesktopImage from "./images/bunq-desktop.png";
-import masteryPointsImage from "./images/masterypoints.png";
-import bunqJSClientImage from "./images/bunq-js-client.png";
-import bunqAutomationImage from "./images/bunq-automation.png";
-import bunqCLIImage from "./images/bunq-cli.png";
-import bunqChartsImage from "./images/bunq-charts.png";
-import imdbTorrentSearchImage from "./images/imdb-torrent-search.png";
-import infrastructureInsightsImage from "./images/infrastructure-insights.png";
-import neatoScannedImage from "./images/neato-scanned-image.png";
+import bunqDesktopImage from "./images/bunq-desktop-thumbnail.png";
+import masteryPointsImage from "./images/masterypoints-thumbnail.png";
+import bunqJSClientImage from "./images/bunq-js-client-thumbnail.png";
+import bunqAutomationImage from "./images/bunq-automation-thumbnail.png";
+import bunqCLIImage from "./images/bunq-cli-thumbnail.png";
+import bunqChartsImage from "./images/bunq-charts-thumbnail.png";
+import imdbTorrentSearchImage from "./images/imdb-torrent-search-thumbnail.png";
+import infrastructureInsightsImage from "./images/infrastructure-insights-thumbnail.png";
+import neatoScannedImage from "./images/neato-scanned-image-thumbnail.png";
 
 const projects = [
     {

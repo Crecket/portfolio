@@ -9,7 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 
 import { DrawerContext } from "../../App";
-import bunqThumbnail from "../Projects/images/bunq-charts.png";
+import bunqThumbnail from "../Projects/images/bunq-charts-thumbnail.png";
 import SEO from "../../Components/SEO";
 import Tab from "../../Components/StyledTab";
 import Tabs from "../../Components/StyledTabs";
