@@ -18,7 +18,10 @@ module.exports = {
     minify: true,
     stripPrefix: "build/",
     navigateFallback: "/200.html",
-    staticFileGlobs: ["build/static/**/*.js", "build/static/**/*.css", "build/media/*.{svg|png}", "build/*.ico"],
+    staticFileGlobs: [
+        "build/static/**/*.+(js|css|svg|png)",
+        "build/*.ico"
+    ],
     swFilePath: "./build/service-worker.js",
     navigateFallbackWhitelist: [/https\:\/\/[^/]+($|\/(?!api)\/?.*$)/],
     dynamicUrlToDependencies: dynamicUrlToDependencyList,
