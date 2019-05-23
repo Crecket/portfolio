@@ -11,10 +11,13 @@ export default (defaultColor = "transparent", target = null) => {
         img.onload = () => {
             const canvas = target || document.getElementsByTagName("canvas")[0];
             const ctx = canvas.getContext("2d");
-
             const fillPattern = ctx.createPattern(img, "repeat");
 
             setPattern(fillPattern);
+        };
+
+        return () => {
+            img.src = "";
         };
     }, [target]);
 

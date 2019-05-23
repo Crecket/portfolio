@@ -9,9 +9,9 @@ import DefaultSwitch from "../../../Components/DefaultSwitch";
 import MovingAverage from "../../../Functions/MovingAverage";
 import useBunqCanvasPattern from "../../../Hooks/useBunqCanvasPattern";
 
-import StandardChartOptions from "../StandardChartOptions";
 import StandardPlugins from "../StandardPlugins";
 import StandardDataSet from "../StandardDataSet";
+import StandardChartOptions from "../StandardChartOptions";
 import { combinedEventList, eventsToAnnotations } from "../StandardAnnotations";
 import { standardBlue, standardGreen, standardRed } from "../ChartColors";
 
@@ -22,6 +22,7 @@ export default ({ invoices }) => {
     const [movingAverage, setMovingAverage] = useState(true);
     const [compensation, setCompensation] = useState(10);
     const [useFillPattern, setUseFillPattern] = useState(false);
+    const [useCompensationSpread, setUseCompensationSpread] = useState(false);
 
     const fillPattern = useBunqCanvasPattern(standardBlue);
 
@@ -30,9 +31,16 @@ export default ({ invoices }) => {
     const invoiceChartDelta = [];
     const invoiceChartDeltaColors = [];
     const invoiceChartData = [];
+    const invoiceCompensatedChartData = [];
 
     // map invoice list to x/y values
     const mappedInvoiceXY = invoices.map(invoice => {
+        return {
+            x: new Date(invoice.date),
+            y: invoice.change
+        };
+    });
+    const mappedInvoiceCompensatedXY = invoices.map(invoice => {
         return {
             x: new Date(invoice.date),
             y: invoice.change * finalCompensation
@@ -41,12 +49,15 @@ export default ({ invoices }) => {
 
     // calculate moving average
     const movingAverageChartData = MovingAverage(mappedInvoiceXY, 2, true);
+    const movingAverageCompensatedChartData = MovingAverage(mappedInvoiceCompensatedXY, 2, true);
 
     // wich dataset to use
     const invoiceList = movingAverage ? movingAverageChartData : mappedInvoiceXY;
+    const compensatedInvoiceList = movingAverage ? movingAverageCompensatedChartData : mappedInvoiceCompensatedXY;
 
-    invoiceList.forEach(invoice => {
+    invoiceList.forEach((invoice, index) => {
         const invoiceIdChange = invoice.y;
+        const compensatedInvoiceIdChange = compensatedInvoiceList[index].y;
 
         // skip no change events
         if (invoiceIdChange === 0) return;
@@ -65,6 +76,10 @@ export default ({ invoices }) => {
             x: invoice.x,
             y: invoiceIdChange
         });
+        invoiceCompensatedChartData.push({
+            x: invoice.x,
+            y: compensatedInvoiceIdChange
+        });
     });
 
     // first month always 0
@@ -81,7 +96,18 @@ export default ({ invoices }) => {
         })
     ];
 
-    if (!useFillPattern) {
+    if (!useFillPattern && useCompensationSpread) {
+        dataSets.push(
+            StandardDataSet({
+                type: "line",
+                fill: "-1",
+                label: "Compensated Invoices",
+                data: invoiceCompensatedChartData,
+                color: standardBlue
+            })
+        );
+    }
+    if (!useFillPattern && !useCompensationSpread) {
         dataSets.push(
             StandardDataSet({
                 type: "bar",
@@ -105,14 +131,19 @@ export default ({ invoices }) => {
                 </Link>{" "}
                 tab.
             </Typography>
-            <Typography variant="body1" className="chart-description">
-                The compensation field removes X percentage of invoices to compensate for extra invoices which are
-                generated for things like buying a new card.
-            </Typography>
             <div className="chart-content">
                 <DefaultSwitch label="Use 5 month moving average" checked={movingAverage} onChange={setMovingAverage} />
                 <DefaultSwitch label="Show annotations" checked={showAnnotations} onChange={setShowAnnotations} />
                 <DefaultSwitch label="bunq mode" checked={useFillPattern} onChange={setUseFillPattern} />
+            </div>
+
+            <div className="chart-content">
+                <Typography variant="body1" className="chart-description">
+                    The compensation field removes X percentage of invoices to compensate for extra invoices which are
+                    generated for things like buying a new card.
+                </Typography>
+            </div>
+            <div className="chart-content">
                 <TextField
                     min="0"
                     type="number"
@@ -121,7 +152,13 @@ export default ({ invoices }) => {
                     value={compensation}
                     onChange={e => setCompensation(e.target.value)}
                 />
+                <DefaultSwitch
+                    label="Show compensation estimate"
+                    checked={useCompensationSpread}
+                    onChange={setUseCompensationSpread}
+                />
             </div>
+
             <div className="chart-wrapper">
                 <Bar
                     className="chart"

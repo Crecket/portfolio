@@ -7,6 +7,7 @@ export default ({ label, checked, onChange, ...props }) => {
         <FormControlLabel
             control={<Switch checked={checked} onChange={e => onChange(!checked)} value="checked" color="primary" />}
             label={label}
+            className="default-switch"
             {...props}
         />
     );
