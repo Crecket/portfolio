@@ -6,7 +6,7 @@ import App from "./App";
 import * as serviceWorker from "./ServiceWorker/serviceWorker";
 
 // store the loadable state so it can be used with the pre-rendered html
-window.snapSaveState = () => getState();
+if (window) window.snapSaveState = () => getState();
 
 const application = <App />;
 const rootElement = document.getElementById("root");

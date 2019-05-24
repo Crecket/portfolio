@@ -36,7 +36,7 @@ const ContactItem = ({ mode = "full", visible = false, setQrValue, contact, ...p
     const onCopy = e => {
         e.target.select();
         document.execCommand("copy");
-        window.openSnackbar(`Copied the ${type} to your clipboard!`);
+        if (window) window.openSnackbar(`Copied the ${type} to your clipboard!`);
     };
 
     return (

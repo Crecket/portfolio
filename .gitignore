@@ -14,6 +14,8 @@ temp/*
 !/build/.gitkeep
 /build-server
 !/build-server/.gitkeep
+/public/bunq-charts
+!/public/bunq-charts.gitkeep
 
 # misc
 .idea

@@ -24,16 +24,20 @@ module.exports = {
     dynamicUrlToDependencies: dynamicUrlToDependencyList,
     runtimeCaching: [
         {
+            urlPattern: /\/api.*/,
+            handler: "networkFirst"
+        },
+        {
+            urlPattern: /\/bunq-charts\/.*(png|jpg)/,
+            handler: "networkOnly"
+        },
+        {
             urlPattern: /.*(json)/,
             handler: "networkFirst"
         },
         {
             urlPattern: /^https\:\/\/ajax\.googleapis\.com\/ajax\/libs\/webfont.*/,
             handler: "cacheFirst"
-        },
-        {
-            urlPattern: /\/api.*/,
-            handler: "networkFirst"
         },
         {
             urlPattern: /.*(js|css|png|jpg|svg|ico|woff|woff2)/,

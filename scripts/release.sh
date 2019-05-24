@@ -6,6 +6,9 @@ pm2 stop portfolio
 echo -e "\n  -> Run the 'generate-bunq-data' script\n"
 yarn run generate-bunq-data
 
+echo -e "\n  -> Run the 'generate-chart images' script\n"
+yarn run generate-chart-images
+
 echo -e "\n  -> Build server\n"
 yarn run build:server
 

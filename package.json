@@ -15,14 +15,16 @@
         "build:server": "babel server --out-dir build-server --verbose",
         "build:client": "react-app-rewired build",
         "postbuild:client": "react-snap && yarn run sw-precache",
+        "prettier": "./node_modules/.bin/prettier --tab-width 4 --print-width 120 --write \"+(tests|scripts|src|server)/**/**.+(js|jsx|css|scss)\"",
         "sw-precache": "sw-precache --config=src/ServiceWorker/sw-precache-config.js",
         "optimize-images": "babel-node scripts/optimize-images.js",
-        "prettier": "./node_modules/.bin/prettier --tab-width 4 --print-width 120 --write \"+(tests|scripts|src|server)/**/**.+(js|jsx|css|scss)\"",
-        "generate-bunq-data": "babel-node scripts/generate-bunq-data.js"
+        "generate-bunq-data": "babel-node scripts/generate-bunq-data.js",
+        "generate-chart-images": "babel-node scripts/generate-chart-images.js"
     },
     "dependencies": {
         "axios": "^0.18.0",
         "chalk": "^2.4.1",
+        "chartjs-node-canvas": "^2.4.0",
         "dotenv": "^6.2.0",
         "fastify": "^2.1.0",
         "fastify-auth": "^0.4.0",

@@ -1,6 +1,5 @@
 export default (tooltipMode = "label", annotations = false) => {
     const options = {
-        maintainAspectRatio: false,
         backgroundColor: "#33353f",
         scales: {
             yAxes: [

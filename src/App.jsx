@@ -23,7 +23,7 @@ const App = () => {
     const [open, setOpen] = React.useState(false);
     const toggleOpen = () => setOpen(!open);
 
-    window.openSnackbar = openSnackbar;
+    if (window) window.openSnackbar = openSnackbar;
 
     return (
         <div className="app">
