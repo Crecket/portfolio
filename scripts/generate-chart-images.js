@@ -8,9 +8,13 @@ import StandardPlugins from "../src/Pages/Bunq/StandardPlugins";
 import MovingAverage from "../src/Functions/MovingAverage";
 
 import dataSet from "../public/bunq-data.json";
+import { optimizeImageSize } from "../server/ImageManipulation";
+import glob from "glob";
 
 const { CanvasRenderService } = require("chartjs-node-canvas");
 const chartjsPluginDataLabels = require("chartjs-plugin-datalabels");
+
+const publicDirectoryPath = path.normalize(`public/bunq-charts/`);
 
 /**
  * Receives a resolution and chart config and renders it the public directory
@@ -38,7 +42,7 @@ const createChart = async (chartName, configuration, plugins = [], resolution = 
 
     // save buffer to file location
     const fileName = `${chartName}-${resolution.width}x${resolution.height}.png`;
-    const filePath = path.normalize(`public/bunq-charts/${fileName}`);
+    const filePath = path.normalize(`${publicDirectoryPath}/${fileName}`);
     fs.writeFileSync(filePath, image);
 
     console.log(` -> Saved ${filePath}`);
@@ -50,7 +54,7 @@ const createChart = async (chartName, configuration, plugins = [], resolution = 
  * @param compensation
  * @returns {Promise<void>}
  */
-const createInvoiceCharts = async (invoices, compensation = 10) => {
+const createInvoiceCharts = async (invoices, compensation = 0) => {
     let previousChange = 0;
     const finalCompensation = (100 - compensation) / 100;
     const invoiceChartDelta = [];
@@ -127,6 +131,11 @@ const createInvoiceCharts = async (invoices, compensation = 10) => {
 };
 
 (async () => {
+    // render the invoice charts with 10 and 0 compensation
     await createInvoiceCharts(dataSet.invoices);
-    await createInvoiceCharts(dataSet.invoices, 0);
+    await createInvoiceCharts(dataSet.invoices, 10);
+
+    // optimize the images
+    const generatedImages = glob.sync(`${publicDirectoryPath}/*.png`);
+    await optimizeImageSize(generatedImages, "bunq-charts");
 })();

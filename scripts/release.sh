@@ -3,10 +3,13 @@
 echo -e "\n  -> Stop PM2 server\n"
 pm2 stop portfolio
 
-echo -e "\n  -> Run the 'generate-bunq-data' script\n"
+echo -e "\n  -> Checking and optimizing image sizes\n"
+yarn run optimize-images
+
+echo -e "\n  -> Update bunq data files and check API\n"
 yarn run generate-bunq-data
 
-echo -e "\n  -> Run the 'generate-chart images' script\n"
+echo -e "\n  -> Render bunq charts as images\n"
 yarn run generate-chart-images
 
 echo -e "\n  -> Build server\n"
