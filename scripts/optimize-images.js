@@ -61,9 +61,9 @@ const optimizeImages = (images, maxWidth, label = "images") => {
         .then(optimizedImages => {
             optimizedImages.map(optimizedImage => {
                 if (!optimizedImage) return;
-
                 const currentFile = fs.readFileSync(optimizedImage.path);
                 const currentSize = currentFile.byteLength;
+
                 const newSize = optimizedImage.contents.byteLength;
                 const percentageImproved = 100 - newSize / (currentSize / 100);
 
@@ -78,4 +78,4 @@ const optimizeImages = (images, maxWidth, label = "images") => {
 };
 
 const thumbnailImages = glob.sync(`${basePath}/**/*-thumbnail.png`);
-optimizeImages(thumbnailImages, 500), "thumbnails";
+optimizeImages(thumbnailImages, 500, "thumbnails");
