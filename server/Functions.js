@@ -1,8 +1,18 @@
 import * as fs from "fs";
+import * as path from "path";
 import sharp from "sharp";
+import gzipSize from "gzip-size";
+
 const imagemin = require("imagemin");
 const imageminPngquant = require("imagemin-pngquant");
 
+/**
+ * Resize images if they are too wide
+ * @param images
+ * @param maxWidth
+ * @param label
+ * @returns {Promise<any[]>}
+ */
 export const resizeToMaxWidth = async (images, maxWidth, label = "images") => {
     console.log(`> Resizing ${label} to ${maxWidth} max width`);
 
@@ -34,6 +44,22 @@ export const resizeToMaxWidth = async (images, maxWidth, label = "images") => {
     return Promise.all(imagePromises);
 };
 
+/**
+ * Human read-able text
+ * @param number
+ * @returns {string}
+ */
+export const fileSizePretty = number => {
+    const estimateString = (number / 1024).toFixed(2);
+    return `${estimateString}Kb`;
+};
+
+/**
+ * Optimize images
+ * @param images
+ * @param label
+ * @returns {Promise<any[] | void>}
+ */
 export const optimizeImageSize = async (images, label = "images") => {
     console.log(`> Optimizing ${label}`);
 
@@ -51,8 +77,27 @@ export const optimizeImageSize = async (images, label = "images") => {
                 ]
             }).then(result => {
                 fs.writeFileSync(imagePath, result[0].data);
-                console.log(` -> Optimized image:  ${imagePath}`);
+                const fileStat = fs.statSync(imagePath);
+                console.log(` -> Optimized image: ${imagePath} {${fileSizePretty(fileStat.size)}}`);
             });
         })
     ).catch(console.error);
+};
+
+/**
+ * Stores a file to a given location
+ * @param location
+ * @param data
+ * @param prettify
+ */
+export const writeJsonFile = async (location, data, prettify = false) => {
+    const fileLocation = path.normalize(location);
+    const fileContents = JSON.stringify(data, null, prettify ? 2 : 0);
+    fs.writeFileSync(fileLocation, fileContents);
+
+    const fileStat = fs.statSync(fileLocation);
+    const gzipEstimate = await gzipSize(fileContents);
+
+    const fileSizeText = `${fileSizePretty(fileStat.size)} raw, ${fileSizePretty(gzipEstimate)} gzipped`;
+    console.log(`Written file to ${fileLocation}. ${fileSizeText}`);
 };

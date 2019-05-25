@@ -28,7 +28,7 @@ module.exports = {
             handler: "networkFirst"
         },
         {
-            urlPattern: /\/bunq-charts\/.*(png|jpg)/,
+            urlPattern: /\/bunq-images\/.*(png|jpg)/,
             handler: "networkOnly"
         },
         {

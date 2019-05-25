@@ -1,0 +1,52 @@
+@import "../../styles/main.scss";
+
+.home .landing {
+    .links {
+        a {
+            display: flex;
+            align-items: center;
+
+            text-decoration: none;
+            margin-right: 12px;
+
+            svg {
+                width: 20px;
+                margin-right: 4px;
+            }
+        }
+    }
+
+    .text-wrapper {
+        width: auto;
+
+        .links {
+            display: flex;
+            flex-wrap: wrap;
+            a {
+                padding-bottom: 8px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            width: 92vw;
+
+            .links {
+                flex-direction: column;
+                a {
+                    margin-bottom: 12px;
+                }
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .links {
+                a {
+                    font-size: 1.3rem !important;
+                    svg {
+                        width: 32px !important;
+                    }
+                }
+            }
+        }
+    }
+}

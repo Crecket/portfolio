@@ -1,11 +1,10 @@
-import * as fs from "fs";
 import * as path from "path";
 import axios from "axios";
-import gzipSize from "gzip-size";
 import BunqJSClient from "@bunq-community/bunq-js-client";
 import JSONFileStore from "@bunq-community/bunq-js-client/dist/Stores/JSONFileStore";
 
 import bunqDataSets from "../src/DataSets/bunqDataSets";
+import { writeJsonFile } from "../server/Functions";
 
 require("dotenv").config();
 const awaiting = require("awaiting");
@@ -43,29 +42,6 @@ const getTimeBetween = (date1, date2, interval, rounded = true) => {
     if (rounded) return Math.round(daysBetweenUnrounded);
 
     return daysBetweenUnrounded;
-};
-
-/**
- * Stores a file to a given location
- * @param location
- * @param data
- * @param prettify
- */
-const writeFile = async (location, data, prettify = false) => {
-    const fileLocation = path.normalize(location);
-    const fileContents = JSON.stringify(data, null, prettify ? 2 : 0);
-    fs.writeFileSync(fileLocation, fileContents);
-
-    const fileStat = fs.statSync(fileLocation);
-    const gzipEstimate = await gzipSize(fileContents);
-
-    const fileSizePretty = number => {
-        const estimateString = (number / 1024).toFixed(2);
-        return `${estimateString}Kb`;
-    };
-
-    const fileSizeText = `${fileSizePretty(fileStat.size)} raw, ${fileSizePretty(gzipEstimate)} gzipped`;
-    console.log(`Written file to ${fileLocation}. ${fileSizeText}`);
 };
 
 /**
@@ -228,7 +204,7 @@ const getUpdatedDataset = async () => {
 
     // write this dataset to the given dataset name
     const dataSetName = process.env.STORAGE_NAME ? process.env.STORAGE_NAME : "updated-bunq-data";
-    await writeFile(
+    await writeJsonFile(
         `${__dirname}${path.sep}..${path.sep}src${path.sep}DataSets${path.sep}${dataSetName}.json`,
         {
             cards: cardData,
@@ -327,7 +303,7 @@ const getUpdatedTogetherDataset = async () => {
             .map(userId => mappedTogetherData[userId]);
 
         // store the list to a file
-        await writeFile(togetherDataLocation, combinedData, true);
+        await writeJsonFile(togetherDataLocation, combinedData, true);
 
         console.log(`= Finished updating together IDs length: ${combinedData.length}`);
         return combinedData;
@@ -640,7 +616,7 @@ const start = async () => {
 
     // write to a file in public dir
     const fileLocation = `${__dirname}${path.sep}..${path.sep}public${path.sep}bunq-data.json`;
-    await writeFile(fileLocation, {
+    await writeJsonFile(fileLocation, {
         cards: cardChangeData,
         invoices: invoiceData,
         payments: paymentChangeData,

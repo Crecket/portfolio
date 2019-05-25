@@ -1,7 +1,7 @@
 import * as path from "path";
 import glob from "glob";
 
-import { resizeToMaxWidth, optimizeImageSize } from "../server/ImageManipulation";
+import { resizeToMaxWidth, optimizeImageSize } from "../server/Functions";
 
 const baseSrcPath = path.normalize(`${__dirname}${path.sep}..${path.sep}src${path.sep}`);
 
