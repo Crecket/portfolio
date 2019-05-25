@@ -46,6 +46,9 @@ const Home = () => {
                         <a href="/bunq" rel="noopener noreferrer">
                             bunq
                         </a>
+                        <a href="/bunq-images" rel="noopener noreferrer">
+                            bunq-images
+                        </a>
                     </div>
                 </div>
             </LandingSection>
