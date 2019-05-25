@@ -19,7 +19,7 @@ const { CanvasRenderService } = require("chartjs-node-canvas");
 const chartjsPluginDataLabels = require("chartjs-plugin-datalabels");
 
 // standard public path
-const publicDirectoryPath = path.normalize(`public/bunq-images/`);
+const publicDirectoryPath = path.normalize(`public/bunq-chart-images/`);
 
 const generatedImagesList = [];
 
@@ -204,8 +204,8 @@ const calculateUpdatedImageSize = () => {
 (async () => {
     console.log("> Generating bunq chart images");
     // empty existing charts and ensure dir exists
-    await fs.emptyDir(path.normalize("public/bunq-images"));
-    console.log(" -> Emptied existing bunq-images dir\n");
+    await fs.emptyDir(path.normalize("public/bunq-chart-images"));
+    console.log(" -> Emptied existing bunq-chart-images dir\n");
 
     // render the invoice charts with 10 and 0 compensation
     await createInvoiceCharts(dataSet.invoices);
@@ -213,7 +213,7 @@ const calculateUpdatedImageSize = () => {
 
     // optimize the images
     const generatedImages = glob.sync(`${publicDirectoryPath}/*.png`);
-    await optimizeImageSize(generatedImages, "bunq-images");
+    await optimizeImageSize(generatedImages, "bunq-chart-images");
 
     // update image lists with new sizes
     await calculateUpdatedImageSize();

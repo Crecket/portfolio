@@ -16,7 +16,7 @@ const BunqImages = () => {
 
     useEffect(() => {
         axios
-            .get(`/bunq-images/images.json?v=v1`)
+            .get(`/bunq-chart-images/images.json?v=v1`)
             .then(response => response.data)
             .then(setImageLists)
             .catch(error => {
@@ -40,7 +40,7 @@ const BunqImages = () => {
                                         className="animated"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        href={`/bunq-images/${image.fileName}`}
+                                        href={`/bunq-chart-images/${image.fileName}`}
                                     >
                                         {image.fileName} - {fileSizePretty(image.size)}
                                     </a>
@@ -59,7 +59,6 @@ const BunqImages = () => {
                 title="bunq images"
                 description="Generated images for the bunq charts which are updated automatically"
                 path="/bunq-images"
-                // image={bunqThumbnail}
             />
 
             <LandingSection className="text-wrapper">
