@@ -1,0 +1,12 @@
+{
+  "cards": [],
+  "payments": [],
+  "invoices": [
+    {
+      "id": 1380216,
+      "date": "2019-05-25 00:00:00.00000"
+    }
+  ],
+  "requestInquiries": [],
+  "masterCardActions": []
+}
