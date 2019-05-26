@@ -23,6 +23,7 @@ const InvoiceIDs = loadable(() => import(`./InvoiceIDs/InvoiceIDs`));
 const TogetherIDs = loadable(() => import(`./TogetherIDs/TogetherIDs`));
 const Combined = loadable(() => import(`./Combined/Combined`));
 const Predictions = loadable(() => import(`./Predictions/Predictions`));
+const Images = loadable(() => import(`./Images/Images`));
 
 export const ShareContext = React.createContext();
 
@@ -92,6 +93,7 @@ const Bunq = ({ match }) => {
                             <Tab component={Link} to={"/bunq/combined"} value="combined" label="Combined" />
                             <Tab component={Link} to={"/bunq/together"} value="together" label="Together users" />
                             <Tab component={Link} to={"/bunq/predictions"} value="predictions" label="Predictions" />
+                            <Tab component={Link} to={"/bunq/images"} value="images" label="Images" />
                         </Tabs>
                     </AppBar>
 
@@ -111,6 +113,8 @@ const Bunq = ({ match }) => {
                                     return <Combined bunqData={bunqData} {...props} />;
                                 case "predictions":
                                     return <Predictions bunqData={bunqData} {...props} />;
+                                case "images":
+                                    return <Images {...props} />;
                                 default:
                                 case "invoices":
                                     return <InvoiceIDs bunqData={bunqData} {...props} />;

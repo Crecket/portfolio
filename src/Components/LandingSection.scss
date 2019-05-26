@@ -13,18 +13,7 @@
     }
 
     a {
-        font-size: 1rem;
-        color: $greySecondary;
-
-        transition: 0.5s;
-        -o-transition: 0.5s;
-        -ms-transition: 0.5s;
-        -moz-transition: 0.5s;
-        -webkit-transition: 0.5s;
-
-        &:hover {
-            color: $redPrimary;
-        }
+        @include hover-primary($greySecondary, $redPrimary);
     }
 
     .menu-button {

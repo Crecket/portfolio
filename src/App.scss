@@ -10,6 +10,14 @@ main {
     min-height: 100vh;
 }
 
+svg {
+    fill: currentColor;
+}
+
+a {
+    text-decoration: none;
+}
+
 .primary-red {
     color: $redPrimary !important;
 }
@@ -41,14 +49,6 @@ body,
     -ms-animation: fadeIn 3s;
     -o-animation: fadeIn 3s;
     animation: fadeIn 3s;
-}
-
-svg {
-    fill: currentColor;
-}
-
-a {
-    text-decoration: none;
 }
 
 @keyframes fadeIn {

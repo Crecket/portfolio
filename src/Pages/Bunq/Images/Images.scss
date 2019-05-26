@@ -1,0 +1,27 @@
+@import "../../../styles/main.scss";
+
+.images-tab {
+    a {
+        @include hover-primary($greySecondary, $redPrimary);
+    }
+
+    .image-sets {
+        display: flex;
+        justify-content: center;
+        flex-base: 1;
+
+        .content {
+            flex: 1;
+        }
+        .image-preview {
+            flex: 1;
+            padding: 8px;
+
+            img {
+                max-height: 250px;
+                box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+                    0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+            }
+        }
+    }
+}

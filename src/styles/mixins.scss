@@ -1,3 +1,5 @@
+@import "./variables";
+
 @function is-direction($value) {
     $is-keyword: index(
         (
@@ -79,5 +81,20 @@
     &:hover:before {
         transform-origin: bottom left;
         transform: scaleX(1);
+    }
+}
+
+@mixin hover-primary($color, $transitionColor) {
+    font-size: 1rem;
+    color: $color;
+
+    transition: 0.5s;
+    -o-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -webkit-transition: 0.5s;
+
+    &:hover {
+        color: $transitionColor;
     }
 }
