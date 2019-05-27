@@ -102,7 +102,8 @@ const getGenericType = (BunqClient, userId, accountId) => async (eventType, hand
 
     const eventTracker = {};
     events.map(event => {
-        const eventInfo = event[eventType];
+        const eventTypeFix = Object.keys(event)[0];
+        const eventInfo = event[eventTypeFix];
 
         const date = new Date(eventInfo.created);
         const dateString = `${date.getFullYear()}:${date.getWeek()}`;
@@ -198,7 +199,7 @@ const getUpdatedDataset = async () => {
     const getNoAccountTypeHandler = getGenericType(BunqClient, user.id);
 
     const paymentData = await getGenericTypeHandler("Payment", "payment");
-    const cardData = await getNoAccountTypeHandler("CardDebit", "card");
+    const cardData = await getNoAccountTypeHandler("Card", "card");
     const requestInquiryData = await getGenericTypeHandler("RequestInquiry", "requestInquiry");
     const masterCardActionData = await getGenericTypeHandler("MasterCardAction", "masterCardAction");
 
