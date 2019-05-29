@@ -182,7 +182,7 @@ const createInvoiceCharts = async (invoices, compensation = 0) => {
     invoiceChartDelta[0].y = 0;
 
     const plugins = StandardPlugins([chartjsPluginDataLabels]);
-    const options = StandardChartOptions("label");
+    const options = StandardChartOptions("label", false, { maintainAspectRatio: true });
     const dataSets = [
         StandardDataSet({
             type: "line",
@@ -238,7 +238,7 @@ const createdCombinedCharts = async bunqData => {
     });
 
     const plugins = StandardPlugins([chartjsPluginDataLabels]);
-    const options = StandardChartOptions("label");
+    const options = StandardChartOptions("label", false, { maintainAspectRatio: true });
 
     const paymentChartData = bunqData.payments.map(eventMapper);
     const requestInquiryChartData = bunqData.requestInquiries.map(eventMapper);

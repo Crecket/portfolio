@@ -1,5 +1,6 @@
-export default (tooltipMode = "label", annotations = false) => {
+export default (tooltipMode = "label", annotations = false, customOptions = {}) => {
     const options = {
+        maintainAspectRatio: false,
         backgroundColor: "#33353f",
         scales: {
             yAxes: [
@@ -58,5 +59,5 @@ export default (tooltipMode = "label", annotations = false) => {
         };
     }
 
-    return options;
+    return {...options, ...customOptions};
 };

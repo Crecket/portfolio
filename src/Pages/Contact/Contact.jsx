@@ -18,6 +18,7 @@ import telegram from "./Images/telegram.svg";
 import bunq from "./Images/bunq.svg";
 import btc from "./Images/btc.svg";
 import eth from "./Images/eth.svg";
+import iota from "./Images/miota.svg";
 import ltc from "./Images/ltc.svg";
 import neo from "./Images/neo.svg";
 import xmr from "./Images/xmr.svg";
@@ -79,6 +80,14 @@ const walletList = [
         secondaryUrl: "https://etherscan.io/address/0x62BA3D118ddA5447649bFD27f298927B2dA957bA",
         qrValue: true,
         image: eth
+    },
+    {
+        type: "IOTA Address",
+        action: "COPY",
+        value: "REDMLIGT9VVAEXIEHOROTZGFUWWTBBCWXZTBKXJDDVWSBE9DKH9KAFMOTPGKOVIVAVDMYMAYGIBFZRINBRGLFIAWHD",
+        secondaryUrl: "https://thetangle.org/address/REDMLIGT9VVAEXIEHOROTZGFUWWTBBCWXZTBKXJDDVWSBE9DKH9KAFMOTPGKOVIVAVDMYMAYGIBFZRINBRGLFIAWHD",
+        qrValue: true,
+        image: iota
     },
     {
         type: "Litecoin Address",

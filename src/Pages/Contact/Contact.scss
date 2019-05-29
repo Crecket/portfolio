@@ -24,9 +24,10 @@
 
     .content {
         @media (min-width: 500px) {
-            max-width: 470px;
+            max-width: 499px;
         }
         transition: width 1s;
+        padding: 16px;
     }
 
     .contact-content {
@@ -61,7 +62,7 @@
             transition-property: opacity;
 
             @media (min-width: 500px) {
-                max-width: 400px;
+                max-width: 465px;
             }
 
             img {
