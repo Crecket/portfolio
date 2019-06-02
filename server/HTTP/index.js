@@ -1,3 +1,5 @@
+import API from "./API";
+
 const StaticRouteLoader = require("./StaticRouteLoader");
 const blackListedRoutes = ["/"];
 
@@ -12,6 +14,9 @@ export default (app, opts, next) => {
             reply.sendFile(staticRoute.publicLocation);
         });
     });
+
+    // register API routes
+    app.register(API, { prefix: "/api" });
 
     app.setNotFoundHandler((request, reply) => {
         const isApi = request.raw.originalUrl.indexOf("/api") === 0;
