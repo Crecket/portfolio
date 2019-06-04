@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import Typography from "@material-ui/core/Typography";
 
-import DefaultSwitch from "../../../Components/DefaultSwitch";
+import DefaultSwitch from "../../../Components/Controls/DefaultSwitch";
 
 import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";

@@ -3,7 +3,7 @@ import { Line } from "react-chartjs-2";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 
-import DefaultSwitch from "../../../Components/DefaultSwitch";
+import DefaultSwitch from "../../../Components/Controls/DefaultSwitch";
 import MovingAverage from "../../../Functions/MovingAverage";
 
 import StandardChartOptions from "../StandardChartOptions";

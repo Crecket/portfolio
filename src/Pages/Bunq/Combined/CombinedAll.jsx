@@ -4,8 +4,8 @@ import "chartjs-plugin-annotation";
 import Typography from "@material-ui/core/Typography";
 import { red, green, blue, deepPurple, deepOrange } from "@material-ui/core/colors";
 
-import DefaultCheckbox from "../../../Components/DefaultCheckbox";
-import DefaultSwitch from "../../../Components/DefaultSwitch";
+import DefaultCheckbox from "../../../Components/Controls/DefaultCheckbox";
+import DefaultSwitch from "../../../Components/Controls/DefaultSwitch";
 
 import { eventsToAnnotations, combinedEventList } from "../StandardAnnotations";
 import StandardChartOptions from "../StandardChartOptions";

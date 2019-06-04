@@ -3,7 +3,7 @@ import { Bar } from "react-chartjs-2";
 import "chartjs-plugin-annotation";
 import Typography from "@material-ui/core/Typography";
 
-import DefaultSwitch from "../../../Components/DefaultSwitch";
+import DefaultSwitch from "../../../Components/Controls/DefaultSwitch";
 
 import MovingAverage from "../../../Functions/MovingAverage";
 

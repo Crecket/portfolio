@@ -14,7 +14,7 @@ import SEO from "../../Components/SEO";
 import Tab from "../../Components/StyledTab";
 import Tabs from "../../Components/StyledTabs";
 import NoscriptDisclaimer from "../../Components/NoscriptDisclaimer";
-import SpeedDialWrapper from "../../Components/SpeedDialWrapper";
+import SpeedDialWrapper from "../../Components/Controls/SpeedDialWrapper";
 
 import "./Bunq.scss";
 
@@ -29,7 +29,7 @@ export const ShareContext = React.createContext();
 
 const Bunq = ({ match }) => {
     const [bunqData, setBunqData] = useState(false);
-    const [shareData, setShareData] = useState({ title: "bunq charts", url: "https://gregoryg.dev/bunq" });
+    const [shareData, setShareData] = useState({ title: "bunq charts", url: "https://gregoryg.dev/bunq/invoices" });
     const [tab, setTab] = useState(match.params.tab || "invoices");
     const { toggleOpen } = React.useContext(DrawerContext);
 

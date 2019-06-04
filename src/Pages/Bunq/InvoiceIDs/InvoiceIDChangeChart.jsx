@@ -5,7 +5,7 @@ import Link from "react-router-dom/Link";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
-import DefaultSwitch from "../../../Components/DefaultSwitch";
+import DefaultSwitch from "../../../Components/Controls/DefaultSwitch";
 import MovingAverage from "../../../Functions/MovingAverage";
 import useBunqCanvasPattern from "../../../Hooks/useBunqCanvasPattern";
 
