@@ -1,7 +1,14 @@
 import axios from "axios";
+const AddressValidator = require("wallet-address-validator");
 
 export default class RippleRepository {
+    validateAddress(address) {
+        return AddressValidator.validate(address, "XRP");
+    }
+
     getBalance = async address => {
+        if (!this.validateAddress(address)) throw new Error("Invalid address given");
+
         const balanceObject = {
             balance: 0
         };
@@ -16,7 +23,7 @@ export default class RippleRepository {
             });
 
             if (xrpBalance) {
-                balanceObject.balance = xrpBalance.value;
+                balanceObject.balance = parseFloat(xrpBalance.value);
             }
         } catch (error) {}
 

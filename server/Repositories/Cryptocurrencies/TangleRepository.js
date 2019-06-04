@@ -1,7 +1,14 @@
 import axios from "axios";
+import { isAddress } from "@iota/validators";
 
 export default class TangleRepository {
+    validateAddress(address) {
+        return isAddress(address);
+    }
+
     getBalance = async address => {
+        if (!this.validateAddress(address)) throw new Error("Invalid address given");
+
         const balanceObject = {
             balance: 0,
             transactionCount: 0,

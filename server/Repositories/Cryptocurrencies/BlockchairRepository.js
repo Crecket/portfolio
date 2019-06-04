@@ -1,8 +1,10 @@
 import axios from "axios";
+const AddressValidator = require("wallet-address-validator");
 
 export default class BlockchairRepository {
     constructor(currency) {
-        this.chain = this.getChainName(currency);
+        this.currency = currency;
+        this.chainName = this.getChainName(currency);
     }
 
     getChainName(currency) {
@@ -16,7 +18,13 @@ export default class BlockchairRepository {
         }
     }
 
+    validateAddress(address) {
+        return AddressValidator.validate(address, this.currency);
+    }
+
     getBalance = async address => {
+        if (!this.validateAddress(address)) throw new Error("Invalid address given");
+
         const balanceObject = {
             balance: 0,
             transactionCount: 0,
@@ -25,7 +33,9 @@ export default class BlockchairRepository {
 
         try {
             // call the blockchair API
-            const response = await axios.get(`http://api.blockchair.com/${this.chain}/dashboards/address/${address}`);
+            const response = await axios.get(
+                `http://api.blockchair.com/${this.chainName}/dashboards/address/${address}`
+            );
             const responseData = response.data;
 
             // check response details

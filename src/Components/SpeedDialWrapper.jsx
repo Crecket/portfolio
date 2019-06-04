@@ -16,7 +16,7 @@ const SpeedDialWrapper = ({ shareValue, onSave, onSaveLabel, className = "", ...
     const closeSpeedDial = () => setSpeedDialOpen(false);
     const openSpeedDial = () => setSpeedDialOpen(true);
 
-    const canShare = shareValue && !!navigator.share;
+    const canShare = shareValue && typeof navigator.canShare !== "undefined" && navigator.canShare();
     const onShare = () => {
         if (canShare) {
             navigator
