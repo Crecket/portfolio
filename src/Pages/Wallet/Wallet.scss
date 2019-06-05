@@ -15,7 +15,10 @@
         padding: 8px;
 
         .addresses {
-            background-color: green;
+            .address-item {
+                border-radius: 6px;
+            }
+
         }
         .address-info {
             background-color: red;

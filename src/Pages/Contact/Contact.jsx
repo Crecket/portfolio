@@ -9,20 +9,20 @@ import "./Contact.scss";
 import ContactSelectionButton from "./ContactSelectionButton";
 import ContactItem from "./ContactItem";
 
-import discord from "./Images/discord.svg";
+import discord from "../../Images/Cryptocurrencies/discord.svg";
 import github from "./Images/github.svg";
 import linkedin from "./Images/linkedin.svg";
 import steam from "./Images/steam.svg";
 import telegram from "./Images/telegram.svg";
 
 import bunq from "./Images/bunq.svg";
-import btc from "./Images/btc.svg";
-import eth from "./Images/eth.svg";
-import iota from "./Images/miota.svg";
-import ltc from "./Images/ltc.svg";
-import neo from "./Images/neo.svg";
-import xmr from "./Images/xmr.svg";
-import xrp from "./Images/xrp.svg";
+import btc from "../../Images/Cryptocurrencies/btc.svg";
+import eth from "../../Images/Cryptocurrencies/eth.svg";
+import iota from "../../Images/Cryptocurrencies/miota.svg";
+import ltc from "../../Images/Cryptocurrencies/ltc.svg";
+import neo from "../../Images/Cryptocurrencies/neo.svg";
+import xmr from "../../Images/Cryptocurrencies/xmr.svg";
+import xrp from "../../Images/Cryptocurrencies/xrp.svg";
 
 const contactList = [
     {
