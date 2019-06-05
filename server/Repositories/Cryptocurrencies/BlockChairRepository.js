@@ -1,7 +1,7 @@
 import axios from "axios";
 const AddressValidator = require("wallet-address-validator");
 
-export default class BlockchairRepository {
+export default class BlockChairRepository {
     constructor(currency) {
         this.currency = currency;
         this.chainName = this.getChainName(currency);

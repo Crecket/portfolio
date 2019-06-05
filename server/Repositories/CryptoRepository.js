@@ -53,7 +53,7 @@ export default class CryptoRepository {
     /**
      * Get the correct repository for each type
      * @param currency
-     * @returns {BlockchairRepository|RippleRepository|TangleRepository}
+     * @returns {BlockChairRepository|RippleRepository|TangleRepository}
      */
     getRepository(currency) {
         switch (currency) {
