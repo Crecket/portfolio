@@ -36,6 +36,10 @@ body,
     @include linear-gradient(to bottom, $purple, $lightPurple);
 }
 
+.darker-purple-gradient {
+    @include linear-gradient(to bottom, $purple, lighten($purple, 4));
+}
+
 .fadeIn {
     -webkit-animation: fadeIn 1s;
     -moz-animation: fadeIn 1s;

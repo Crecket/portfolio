@@ -9,7 +9,7 @@ import "./NotFound.scss";
 const NotFound = () => {
     return (
         <div className="notfound">
-            <SEO title="404 page not found" path="/404" description="Page not found" />
+            <SEO title="404 not found" description="Page not found" path="/404" />
 
             <LandingSection>
                 <h1>Page not found!</h1>
