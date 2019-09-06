@@ -271,6 +271,7 @@ const updateTogetherRecursive = async (currentData, id, incrementAmount = 10000,
 
 /**
  * Gets together IDs
+ * DEPRECATED
  */
 const getUpdatedTogetherDataset = async () => {
     const togetherDataLocation = `${__dirname}${path.sep}..${path.sep}src${path.sep}DataSets${path.sep}together.json`;
