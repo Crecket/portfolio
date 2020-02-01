@@ -59,5 +59,5 @@ export default (tooltipMode = "label", annotations = false, customOptions = {}) 
         };
     }
 
-    return {...options, ...customOptions};
+    return { ...options, ...customOptions };
 };

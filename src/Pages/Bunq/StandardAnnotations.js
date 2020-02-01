@@ -5,7 +5,10 @@ export const genericEvents = [
 
 const defaultBunqOptions = {};
 export const bunqUpdates = [
-    { label: "#10 MassInterest", date: new Date("2019-02-26"), ...defaultBunqOptions },
+    { label: "#13 Simple API", date: new Date("2020-01-28"), ...defaultBunqOptions },
+    { label: "#12 Insights", date: new Date("2019-09-04"), ...defaultBunqOptions },
+    { label: "#11 Web", date: new Date("2019-07-10"), ...defaultBunqOptions },
+    { label: "#10 Interest", date: new Date("2019-02-26"), ...defaultBunqOptions },
     { label: "#9 ZeroFX", date: new Date("2018-11-06"), ...defaultBunqOptions },
     { label: "#8 bunq.me", date: new Date("2018-07-15"), ...defaultBunqOptions },
     { label: "#7 Apple Pay", date: new Date("2018-03-20"), ...defaultBunqOptions },

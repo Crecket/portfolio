@@ -59,7 +59,7 @@
         "imagemin-pngquant": "^7.0.0",
         "json-store": "^1.0.0",
         "loadable-components": "2.2.3",
-        "node-sass": "^4.12.0",
+        "node-sass": "^4.13.1",
         "prettier": "^1.17.1",
         "qrcode.react": "^0.9.3",
         "react": "^16.8.5",
