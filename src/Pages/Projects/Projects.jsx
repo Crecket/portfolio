@@ -22,7 +22,7 @@ const projects = [
         description: "The unofficial, free and open source desktop application for the bunq API.",
         image: bunqDesktopImage,
         url: "https://bunqdesk.top/",
-        downloadCount: 28448
+        downloadCount: 53911
     },
     {
         title: "Masterypoints",
@@ -30,14 +30,14 @@ const projects = [
             "MasteryPoints lets you view summoner profiles, compare summoners and view your rankings on the highscores for league of legends.",
         image: masteryPointsImage,
         url: "https://www.masterypoints.com/",
-        viewCount: 750000
+        viewCount: 650000
     },
     {
         title: "bunqJSClient",
         description: "A javascript SDK for the bunq API - was originally built for the web but has support for NodeJS.",
         image: bunqJSClientImage,
         url: "https://github.com/bunqCommunity/bunqJSClient",
-        downloadCount: 28595
+        downloadCount: 36209
     },
     {
         title: "bunqAutomation",
@@ -57,7 +57,7 @@ const projects = [
         description: "An unofficial and open source CLI tool to quickly use the bunq API.",
         image: bunqCLIImage,
         url: "https://github.com/bunqCommunity/bunq-cli",
-        downloadCount: 561
+        downloadCount: 634
     },
     {
         title: "UploadBroBot",
@@ -71,7 +71,7 @@ const projects = [
         description: "A chrome extension to view torrents for movies and series directly on IMDB.",
         url: "https://github.com/Crecket/imdb-torrent-search",
         image: imdbTorrentSearchImage,
-        userCount: 600
+        userCount: 856
     },
     {
         title: "Neato robot dashboard",
