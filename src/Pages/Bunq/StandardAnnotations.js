@@ -5,8 +5,10 @@ export const genericEvents = [
 
 const defaultBunqOptions = {};
 export const bunqUpdates = [
-    { label: "#13 Simple API", date: new Date("2020-01-28"), ...defaultBunqOptions },
-    { label: "#12 Insights", date: new Date("2019-09-04"), ...defaultBunqOptions },
+    { label: "#15 New Design", date: new Date("2020-10-16"), ...defaultBunqOptions },
+    { label: "#14", date: new Date("2020-05-29"), ...defaultBunqOptions },
+    { label: "#13", date: new Date("2020-01-28"), ...defaultBunqOptions },
+    { label: "#12", date: new Date("2019-09-04"), ...defaultBunqOptions },
     { label: "#11 Web", date: new Date("2019-07-10"), ...defaultBunqOptions },
     { label: "#10 Interest", date: new Date("2019-02-26"), ...defaultBunqOptions },
     { label: "#9 ZeroFX", date: new Date("2018-11-06"), ...defaultBunqOptions },
@@ -14,8 +16,8 @@ export const bunqUpdates = [
     { label: "#7 Apple Pay", date: new Date("2018-03-20"), ...defaultBunqOptions },
     { label: "#6 Pack", date: new Date("2017-11-27"), ...defaultBunqOptions },
     { label: "#5 Premium", date: new Date("2017-08-02"), ...defaultBunqOptions },
-    { label: "#4 Slice", date: new Date("2016-11-15"), ...defaultBunqOptions },
-    { label: "#3 Business", date: new Date("2016-05-15"), ...defaultBunqOptions }
+    // { label: "#4 Slice", date: new Date("2016-11-15"), ...defaultBunqOptions },
+    // { label: "#3 Business", date: new Date("2016-05-15"), ...defaultBunqOptions }
     // { label: "#2 Public", date: new Date("2015-11-15"), ...defaultBunqOptions },
     // { label: "#1 Beta", date: new Date("2015-09-15"), ...defaultBunqOptions },
 ];
