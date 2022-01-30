@@ -15,6 +15,7 @@ import bunqChartsImage from "./images/bunq-charts-thumbnail.png";
 import imdbTorrentSearchImage from "./images/imdb-torrent-search-thumbnail.png";
 import infrastructureInsightsImage from "./images/infrastructure-insights-thumbnail.png";
 import neatoScannedImage from "./images/neato-scanned-image-thumbnail.png";
+import zkiliImage from "./images/zkili-thumbnail.png";
 
 const projects = [
     {
@@ -22,7 +23,7 @@ const projects = [
         description: "The unofficial, free and open source desktop application for the bunq API.",
         image: bunqDesktopImage,
         url: "https://bunqdesk.top/",
-        downloadCount: 53911
+        downloadCount: 73911
     },
     {
         title: "Masterypoints",
@@ -31,6 +32,13 @@ const projects = [
         image: masteryPointsImage,
         url: "https://www.masterypoints.com/",
         viewCount: 650000
+    },
+    {
+        title: "Zkili.app",
+        description:
+            "A site with different tools and little projects including a discord bot and calculators for EVE Online.",
+        image: zkiliImage,
+        url: "https://zkili.app/"
     },
     {
         title: "bunqJSClient",

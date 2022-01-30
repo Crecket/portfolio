@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "react-router-dom/Link";
+import { Link } from "react-router-dom";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";

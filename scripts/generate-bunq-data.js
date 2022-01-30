@@ -341,7 +341,7 @@ const calculateChangeValues = events => {
 
         // attempt to get a decent estimate for what the value was at the 15th of the month
         const daysBetweenValue = getTimeBetween(date, previousDate, ONE_DAY, false);
-        if (daysBetweenValue !== 0 && (daysBetweenValue > 27 && daysBetweenValue < 34)) {
+        if (daysBetweenValue !== 0 && daysBetweenValue > 27 && daysBetweenValue < 34) {
             const eventIdSecondChange = eventId - previousId;
             const estimatedDailyChange = eventIdSecondChange / daysBetweenValue;
             const daysUntil15th = previousDate.getDate() - dateDay;

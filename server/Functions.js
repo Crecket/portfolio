@@ -2,9 +2,8 @@ import * as fs from "fs";
 import * as path from "path";
 import sharp from "sharp";
 import gzipSize from "gzip-size";
-
-const imagemin = require("imagemin");
-const imageminPngquant = require("imagemin-pngquant");
+import imagemin from "imagemin";
+import imageminPngquant from "imagemin-pngquant";
 
 /**
  * Resize images if they are too wide

@@ -15,7 +15,7 @@ export const bunqUpdates = [
     { label: "#8 bunq.me", date: new Date("2018-07-15"), ...defaultBunqOptions },
     { label: "#7 Apple Pay", date: new Date("2018-03-20"), ...defaultBunqOptions },
     { label: "#6 Pack", date: new Date("2017-11-27"), ...defaultBunqOptions },
-    { label: "#5 Premium", date: new Date("2017-08-02"), ...defaultBunqOptions },
+    { label: "#5 Premium", date: new Date("2017-08-02"), ...defaultBunqOptions }
     // { label: "#4 Slice", date: new Date("2016-11-15"), ...defaultBunqOptions },
     // { label: "#3 Business", date: new Date("2016-05-15"), ...defaultBunqOptions }
     // { label: "#2 Public", date: new Date("2015-11-15"), ...defaultBunqOptions },

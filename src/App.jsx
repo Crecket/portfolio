@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
 
 import "./App.scss";
@@ -16,7 +16,7 @@ import SEO from "./Components/SEO";
 import logoImage from "./Images/logo-192x192.png";
 
 export const DrawerContext = React.createContext({});
-const theme = createMuiTheme(MuiTheme);
+const theme = createTheme(MuiTheme);
 
 const App = () => {
     const { message, openSnackbar, closeSnackbar } = useSnackbar();
