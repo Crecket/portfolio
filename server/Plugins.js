@@ -7,7 +7,9 @@ const fastifyAuth = require("fastify-auth");
 const fastifyStatic = require("fastify-static");
 
 export default app => {
-    app.register(fastifyHelmet);
+    app.register(fastifyHelmet, {
+        contentSecurityPolicy: false
+    });
     app.register(fastifyCompress);
     app.register(fastifyAuth);
     app.register(fastifyStatic, {

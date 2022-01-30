@@ -24,7 +24,7 @@ const app = fastify(options);
 
 // Overwrite all error handlers at the top level after ready event
 app.setErrorHandler((error, request, reply) => {
-    const isApi = request.req.originalUrl.indexOf("/api") === 0;
+    const isApi = request.raw.originalUrl.indexOf("/api") === 0;
     const errorOutput = isApi ? { error: error.message } : error.message;
 
     reply.code(500).send(errorOutput);
