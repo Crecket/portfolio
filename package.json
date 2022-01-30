@@ -19,7 +19,8 @@
         "sw-precache": "sw-precache --config=src/ServiceWorker/sw-precache-config.js",
         "optimize-images": "babel-node scripts/optimize-images.js",
         "generate-bunq-data": "babel-node scripts/generate-bunq-data.js",
-        "generate-chart-images": "babel-node scripts/generate-chart-images.js"
+        "generate-chart-images": "babel-node scripts/generate-chart-images.js",
+        "postinstall": "bash scripts/fix-install.sh"
     },
     "dependencies": {
         "axios": "^0.19.0",
