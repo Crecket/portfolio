@@ -51,7 +51,7 @@ app.listen(httpPort, "0.0.0.0", (err, address) => {
 });
 
 app.ready(err => {
-    // if (process.env.NODE_ENV === "development") {
-    //     console.log(app.printRoutes());
-    // }
+    if (process.env.NODE_ENV === "development") {
+        console.log(app.printRoutes());
+    }
 });
