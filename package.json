@@ -26,12 +26,12 @@
         "chalk": "^2.4.1",
         "chartjs-node-canvas": "^4.1.6",
         "dotenv": "^6.2.0",
-        "fastify": "^2.1.0",
-        "fastify-auth": "^0.4.0",
-        "fastify-compress": "^0.8.1",
-        "fastify-cors": "^2.1.3",
-        "fastify-helmet": "^3.0.0",
-        "fastify-static": "^2.3.4",
+        "fastify": "^3.27.0",
+        "fastify-auth": "^1.1.0",
+        "fastify-compress": "^4.0.1",
+        "fastify-cors": "^6.0.2",
+        "fastify-helmet": "^7.0.1",
+        "fastify-static": "^4.5.0",
         "sitemap": "^2.2.0"
     },
     "devDependencies": {
