@@ -79,7 +79,7 @@ const projects = [
         description: "A chrome extension to view torrents for movies and series directly on IMDB.",
         url: "https://github.com/Crecket/imdb-torrent-search",
         image: imdbTorrentSearchImage,
-        userCount: 856
+        userCount: 1498
     },
     {
         title: "Neato robot dashboard",
