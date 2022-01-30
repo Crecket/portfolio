@@ -23,7 +23,7 @@ import React from "react";
 import { blue, deepOrange, deepPurple, green, red } from "@material-ui/core/colors";
 
 // chartjs plugins
-const { CanvasRenderService } = require("chartjs-node-canvas");
+const { ChartJSNodeCanvas } = require("chartjs-node-canvas");
 const chartjsPluginDataLabels = require("chartjs-plugin-datalabels");
 
 // standard public path
@@ -88,7 +88,7 @@ const createChart = async (chartName, configuration, plugins = [], size = "1080p
     };
 
     // create the service using the options and callback
-    const canvasRenderService = new CanvasRenderService(width, height, chartCallback);
+    const canvasRenderService = new ChartJSNodeCanvas({ width, height, chartCallback });
 
     // render to a NodeJS buffer
     const image = await canvasRenderService.renderToBuffer(configuration);
