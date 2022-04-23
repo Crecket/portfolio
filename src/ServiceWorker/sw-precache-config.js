@@ -1,5 +1,5 @@
 const path = require("path");
-const StaticRouteLoader = require("../../server/HTTP/StaticRouteLoader");
+const StaticRouteLoader = require("../../build-server/HTTP/StaticRouteLoader");
 
 const publicAbsolutePath = path.join(__dirname, "..", "..", "build");
 

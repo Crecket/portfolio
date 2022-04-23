@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "outDir": "build-server",
+    "target": "es6",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "strictNullChecks": false,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "jsx": "react-jsx",
+    "typeRoots": [
+      "node_modules/@types",
+      "src/Types"
+    ]
+  },
+  "include": [
+    "server",
+    "src",
+    "src/Types/global.d.ts"
+  ]
+}

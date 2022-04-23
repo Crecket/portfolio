@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es6",
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "outDir": "build-server",
+    "baseUrl": ".",
+    "lib": [
+      "es2017"
+    ],
+    "types": []
+  },
+  "include": [
+    "server/**/*"
+  ]
+}
