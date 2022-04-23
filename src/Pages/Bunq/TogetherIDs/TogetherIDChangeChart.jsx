@@ -12,6 +12,7 @@ import StandardChartOptions from "../StandardChartOptions";
 import StandardDataSet from "../StandardDataSet";
 import StandardPlugins from "../StandardPlugins";
 import { combinedEventList, eventsToAnnotations } from "../StandardAnnotations";
+
 const annotationList = eventsToAnnotations(combinedEventList);
 
 export default ({ together }) => {
@@ -83,6 +84,10 @@ export default ({ together }) => {
 
     return (
         <div>
+            <Typography variant="body1" className="chart-description">
+                This data is no longer available due to a change in the together forum so this data stops after
+                September 2019.
+            </Typography>
             <Typography variant="body1" className="chart-description">
                 Amount of new Together users for each month. Blue is the estimated amount of new Together users compared
                 to the previous period and NOT the amount of current users.

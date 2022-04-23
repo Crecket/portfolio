@@ -29,6 +29,17 @@ const ViewCount = ({ views }) => {
         </p>
     );
 };
+const PageViews = ({ pageViews }) => {
+    if (!pageViews) return null;
+
+    const formattedViews = pageViews.toLocaleString();
+
+    return (
+        <p>
+            <AccountGroupIcon /> {formattedViews} pageviews
+        </p>
+    );
+};
 const UserCount = ({ users }) => {
     if (!users) return null;
 
@@ -58,6 +69,7 @@ const ProjectItem = ({
     downloadCount,
     privateText = false,
     viewCount = false,
+    pageViews = false,
     userCount = false,
     relativeUrl = false
 }) => {
@@ -65,6 +77,7 @@ const ProjectItem = ({
         <div className="usage-stats">
             <DownloadCount downloads={downloadCount} />
             <ViewCount views={viewCount} />
+            <PageViews pageViews={pageViews} />
             <UserCount users={userCount} />
             <PrivateText privateText={privateText} />
         </div>

@@ -23,7 +23,7 @@ const projects = [
         description: "The unofficial, free and open source desktop application for the bunq API.",
         image: bunqDesktopImage,
         url: "https://bunqdesk.top/",
-        downloadCount: 73911
+        downloadCount: 75912
     },
     {
         title: "Masterypoints",
@@ -31,12 +31,12 @@ const projects = [
             "MasteryPoints lets you view summoner profiles, compare summoners and view your rankings on the highscores for league of legends.",
         image: masteryPointsImage,
         url: "https://www.masterypoints.com/",
-        viewCount: 650000
+        pageViews: 33500000
     },
     {
         title: "Zkili.app",
         description:
-            "A site with different tools and little projects including a discord bot and calculators for EVE Online.",
+            "A site with different tools and small projects including a discord bot and different calculators for EVE Online.",
         image: zkiliImage,
         url: "https://zkili.app/"
     },
@@ -45,7 +45,7 @@ const projects = [
         description: "A javascript SDK for the bunq API - was originally built for the web but has support for NodeJS.",
         image: bunqJSClientImage,
         url: "https://github.com/bunqCommunity/bunqJSClient",
-        downloadCount: 36209
+        downloadCount: 48827
     },
     {
         title: "bunqAutomation",
@@ -90,7 +90,7 @@ const projects = [
     },
     {
         title: "Infrastructure Insights",
-        description: "An AngularJS application to display and manage the docker infrastructure by using the DCOS API.",
+        description: "An AngularJS application to display and manage the docker infrastructure through the DCOS API.",
         image: infrastructureInsightsImage,
         privateText: "Internship at Zig Websoftware"
     }
