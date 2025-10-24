@@ -1,6 +1,6 @@
 const glob = require("glob");
 
-module.exports = () => {
+export default() => {
     const buildFiles = glob.sync("build/**/index.html");
 
     const staticList = [];

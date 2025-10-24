@@ -1,10 +1,9 @@
 import React from "react";
 import loadable from "loadable-components";
-import { Switch, Route } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 
 import NotFound from "./Pages/NotFound/NotFound";
-
-const routes = require("./Config/routes");
+import routes from "./Config/routes";
 
 interface RouteComponent {
     key: string;
@@ -36,6 +35,8 @@ const RouteComponents = Object.keys(routes).map(routeName => {
 });
 
 const Routes = () => {
+    let location = useLocation();
+    console.log("location", location);
     return (
         <main>
             <Switch>

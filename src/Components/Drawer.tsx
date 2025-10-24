@@ -9,7 +9,6 @@ import ListItemText from "@mui/material/ListItemText";
 
 import HomeIcon from "@mui/icons-material/Home";
 import ChartIcon from "@mui/icons-material/BarChart";
-import AccountBadge from "../SVGImages/AccountBadge";
 import CellphoneLinkSvg from "../SVGImages/CellphoneLinkSvg";
 
 import "./Drawer.scss";
@@ -50,7 +49,6 @@ const Drawer = () => {
                 <Divider />
                 <List className="list">
                     <LinkWrapperComponent to="/projects" primary="Projects" icon={<CellphoneLinkSvg />} />
-                    <LinkWrapperComponent to="/contact" primary="Contact" icon={<AccountBadge />} />
                 </List>
                 <Divider />
                 <List className="list">

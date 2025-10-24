@@ -97,6 +97,7 @@ const projects = [
 ];
 
 const Projects = () => {
+    console.log("asdf");
     return (
         <div className="projects">
             <SEO title="Projects" description="Projects I have developed" path="/projects" />

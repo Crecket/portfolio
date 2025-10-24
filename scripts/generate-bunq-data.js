@@ -1,13 +1,38 @@
 import * as path from "path";
 import axios from "axios";
-import BunqJSClient from "@bunq-community/bunq-js-client";
-import JSONFileStore from "@bunq-community/bunq-js-client/dist/Stores/JSONFileStore";
+import BunqJSClientBase from "@bunq-community/bunq-js-client";
+import JSONFileStore from "./JSONFileStore.js";
 
-import bunqDataSets from "../src/DataSets/bunqDataSets";
-import { writeJsonFile } from "../server/Functions";
+import bunqDataSets from "../src/DataSets/bunqDataSets.js";
+import fs from "fs";
+import gzipSize from "gzip-size";
+import dotenv from "dotenv";
+import awaiting from "awaiting";
+import { fileURLToPath } from "url";
 
-require("dotenv").config();
-const awaiting = require("awaiting");
+const BunqJSClient = BunqJSClientBase.default;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config();
+
+export const fileSizePretty = number => {
+    const estimateString = (number / 1024).toFixed(2);
+    return `${estimateString}Kb`;
+};
+
+export const writeJsonFile = async (location, data, prettify = false) => {
+    const fileLocation = path.normalize(location);
+    const fileContents = JSON.stringify(data, null, prettify ? 2 : 0);
+    fs.writeFileSync(fileLocation, fileContents);
+
+    const fileStat = fs.statSync(fileLocation);
+    const gzipEstimate = await gzipSize(fileContents);
+
+    const fileSizeText = `${fileSizePretty(fileStat.size)} raw, ${fileSizePretty(gzipEstimate)} gzipped`;
+    console.log(`Written file to ${fileLocation}. ${fileSizeText}`);
+};
 
 const invoiceIdOverwrites = [{ id: 1072130, newId: 1045465, date: "2019-02-08 22:18:10.491460" }];
 const ignoredInvoiceIds = [184361, 299222];
@@ -72,12 +97,11 @@ const setup = async () => {
     return BunqClient;
 };
 
-/**
- * Get generic API data recursively
- */
+const pageItemCount = 200;
+
 const getGenericTypeRecursive = async (BunqClient, eventType, handlerKey, userId, accountId = false, olderId) => {
     const options = {
-        count: 200
+        count: pageItemCount
     };
     if (olderId) options.older_id = olderId;
 
@@ -89,7 +113,8 @@ const getGenericTypeRecursive = async (BunqClient, eventType, handlerKey, userId
     // call the actual endpoint
     console.log(` -> Fetching ${eventType} data: ${JSON.stringify(parameters)}`);
     const events = await BunqClient.api[handlerKey].list(...parameters);
-    if (events.length < 200) return events;
+
+    if (events.length < pageItemCount) return events;
 
     const oldestId = events[events.length - 1][eventType].id;
     const nestedEvents = await getGenericTypeRecursive(BunqClient, eventType, handlerKey, userId, accountId, oldestId);
@@ -148,17 +173,6 @@ const getUpdatedDataset = async () => {
     const userType = Object.keys(userInfo)[0];
     const user = userInfo[userType];
 
-    // account info
-    const monetaryAccounts = await BunqClient.api.monetaryAccount.list(user.id);
-    const filteredAccounts = monetaryAccounts.filter(monetaryAccount => {
-        const type = Object.keys(monetaryAccount)[0];
-        return monetaryAccount[type].status === "ACTIVE";
-    });
-
-    // get first active account
-    const accountType = Object.keys(filteredAccounts[0])[0];
-    const account = filteredAccounts[0][accountType];
-
     // invoice list
     const invoices = await BunqClient.api.invoice.list(user.id, { count: 200 });
     const invoiceTracker = {};
@@ -195,13 +209,31 @@ const getUpdatedDataset = async () => {
         .reverse();
     console.log("updated invoice data", invoiceData.length);
 
-    const getGenericTypeHandler = getGenericType(BunqClient, user.id, account.id);
-    const getNoAccountTypeHandler = getGenericType(BunqClient, user.id);
+    const getGenericTypeHandler = accountId => getGenericType(BunqClient, user.id, accountId);
 
-    const paymentData = await getGenericTypeHandler("Payment", "payment");
+    // account info
+    const monetaryAccounts = await BunqClient.api.monetaryAccount.list(user.id, { count: 200 });
+    const filteredAccounts = monetaryAccounts.filter(monetaryAccount => {
+        const type = Object.keys(monetaryAccount)[0];
+        if (type !== "MonetaryAccountBank") return false;
+        return monetaryAccount[type].status === "ACTIVE";
+    });
+
+    const paymentData = [];
+    const requestInquiryData = [];
+    const masterCardActionData = [];
+
+    for (const account of filteredAccounts) {
+        const accountType = Object.keys(account)[0];
+        const accountId = account[accountType].id;
+
+        paymentData.push(...(await getGenericTypeHandler(accountId)("Payment", "payment")));
+        requestInquiryData.push(...(await getGenericTypeHandler(accountId)("RequestInquiry", "requestInquiry")));
+        masterCardActionData.push(...(await getGenericTypeHandler(accountId)("MasterCardAction", "masterCardAction")));
+    }
+
+    const getNoAccountTypeHandler = getGenericType(BunqClient, user.id);
     const cardData = await getNoAccountTypeHandler("Card", "card");
-    const requestInquiryData = await getGenericTypeHandler("RequestInquiry", "requestInquiry");
-    const masterCardActionData = await getGenericTypeHandler("MasterCardAction", "masterCardAction");
 
     // write this dataset to the given dataset name
     const dataSetName = process.env.STORAGE_NAME ? process.env.STORAGE_NAME : "updated-bunq-data";
@@ -276,7 +308,7 @@ const updateTogetherRecursive = async (currentData, id, incrementAmount = 10000,
 const getUpdatedTogetherDataset = async () => {
     const togetherDataLocation = `${__dirname}${path.sep}..${path.sep}src${path.sep}DataSets${path.sep}together.json`;
     // get current data
-    const currentTogetherData = require(togetherDataLocation);
+    const { default: currentTogetherData } = await import(togetherDataLocation, { assert: { type: "json" } });
 
     if (process.env.UPDATE_TOGETHER_DATA === "true") {
         // user current data to fetch new data while preventing duplicate calls
@@ -557,7 +589,7 @@ const start = async () => {
     const invoiceTracker = {};
     const togetherUserTracker = {};
 
-    const dataSets = bunqDataSets(`${__dirname}${path.sep}..${path.sep}src${path.sep}DataSets`);
+    const dataSets = await bunqDataSets(`${__dirname}${path.sep}..${path.sep}src${path.sep}DataSets`);
 
     dataSets.forEach((dataSet, dataSetIndex) => {
         if (dataSet.invoices) {

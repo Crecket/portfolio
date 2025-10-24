@@ -35,8 +35,6 @@ const Bunq = () => {
     let params = useParams();
     let location = useLocation();
 
-    console.log(params, match, location);
-
     const [bunqData, setBunqData] = useState(false);
     const [shareData, setShareData] = useState({ title: "bunq charts", url: "https://gregoryg.dev/bunq/invoices" });
     const [tab, setTab] = useState(paramTab || "invoices");

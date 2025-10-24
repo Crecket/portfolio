@@ -21,7 +21,6 @@
     "isolatedModules": false,
     "jsx": "react-jsx",
     "typeRoots": [
-      "node_modules/@types",
       "src/Types"
     ]
   },

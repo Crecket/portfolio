@@ -12,7 +12,9 @@
     "lib": [
       "es2017"
     ],
-    "types": []
+    "types": [
+      "node"
+    ]
   },
   "include": [
     "server/**/*"

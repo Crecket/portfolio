@@ -7,7 +7,7 @@ const dynamicUrlToDependencyList = {
     "/": [`${publicAbsolutePath}/index.html`]
 };
 
-const staticRoutes = StaticRouteLoader();
+const staticRoutes = StaticRouteLoader.default();
 staticRoutes.forEach(staticRoute => {
     dynamicUrlToDependencyList[staticRoute.url] = [
         path.normalize(`${publicAbsolutePath}${staticRoute.publicLocation}`)

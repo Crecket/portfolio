@@ -2,16 +2,7 @@ import * as path from "path";
 import * as fs from "fs-extra";
 import glob from "glob";
 
-import { fileSizePretty, optimizeImageSize, writeJsonFile } from "../server/Functions";
-
-// standard chart configs
-import {
-    standardBlue,
-    standardGreen,
-    standardOrange,
-    standardPurple,
-    standardRed
-} from "../src/Pages/Bunq/ChartColors";
+import { fileSizePretty, optimizeImageSize, writeJsonFile } from "../build-server/Functions.js";
 import StandardChartOptions from "../src/Pages/Bunq/StandardChartOptions";
 import StandardDataSet from "../src/Pages/Bunq/StandardDataSet";
 import StandardPlugins from "../src/Pages/Bunq/StandardPlugins";
@@ -19,8 +10,9 @@ import MovingAverage from "../src/Functions/MovingAverage";
 
 // bunq data set
 import dataSet from "../public/bunq-data.json";
-import React from "react";
 import { blue, deepOrange, deepPurple, green, red } from "@material-ui/core/colors";
+import purple from "@mui/material/colors/deepPurple";
+import orange from "@mui/material/colors/deepOrange";
 
 // chartjs plugins
 const { ChartJSNodeCanvas } = require("chartjs-node-canvas");
@@ -164,7 +156,7 @@ const createInvoiceCharts = async (invoices, compensation = 0) => {
 
         // calculate difference in new invoices between now and last month
         const changeVsLastMonth = invoiceIdChange - previousChange;
-        const color = changeVsLastMonth < 0 ? standardRed : standardGreen;
+        const color = changeVsLastMonth < 0 ? red["A400"] : green["A400"];
         invoiceChartDelta.push({
             x: invoice.x,
             y: changeVsLastMonth
@@ -189,7 +181,7 @@ const createInvoiceCharts = async (invoices, compensation = 0) => {
             label: "Invoices",
             fill: false,
             data: invoiceChartData,
-            color: standardBlue
+            color: blue["A400"]
         }),
         StandardDataSet({
             type: "bar",
@@ -332,7 +324,7 @@ const createdCombinedCharts = async bunqData => {
         data: cardsChartData,
         fill: false,
         pointRadius: 0,
-        color: standardRed,
+        color: red["A400"],
         datalabels: false
     });
     const paymentsDataSet = StandardDataSet({
@@ -341,7 +333,7 @@ const createdCombinedCharts = async bunqData => {
         data: paymentChartData,
         fill: false,
         pointRadius: 0,
-        color: standardBlue,
+        color: blue["A400"],
         datalabels: false
     });
     const invoicesDataset = StandardDataSet({
@@ -350,7 +342,7 @@ const createdCombinedCharts = async bunqData => {
         data: invoiceChartData,
         fill: false,
         pointRadius: 0,
-        color: standardGreen,
+        color: green["A400"],
         datalabels: false
     });
     const requestInquiryDataset = StandardDataSet({
@@ -359,7 +351,7 @@ const createdCombinedCharts = async bunqData => {
         data: requestInquiryChartData,
         fill: false,
         pointRadius: 0,
-        color: standardPurple,
+        color: purple["A400"],
         datalabels: false
     });
     const masterCardActionDataset = StandardDataSet({
@@ -377,7 +369,7 @@ const createdCombinedCharts = async bunqData => {
         data: togetherChartData,
         fill: false,
         pointRadius: 0,
-        color: standardOrange,
+        color: orange["A400"],
         datalabels: false
     });
 

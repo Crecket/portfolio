@@ -1,7 +1,6 @@
-const routes = {
+export default {
     Home: { path: "/" },
-    Projects: { path: "projects" },
-    Contact: { path: "contact" },
+    Projects: { path: "/projects" },
     Bunq: {
         path: "/bunq/:type?",
         cleanUrl: "/bunq",
@@ -9,5 +8,3 @@ const routes = {
     },
     NotFound: { path: "/notfound", ignoreSitemap: true }
 };
-
-module.exports = routes;

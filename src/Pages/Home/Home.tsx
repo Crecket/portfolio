@@ -6,13 +6,11 @@ import LandingSection from "../../Components/LandingSection";
 
 import Github from "../../SVGImages/Github";
 import LinkedIn from "../../SVGImages/Linkedin";
-import AccountBadge from "../../SVGImages/AccountBadge";
 import CellphoneLinkSvg from "../../SVGImages/CellphoneLinkSvg";
 
 import "./Home.scss";
 
 const Home = () => {
-    console.log("ahh")
     return (
         <div className="home">
             <SEO title="Home" path="/" description="Gregory Goijaerts personal website" />
@@ -35,9 +33,6 @@ const Home = () => {
                     </a>
                     <Link className="animated" to="/projects">
                         <CellphoneLinkSvg /> Projects
-                    </Link>
-                    <Link className="animated" to="/contact">
-                        <AccountBadge /> Contact
                     </Link>
 
                     <div style={{ display: "none" }}>
