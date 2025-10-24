@@ -22,7 +22,7 @@ const projects = [
         title: "bunqDesktop",
         description: "The unofficial, free and open source desktop application for the bunq API.",
         image: bunqDesktopImage,
-        url: "https://bunqdesk.top/",
+        url: "https://github.com/bunqCommunity/bunqDesktop",
         downloadCount: 75912
     },
     {
@@ -42,14 +42,14 @@ const projects = [
     },
     {
         title: "bunqJSClient",
-        description: "A javascript SDK for the bunq API - was originally built for the web but has support for NodeJS.",
+        description: "A javascript SDK for the bunq API since no official SDK was present at the time - originally built for the web but has support for NodeJS.",
         image: bunqJSClientImage,
         url: "https://github.com/bunqCommunity/bunqJSClient",
         downloadCount: 48827
     },
     {
         title: "bunqAutomation",
-        description: "A new opensource bunq project to automate tons of different things.",
+        description: "An opensource bunq project to automate tons of different things using hte bunq API.",
         image: bunqAutomationImage,
         url: "https://github.com/bunqCommunity/bunqAutomation"
     },
