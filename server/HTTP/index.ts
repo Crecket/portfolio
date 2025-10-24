@@ -4,7 +4,7 @@ const StaticRouteLoader = require("./StaticRouteLoader");
 const blackListedRoutes = ["/"];
 
 export default (app, opts, next) => {
-    const staticRoutes = StaticRouteLoader();
+    const staticRoutes = StaticRouteLoader.default();
 
     staticRoutes.forEach(staticRoute => {
         if (!staticRoute.url || blackListedRoutes.includes(staticRoute.url)) return;

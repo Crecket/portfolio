@@ -1,7 +1,7 @@
 const fastifyPlugin = require("fastify-plugin");
 const sitemap = require("sitemap");
 
-const routes = require("../src/Config/routes");
+const routes = require("../src/Config/routes.js");
 const customSettings = {
     Home: { priority: 1 },
     Contact: { priority: 0.7 },
