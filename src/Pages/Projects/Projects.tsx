@@ -28,7 +28,7 @@ const projects = [
     {
         title: "Masterypoints",
         description:
-            "MasteryPoints lets you view summoner profiles, compare summoners and view your rankings on the highscores for league of legends.",
+            "MasteryPoints let you view summoner profiles, compare summoners and view your rankings on the highscores for league of legends. The websites got too big and has since then been taken down.",
         image: masteryPointsImage,
         url: "https://www.masterypoints.com/",
         pageViews: 33500000

@@ -33,7 +33,7 @@ export default ({ bunqData }) => {
     const [showPayments, setShowPayments] = React.useState(true);
     const [showRequestInquiries, setShowRequestInquiries] = React.useState(true);
     const [showMasterCardActions, setShowMasterCardActions] = React.useState(true);
-    const [showTogetherData, setShowTogetherData] = React.useState(true);
+    const [showTogetherData, setShowTogetherData] = React.useState(false);
     const [showInvoices, setShowInvoices] = React.useState(true);
     const [showCards, setShowCards] = React.useState(true);
 
