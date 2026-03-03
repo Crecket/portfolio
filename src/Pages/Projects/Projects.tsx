@@ -36,9 +36,8 @@ const projects = [
     {
         title: "Zkili.app",
         description:
-            "A site with different tools and small projects including a discord bot and different calculators for EVE Online.",
-        image: zkiliImage,
-        url: "https://zkili.app/"
+            "A site with different tools and small projects including a discord bot and different calculators for EVE Online. Taken down after a few years due to losing interest in the game.",
+        image: zkiliImage
     },
     {
         title: "bunqJSClient",
