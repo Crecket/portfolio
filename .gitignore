@@ -29,7 +29,9 @@ storage.json
 # ignored local assets
 /ignored-assets
 
-# debug logs
+# TypeScript build info
+*.tsbuildinfo
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
