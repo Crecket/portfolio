@@ -7,13 +7,14 @@
         "dev": "vite",
         "build": "tsc -b && vite build",
         "preview": "vite preview",
+        "deploy": "npm run build && wrangler pages deploy",
+        "deploy:preview": "npm run build && wrangler pages deploy --branch=preview",
         "test": "vitest run",
         "prettier": "./node_modules/.bin/prettier --tab-width 4 --print-width 120 --write \"+(tests|scripts|src)/**/**.+(ts|tsx|js|jsx|css|scss)\"",
         "optimize-images": "node scripts/optimize-images.js",
         "generate-bunq-data": "node scripts/generate-bunq-data.js",
         "generate-chart-images": "node scripts/generate-chart-images.js"
     },
-    "dependencies": {},
     "devDependencies": {
         "@bunq-community/bunq-js-client": "^1.1.2",
         "@emotion/react": "^11.9.0",
@@ -55,7 +56,8 @@
         "vite": "^5.0.0",
         "vite-plugin-pwa": "^0.17.0",
         "vitest": "^1.0.0",
-        "workbox-window": "^7.0.0"
+        "workbox-window": "^7.0.0",
+        "wrangler": "^4.73.0"
     },
     "browserslist": [
         ">0.2%",

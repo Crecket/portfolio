@@ -37,7 +37,7 @@ const Routes = () => {
             <Suspense fallback={<div />}>
                 <Switch>
                     {RouteComponents}
-                    <Route path="*" element={<pageComponents.NotFound />} />
+                    <Route path="*" render={renderProps => <pageComponents.NotFound {...renderProps} />} />
                 </Switch>
             </Suspense>
         </main>

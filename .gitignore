@@ -12,6 +12,9 @@ temp/*
 # production
 /dist
 
+# cloudflare wrangler
+.wrangler
+
 # misc
 .idea
 .DS_Store
