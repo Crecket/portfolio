@@ -24,8 +24,8 @@ temp/*
 .env.production.local
 
 # generated data
-public/bunq-chart-images
-public/bunq-data.json
+#public/bunq-chart-images
+#public/bunq-data.json
 src/DataSets/updated-bunq-data.json
 storage.json
 
