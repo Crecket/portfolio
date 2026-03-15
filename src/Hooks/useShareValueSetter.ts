@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 
-import { ShareContext } from "../Pages/Bunq/Bunq";
+import { ShareContext } from "../Contexts/ShareContext";
 
 export default targetValue => {
     const { shareData, setShareData } = useContext(ShareContext);

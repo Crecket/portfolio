@@ -15,7 +15,7 @@ import { combinedEventList, eventsToAnnotations } from "../StandardAnnotations";
 
 const annotationList = eventsToAnnotations(combinedEventList);
 
-export default ({ together }) => {
+const TogetherIDChangeChart = ({ together }) => {
     const [showAnnotations, setShowAnnotations] = useState(false);
     const [movingAverage, setMovingAverage] = useState(true);
 
@@ -109,3 +109,5 @@ export default ({ together }) => {
         </div>
     );
 };
+
+export default TogetherIDChangeChart;

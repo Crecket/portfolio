@@ -52,8 +52,14 @@ const getMetaTags = options => {
     return metaTags;
 };
 
+interface HtmlAttributes {
+    lang: string;
+    itemscope?: undefined;
+    itemtype?: string;
+}
+
 const getHtmlAttributes = ({ schema }) => {
-    let result: any = {
+    let result: HtmlAttributes = {
         lang: "en"
     };
     if (schema) {

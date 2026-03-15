@@ -9,8 +9,10 @@ import StandardDataSet from "../StandardDataSet";
 import StandardPlugins from "../StandardPlugins";
 import { standardBlue } from "../ChartColors";
 
-export default ({ invoices }) => {
+const InvoiceIDChart = ({ invoices }) => {
     const [logScale, toggleLogScale] = useState(false);
+
+    if (!invoices) return null;
 
     const invoiceChartData = invoices.map(invoice => {
         return {
@@ -52,3 +54,5 @@ export default ({ invoices }) => {
         </div>
     );
 };
+
+export default InvoiceIDChart;

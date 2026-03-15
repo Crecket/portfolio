@@ -12,11 +12,11 @@ import ChartIcon from "@mui/icons-material/BarChart";
 import CellphoneLinkSvg from "../SVGImages/CellphoneLinkSvg";
 
 import "./Drawer.scss";
-import { DrawerContext } from "../App";
+import { DrawerContext } from "../Contexts/DrawerContext";
 
 const iOS = typeof navigator !== "undefined" && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-const LinkWrapper = ({ onClose }) => ({ to, icon, primary, secondary = "", ...props }) => {
+const LinkWrapper = ({ onClose }) => ({ to, icon, primary, ...props }) => {
     return (
         <ListItem button component={Link} to={to} onClick={onClose} {...props}>
             <ListItemIcon>{icon}</ListItemIcon>

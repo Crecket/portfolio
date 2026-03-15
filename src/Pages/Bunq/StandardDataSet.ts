@@ -7,6 +7,7 @@ export interface StandardDataSetProps {
     color?: string | false | string[];
     label?: string;
     forceShowDataLabel?: boolean;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     datalabels?: any;
     data: DataPoint[];
     pointBackgroundColor?: string | string[];
@@ -14,10 +15,12 @@ export interface StandardDataSetProps {
     borderColor?: string | string[];
     pointRadius?: number;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
 }
 
 export interface DataSetProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
 }
 

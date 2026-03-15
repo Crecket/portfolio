@@ -1,5 +1,5 @@
 export default (tooltipMode = "label", annotations = false, customOptions = {}) => {
-    const options: any = {
+    const options: Record<string, unknown> = {
         maintainAspectRatio: false,
         backgroundColor: "#33353f",
         scales: {
@@ -9,7 +9,7 @@ export default (tooltipMode = "label", annotations = false, customOptions = {}) 
                     ticks: {
                         fontColor: "white",
                         beginAtZero: true,
-                        callback: function(value, index, values) {
+                        callback: function(value) {
                             return value.toLocaleString();
                         }
                     }
@@ -35,7 +35,7 @@ export default (tooltipMode = "label", annotations = false, customOptions = {}) 
             intersect: false,
             label: "mylabel",
             callbacks: {
-                label: function(tooltipItem, data) {
+                label: function(tooltipItem) {
                     return tooltipItem.yLabel.toLocaleString();
                 }
             }

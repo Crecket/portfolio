@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import AppBar from "@mui/material/AppBar";
@@ -12,20 +12,15 @@ import InvoiceIDChart from "./InvoiceIDChart";
 import InvoiceIDMultiChart from "./InvoiceIDMultiChart";
 import InvoiceIDChangeChart from "./InvoiceIDChangeChart";
 
-export default ({ bunqData }) => {
-    let params = useParams();
-    const [chart, setChart] = useState(params.chart || "change");
+const InvoiceIDs = ({ bunqData }) => {
+    const params = useParams();
+    const chart = params.chart || "change";
 
     useShareValueSetter({
         title: "Estimate the amount of paying bunq users over time",
         url: "https://gregoryg.dev/bunq/invoices"
     });
 
-    useEffect(() => {
-        if (params.chart && chart !== params.chart) {
-            setChart(params.chart);
-        }
-    }, [params.chart, chart]);
     if (!bunqData) return null;
 
     let chartComponent = null;
@@ -62,3 +57,5 @@ export default ({ bunqData }) => {
         </div>
     );
 };
+
+export default InvoiceIDs;

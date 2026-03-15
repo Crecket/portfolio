@@ -2,13 +2,13 @@ import React from "react";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-export default ({ label, checked, onChange, SwitchProps = {}, ...props }) => {
+const DefaultCheckbox = ({ label, checked, onChange, SwitchProps = {}, ...props }) => {
     return (
         <FormControlLabel
             control={
                 <Checkbox
                     checked={checked}
-                    onChange={e => onChange(!checked)}
+                    onChange={() => onChange(!checked)}
                     value="checked"
                     color="primary"
                     {...SwitchProps}
@@ -19,3 +19,5 @@ export default ({ label, checked, onChange, SwitchProps = {}, ...props }) => {
         />
     );
 };
+
+export default DefaultCheckbox;

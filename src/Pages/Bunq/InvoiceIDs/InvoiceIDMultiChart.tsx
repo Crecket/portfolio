@@ -12,7 +12,7 @@ const selectColor = (colorNum, count) => {
     return "hsl(" + ((colorNum * (360 / count)) % 360) + ",100%,50%)";
 };
 
-export default ({ dataSets }) => {
+const InvoiceIDMultiChart = ({ dataSets }) => {
     const [barMode, setBarMode] = React.useState(false);
 
     const invoiceChartDataSets = [];
@@ -64,3 +64,5 @@ export default ({ dataSets }) => {
         </div>
     );
 };
+
+export default InvoiceIDMultiChart;

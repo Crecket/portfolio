@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 
 import routes from "./Config/routes";
 
-const pageComponents: Record<string, React.LazyExoticComponent<any>> = {
+const pageComponents: Record<string, React.LazyExoticComponent<React.ComponentType>> = {
     Home: lazy(() => import("./Pages/Home/Home")),
     Projects: lazy(() => import("./Pages/Projects/Projects")),
     Bunq: lazy(() => import("./Pages/Bunq/Bunq")),
@@ -13,7 +13,7 @@ const pageComponents: Record<string, React.LazyExoticComponent<any>> = {
 interface RouteComponent {
     path: string;
     exact?: boolean;
-    render: (props: any) => any;
+    render: (props: Record<string, unknown>) => React.ReactNode;
 }
 
 // map config to Page components

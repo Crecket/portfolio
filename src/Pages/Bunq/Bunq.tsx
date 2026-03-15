@@ -6,7 +6,8 @@ import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 
-import { DrawerContext } from "../../App";
+import { DrawerContext } from "../../Contexts/DrawerContext";
+import { ShareContext } from "../../Contexts/ShareContext";
 import bunqThumbnail from "../Projects/images/bunq-charts-thumbnail.png";
 import SEO from "../../Components/SEO";
 import Tab from "../../Components/StyledTab";
@@ -23,14 +24,12 @@ const Combined = lazy(() => import(`./Combined/Combined`));
 const Predictions = lazy(() => import(`./Predictions/Predictions`));
 const Images = lazy(() => import(`./Images/Images`));
 
-export const ShareContext = React.createContext(null);
-
 const Bunq = () => {
-    let { type: paramTab } = useParams();
+    const { type: paramTab } = useParams();
 
     const [bunqData, setBunqData] = useState(false);
     const [shareData, setShareData] = useState({ title: "bunq charts", url: "https://gregoryg.dev/bunq/invoices" });
-    const [tab, setTab] = useState(paramTab || "invoices");
+    const tab = paramTab || "invoices";
     const { toggleOpen } = React.useContext(DrawerContext);
 
     useEffect(() => {
@@ -43,13 +42,6 @@ const Bunq = () => {
                 console.error("Failed to get bunq data");
             });
     }, []);
-    useEffect(() => {
-        if (paramTab && tab !== paramTab) {
-            setTab(paramTab);
-        } else if (!paramTab) {
-            // history.push(`/bunq/${tab}`);
-        }
-    }, [paramTab, tab]);
 
     const onSave = () => {
         const canvas = document.getElementsByTagName("canvas")[0];

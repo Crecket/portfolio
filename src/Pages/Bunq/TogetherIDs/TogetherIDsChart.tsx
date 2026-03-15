@@ -9,7 +9,7 @@ import StandardDataSet from "../StandardDataSet";
 import StandardPlugins from "../StandardPlugins";
 import { standardBlue } from "../ChartColors";
 
-export default ({ together }) => {
+const TogetherIDsChart = ({ together }) => {
     const [logScale, toggleLogScale] = useState(false);
 
     const togetherChartData = together.map(user => {
@@ -51,3 +51,5 @@ export default ({ together }) => {
         </div>
     );
 };
+
+export default TogetherIDsChart;

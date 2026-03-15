@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import AppBar from "@mui/material/AppBar";
@@ -10,20 +10,15 @@ import useShareValueSetter from "../../../Hooks/useShareValueSetter";
 
 import PredictionsInvoices from "./PredictionsInvoices";
 
-export default ({ bunqData }) => {
-    let params = useParams();
-    const [chart, setChart] = useState(params.chart || "invoices");
+const Predictions = ({ bunqData }) => {
+    const params = useParams();
+    const chart = params.chart || "invoices";
 
     useShareValueSetter({
         title: "Predict the amount of bunq users over time",
         url: "https://gregoryg.dev/bunq/predictions"
     });
 
-    useEffect(() => {
-        if (params.chart && chart !== params.chart) {
-            setChart(params.chart);
-        }
-    }, [params.chart, chart]);
     if (!bunqData) return null;
 
     let chartComponent = null;
@@ -52,3 +47,5 @@ export default ({ bunqData }) => {
         </div>
     );
 };
+
+export default Predictions;

@@ -12,8 +12,18 @@ const fileSizePretty = number => {
     return `${estimateString}Kb`;
 };
 
-export default () => {
-    const [imageLists, setImageLists] = useState<false|any[]>(false);
+interface ImageFile {
+    fileName: string;
+    size: number;
+}
+
+interface ImageList {
+    description: string;
+    images: ImageFile[];
+}
+
+const Images = () => {
+    const [imageLists, setImageLists] = useState<false | ImageList[]>(false);
 
     useShareValueSetter({
         title: "bunq chart images which are generated and kept up-to-date automatically",
@@ -79,3 +89,5 @@ export default () => {
         </div>
     );
 };
+
+export default Images;

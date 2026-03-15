@@ -10,7 +10,7 @@ import StandardDataSet from "../StandardDataSet";
 import StandardPlugins from "../StandardPlugins";
 import { standardBlue } from "../ChartColors";
 
-export default ({ payments }) => {
+const PaymentIDChangeChart = ({ payments }) => {
     const [movingAverage, setMovingAverage] = React.useState(true);
 
     let paymentChartData = payments.map(payment => {
@@ -53,3 +53,5 @@ export default ({ payments }) => {
         </div>
     );
 };
+
+export default PaymentIDChangeChart;

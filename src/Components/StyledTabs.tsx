@@ -2,7 +2,7 @@ import React from "react";
 import makeStyles from "@mui/styles/makeStyles";
 import Tabs from "@mui/material/Tabs/index";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     indicator: {
         display: "flex",
         justifyContent: "center",

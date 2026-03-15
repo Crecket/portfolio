@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import AppBar from "@mui/material/AppBar";
@@ -10,19 +10,11 @@ import useShareValueSetter from "../../../Hooks/useShareValueSetter";
 
 import CombinedAll from "./CombinedAll";
 
-export default ({ bunqData }) => {
-    let params = useParams();
-    const [chart, setChart] = useState(params.chart || "all");
-
-    console.log("abc")
+const Combined = ({ bunqData }) => {
+    const params = useParams();
+    const chart = params.chart || "all";
 
     useShareValueSetter({ title: "Multiple bunq datasets combined", url: "https://gregoryg.dev/bunq/combined" });
-
-    useEffect(() => {
-        if (params.chart && chart !== params.chart) {
-            setChart(params.chart);
-        }
-    }, [params.chart, chart]);
 
     if (!bunqData) return null;
 
@@ -52,3 +44,5 @@ export default ({ bunqData }) => {
         </div>
     );
 };
+
+export default Combined;
