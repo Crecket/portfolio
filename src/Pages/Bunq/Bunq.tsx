@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import loadable from "loadable-components";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import axios from "axios";
 import "chartjs-plugin-datalabels";
 import { Switch, Route, Link, useParams, useLocation } from "react-router-dom";
@@ -19,12 +18,12 @@ import SpeedDialWrapper from "../../Components/Controls/SpeedDialWrapper";
 import "./Bunq.scss";
 import { useRouteMatch } from "react-router";
 
-const PaymentIDs = loadable(() => import(`./PaymentIDs/PaymentIDs`));
-const InvoiceIDs = loadable(() => import(`./InvoiceIDs/InvoiceIDs`));
-const TogetherIDs = loadable(() => import(`./TogetherIDs/TogetherIDs`));
-const Combined = loadable(() => import(`./Combined/Combined`));
-const Predictions = loadable(() => import(`./Predictions/Predictions`));
-const Images = loadable(() => import(`./Images/Images`));
+const PaymentIDs = lazy(() => import(`./PaymentIDs/PaymentIDs`));
+const InvoiceIDs = lazy(() => import(`./InvoiceIDs/InvoiceIDs`));
+const TogetherIDs = lazy(() => import(`./TogetherIDs/TogetherIDs`));
+const Combined = lazy(() => import(`./Combined/Combined`));
+const Predictions = lazy(() => import(`./Predictions/Predictions`));
+const Images = lazy(() => import(`./Images/Images`));
 
 export const ShareContext = React.createContext(null);
 
@@ -111,15 +110,17 @@ const Bunq = () => {
 
                     <NoscriptDisclaimer />
 
-                    <Switch>
-                        <Route path={`/bunq/payments/:chart?`} render={() => <PaymentIDs bunqData={bunqData} />} />
-                        <Route path={`/bunq/together/:chart?`} render={() => <TogetherIDs bunqData={bunqData} />} />
-                        <Route path={`/bunq/combined/:chart?`} render={() => <Combined bunqData={bunqData} />} />
-                        <Route path={`/bunq/predictions/:chart?`} render={() => <Predictions bunqData={bunqData} />} />
-                        <Route path={`/bunq/images/:chart?`} render={() => <Images />} />
-                        <Route path={`/bunq/invoices/:chart?`} render={() => <InvoiceIDs bunqData={bunqData} />} />
-                        <Route render={() => <InvoiceIDs bunqData={bunqData} />} />
-                    </Switch>
+                    <Suspense fallback={<div />}>
+                        <Switch>
+                            <Route path={`/bunq/payments/:chart?`} render={() => <PaymentIDs bunqData={bunqData} />} />
+                            <Route path={`/bunq/together/:chart?`} render={() => <TogetherIDs bunqData={bunqData} />} />
+                            <Route path={`/bunq/combined/:chart?`} render={() => <Combined bunqData={bunqData} />} />
+                            <Route path={`/bunq/predictions/:chart?`} render={() => <Predictions bunqData={bunqData} />} />
+                            <Route path={`/bunq/images/:chart?`} render={() => <Images />} />
+                            <Route path={`/bunq/invoices/:chart?`} render={() => <InvoiceIDs bunqData={bunqData} />} />
+                            <Route render={() => <InvoiceIDs bunqData={bunqData} />} />
+                        </Switch>
+                    </Suspense>
                 </div>
             </ShareContext.Provider>
         </div>

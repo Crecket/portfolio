@@ -10,11 +10,7 @@ temp/*
 /coverage
 
 # production
-/build
-!/build/.gitkeep
-/build-server
-!/build-server/.gitkeep
-/public/bunq-chart-images
+/dist
 
 # misc
 .idea
@@ -25,6 +21,7 @@ temp/*
 .env.production.local
 
 # generated data
+public/bunq-chart-images
 public/bunq-data.json
 src/DataSets/updated-bunq-data.json
 storage.json

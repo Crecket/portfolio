@@ -1,5 +1,4 @@
-import React from "react";
-import loadable from "loadable-components";
+import React, { Suspense, lazy } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 
 import NotFound from "./Pages/NotFound/NotFound";
@@ -17,33 +16,28 @@ const RouteComponents = Object.keys(routes).map(routeName => {
     const routeDetails = routes[routeName];
     const routePath = routeDetails.path;
 
-    // wrap component in a lazy load element
-    const Component = loadable(() => import(`./Pages/${routeName}/${routeName}`), {
-        // dumb hack to ensure that loadable realizes there is content without showing the "Loading" text
-        LoadingComponent: () => <div>.</div>
-    });
+    const Component = lazy(() => import(`./Pages/${routeName}/${routeName}`));
 
     const props: RouteComponent = {
         key: routePath,
         path: routePath,
-        render: props => <Component {...props} />
+        render: renderProps => <Component {...renderProps} />
     };
     if (routePath === "/") props.exact = true;
 
-    // return the Route component
     return <Route {...props} />;
 });
 
 const Routes = () => {
-    let location = useLocation();
-    console.log("location", location);
+    const location = useLocation();
     return (
         <main>
-            <Switch>
-                {RouteComponents}
-
-                <Route path="*" element={<NotFound />} />
-            </Switch>
+            <Suspense fallback={<div />}>
+                <Switch>
+                    {RouteComponents}
+                    <Route path="*" element={<NotFound />} />
+                </Switch>
+            </Suspense>
         </main>
     );
 };

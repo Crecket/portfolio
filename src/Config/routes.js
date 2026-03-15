@@ -1,4 +1,4 @@
-module.exports = {
+const routes = {
     Home: { path: "/" },
     Projects: { path: "/projects" },
     Bunq: {
@@ -8,3 +8,5 @@ module.exports = {
     },
     NotFound: { path: "/notfound", ignoreSitemap: true }
 };
+
+export default routes;
