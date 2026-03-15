@@ -1,10 +1,9 @@
-import React, { useEffect, useState, lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import axios from "axios";
 import "chartjs-plugin-datalabels";
-import { Switch, Route, Link, useParams, useLocation } from "react-router-dom";
+import { Link, Route, Switch, useParams } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
-
 import MenuIcon from "@mui/icons-material/Menu";
 
 import { DrawerContext } from "../../App";
@@ -16,7 +15,6 @@ import NoscriptDisclaimer from "../../Components/NoscriptDisclaimer";
 import SpeedDialWrapper from "../../Components/Controls/SpeedDialWrapper";
 
 import "./Bunq.scss";
-import { useRouteMatch } from "react-router";
 
 const PaymentIDs = lazy(() => import(`./PaymentIDs/PaymentIDs`));
 const InvoiceIDs = lazy(() => import(`./InvoiceIDs/InvoiceIDs`));
@@ -29,10 +27,6 @@ export const ShareContext = React.createContext(null);
 
 const Bunq = () => {
     let { type: paramTab } = useParams();
-    let match = useRouteMatch();
-
-    let params = useParams();
-    let location = useLocation();
 
     const [bunqData, setBunqData] = useState(false);
     const [shareData, setShareData] = useState({ title: "bunq charts", url: "https://gregoryg.dev/bunq/invoices" });
