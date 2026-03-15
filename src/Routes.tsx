@@ -5,7 +5,6 @@ import NotFound from "./Pages/NotFound/NotFound";
 import routes from "./Config/routes";
 
 interface RouteComponent {
-    key: string;
     path: string;
     exact?: boolean;
     render: (props: any) => any;
@@ -18,14 +17,13 @@ const RouteComponents = Object.keys(routes).map(routeName => {
 
     const Component = lazy(() => import(`./Pages/${routeName}/${routeName}`));
 
-    const props: RouteComponent = {
-        key: routePath,
+    const routeProps: RouteComponent = {
         path: routePath,
         render: renderProps => <Component {...renderProps} />
     };
-    if (routePath === "/") props.exact = true;
+    if (routePath === "/") routeProps.exact = true;
 
-    return <Route {...props} />;
+    return <Route key={routePath} {...routeProps} />;
 });
 
 const Routes = () => {
