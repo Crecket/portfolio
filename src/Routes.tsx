@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import NotFound from "./Pages/NotFound/NotFound";
 import routes from "./Config/routes";
@@ -29,7 +29,6 @@ const RouteComponents = Object.keys(routes).map(routeName => {
 });
 
 const Routes = () => {
-    const location = useLocation();
     return (
         <main>
             <Suspense fallback={<div />}>

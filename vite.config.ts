@@ -54,7 +54,7 @@ export default defineConfig({
                         urlPattern: /^https:\/\/ajax\.googleapis\.com\/.*/i,
                         handler: "CacheFirst",
                         options: {
-                            cacheName: "webfont-cache",
+                            cacheName: "ajax-libs-cache",
                             expiration: {
                                 maxEntries: 10,
                                 maxAgeSeconds: 60 * 60 * 24 * 365
