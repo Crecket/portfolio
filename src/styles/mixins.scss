@@ -1,7 +1,11 @@
-@import "./variables";
+@use "./variables" as *;
+@use "sass:list";
+@use "sass:meta";
+@use "sass:math";
+@use "sass:map";
 
 @function is-direction($value) {
-    $is-keyword: index(
+    $is-keyword: list.index(
         (
             to top,
             to top right,
@@ -18,7 +22,7 @@
         ),
         $value
     );
-    $is-angle: type-of($value) == "number" and index("deg" "grad" "turn" "rad", unit($value));
+    $is-angle: meta.type-of($value) == "number" and list.index("deg" "grad" "turn" "rad", math.unit($value));
 
     @return $is-keyword or $is-angle;
 }
@@ -43,8 +47,8 @@
         to top left: bottom right
     );
 
-    @if map-has-key($conversion-map, $value) {
-        @return map-get($conversion-map, $value);
+    @if map.has-key($conversion-map, $value) {
+        @return map.get($conversion-map, $value);
     }
 
     @return 90deg - $value;
@@ -57,7 +61,7 @@
         $direction: 180deg;
     }
 
-    background: nth(nth($color-stops, 1), 1);
+    background: list.nth(list.nth($color-stops, 1), 1);
     background: -webkit-linear-gradient(legacy-direction($direction), $color-stops);
     background: linear-gradient($direction, $color-stops);
 }
