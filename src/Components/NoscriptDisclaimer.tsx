@@ -1,7 +1,7 @@
 import React from "react";
 import makeStyles from "@mui/styles/makeStyles";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     root: {
         color: "white",
         textAlign: "center",
@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default ({ style = {}, ...props }) => {
+const NoscriptDisclaimer = ({ ...props }) => {
     const classes = useStyles();
 
     return (
@@ -20,3 +20,5 @@ export default ({ style = {}, ...props }) => {
         </noscript>
     );
 };
+
+export default NoscriptDisclaimer;

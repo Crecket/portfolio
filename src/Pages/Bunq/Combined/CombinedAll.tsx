@@ -20,7 +20,7 @@ const eventMapper = event => ({
 
 const annotationList = eventsToAnnotations(combinedEventList);
 
-export default ({ bunqData }) => {
+const CombinedAll = ({ bunqData }) => {
     const paymentChartData = bunqData.payments.map(eventMapper);
     const requestInquiryChartData = bunqData.requestInquiries.map(eventMapper);
     const masterCardActionChartData = bunqData.masterCardActions.map(eventMapper);
@@ -255,3 +255,5 @@ export default ({ bunqData }) => {
         </div>
     );
 };
+
+export default CombinedAll;

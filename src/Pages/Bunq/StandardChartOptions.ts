@@ -1,5 +1,27 @@
-export default (tooltipMode = "label", annotations = false, customOptions = {}) => {
-    const options: any = {
+export interface ChartAxisConfig {
+    id?: string;
+    fontColor?: string;
+    type?: string;
+    distribution?: string;
+    bounds?: string;
+    position?: string;
+    display?: boolean;
+    ticks?: Record<string, unknown>;
+    time?: Record<string, unknown>;
+    gridLines?: Record<string, unknown>;
+    [key: string]: unknown;
+}
+
+export interface ChartOptions {
+    scales: {
+        yAxes: ChartAxisConfig[];
+        xAxes: ChartAxisConfig[];
+    };
+    [key: string]: unknown;
+}
+
+export default (tooltipMode = "label", annotations = false, customOptions = {}): ChartOptions => {
+    const options: ChartOptions = {
         maintainAspectRatio: false,
         backgroundColor: "#33353f",
         scales: {
@@ -9,8 +31,8 @@ export default (tooltipMode = "label", annotations = false, customOptions = {}) 
                     ticks: {
                         fontColor: "white",
                         beginAtZero: true,
-                        callback: function(value, index, values) {
-                            return value.toLocaleString();
+                        callback: function(value) {
+                            return (value as number).toLocaleString();
                         }
                     }
                 }
@@ -35,7 +57,7 @@ export default (tooltipMode = "label", annotations = false, customOptions = {}) 
             intersect: false,
             label: "mylabel",
             callbacks: {
-                label: function(tooltipItem, data) {
+                label: function(tooltipItem: { yLabel: { toLocaleString(): string } }) {
                     return tooltipItem.yLabel.toLocaleString();
                 }
             }

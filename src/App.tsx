@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider, StyledEngineProvider, createTheme, adaptV4Theme } from "@mui/material/styles";
 import Snackbar from "@mui/material/Snackbar";
@@ -14,8 +14,8 @@ import useSnackbar from "./Hooks/useSnackbar";
 import Drawer from "./Components/Drawer";
 import SEO from "./Components/SEO";
 import logoImage from "./Images/logo-192x192.png";
+import { DrawerContext } from "./Contexts/DrawerContext";
 
-export const DrawerContext = React.createContext({ open: false, toggleOpen: null });
 const theme = createTheme(adaptV4Theme(MuiTheme));
 
 const App = () => {
@@ -23,7 +23,10 @@ const App = () => {
     const [open, setOpen] = React.useState(false);
     const toggleOpen = () => setOpen(!open);
 
-    if (window) window.openSnackbar = openSnackbar;
+    useEffect(() => {
+        // expose openSnackbar globally for legacy callers
+        (window as Window & { openSnackbar?: typeof openSnackbar }).openSnackbar = openSnackbar;
+    }, [openSnackbar]);
 
     return (
         <div className="app">

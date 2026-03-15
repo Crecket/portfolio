@@ -9,7 +9,7 @@ import StandardDataSet from "../StandardDataSet";
 import StandardPlugins from "../StandardPlugins";
 import { standardBlue } from "../ChartColors";
 
-export default ({ payments }) => {
+const PaymentIDChart = ({ payments }) => {
     const [logScale, toggleLogScale] = useState(false);
 
     const paymentChartData = payments.map(payment => {
@@ -54,3 +54,5 @@ export default ({ payments }) => {
         </div>
     );
 };
+
+export default PaymentIDChart;

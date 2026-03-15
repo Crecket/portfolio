@@ -5,7 +5,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 import "./LandingSection.scss";
 
-import { DrawerContext } from "../App";
+import { DrawerContext } from "../Contexts/DrawerContext";
 
 const LandingSection = ({ children, className = "", height = "100vh", displayMenuButton = true }) => {
     const { toggleOpen } = React.useContext(DrawerContext);

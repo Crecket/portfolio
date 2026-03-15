@@ -1,4 +1,4 @@
-@import "../../styles/main.scss";
+@use "../../styles/main" as *;
 
 .notfound .landing {
     flex-direction: column;

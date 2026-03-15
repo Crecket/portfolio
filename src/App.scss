@@ -1,4 +1,4 @@
-@import "./styles/main";
+@use "./styles/main" as *;
 
 html,
 body {
@@ -37,7 +37,7 @@ body,
 }
 
 .darker-purple-gradient {
-    @include linear-gradient(to bottom, $purple, lighten($purple, 4));
+    @include linear-gradient(to bottom, $purple, $lighterPurple);
 }
 
 .fadeIn {

@@ -1,49 +1,45 @@
-import React from "react";
-import loadable from "loadable-components";
-import { Route, Switch, useLocation } from "react-router-dom";
+import React, { Suspense, lazy } from "react";
+import { Route, Switch } from "react-router-dom";
 
-import NotFound from "./Pages/NotFound/NotFound";
 import routes from "./Config/routes";
 
+const pageComponents: Record<string, React.LazyExoticComponent<React.ComponentType>> = {
+    Home: lazy(() => import("./Pages/Home/Home")),
+    Projects: lazy(() => import("./Pages/Projects/Projects")),
+    Bunq: lazy(() => import("./Pages/Bunq/Bunq")),
+    NotFound: lazy(() => import("./Pages/NotFound/NotFound"))
+};
+
 interface RouteComponent {
-    key: string;
     path: string;
     exact?: boolean;
-    render: (props: any) => any;
+    render: (props: Record<string, unknown>) => React.ReactNode;
 }
 
 // map config to Page components
 const RouteComponents = Object.keys(routes).map(routeName => {
     const routeDetails = routes[routeName];
     const routePath = routeDetails.path;
+    const Component = pageComponents[routeName];
 
-    // wrap component in a lazy load element
-    const Component = loadable(() => import(`./Pages/${routeName}/${routeName}`), {
-        // dumb hack to ensure that loadable realizes there is content without showing the "Loading" text
-        LoadingComponent: () => <div>.</div>
-    });
-
-    const props: RouteComponent = {
-        key: routePath,
+    const routeProps: RouteComponent = {
         path: routePath,
-        render: props => <Component {...props} />
+        render: renderProps => <Component {...renderProps} />
     };
-    if (routePath === "/") props.exact = true;
+    if (routePath === "/") routeProps.exact = true;
 
-    // return the Route component
-    return <Route {...props} />;
+    return <Route key={routePath} {...routeProps} />;
 });
 
 const Routes = () => {
-    let location = useLocation();
-    console.log("location", location);
     return (
         <main>
-            <Switch>
-                {RouteComponents}
-
-                <Route path="*" element={<NotFound />} />
-            </Switch>
+            <Suspense fallback={<div />}>
+                <Switch>
+                    {RouteComponents}
+                    <Route path="*" render={renderProps => <pageComponents.NotFound {...renderProps} />} />
+                </Switch>
+            </Suspense>
         </main>
     );
 };

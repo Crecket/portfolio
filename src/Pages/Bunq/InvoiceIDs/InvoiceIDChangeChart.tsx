@@ -17,7 +17,7 @@ import { standardBlue, standardGreen, standardRed } from "../ChartColors";
 
 const annotationList = eventsToAnnotations(combinedEventList);
 
-export default ({ invoices }) => {
+const InvoiceIDChangeChart = ({ invoices }) => {
     const [showAnnotations, setShowAnnotations] = useState(false);
     const [movingAverage, setMovingAverage] = useState(true);
     const [compensation, setCompensation] = useState(10);
@@ -25,6 +25,8 @@ export default ({ invoices }) => {
     const [useCompensationSpread, setUseCompensationSpread] = useState(false);
 
     const fillPattern = useBunqCanvasPattern(standardBlue);
+
+    if (!invoices) return null;
 
     const finalCompensation = (100 - compensation) / 100;
     let previousChange = 0;
@@ -174,3 +176,5 @@ export default ({ invoices }) => {
         </div>
     );
 };
+
+export default InvoiceIDChangeChart;

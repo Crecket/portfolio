@@ -1,32 +1,22 @@
 {
   "compilerOptions": {
-    "outDir": "build-server",
-    "target": "es6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
     "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "strictNullChecks": false,
-    "module": "esnext",
     "moduleResolution": "node",
-    "noImplicitAny": false,
     "resolveJsonModule": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
+    "noEmit": true,
     "jsx": "react-jsx",
-    "typeRoots": [
-      "src/Types"
-    ]
+    "strict": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "typeRoots": ["src/types"]
   },
-  "include": [
-    "server",
-    "src",
-    "src/Types/global.d.ts"
-  ]
+  "include": ["src", "src/types/global.d.ts", "vite.config.ts"]
 }

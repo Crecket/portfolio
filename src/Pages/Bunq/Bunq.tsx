@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
-import loadable from "loadable-components";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import axios from "axios";
 import "chartjs-plugin-datalabels";
-import { Switch, Route, Link, useParams, useLocation } from "react-router-dom";
+import { Link, Route, Switch, useParams } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
-
 import MenuIcon from "@mui/icons-material/Menu";
 
-import { DrawerContext } from "../../App";
+import { DrawerContext } from "../../Contexts/DrawerContext";
+import { ShareContext } from "../../Contexts/ShareContext";
 import bunqThumbnail from "../Projects/images/bunq-charts-thumbnail.png";
 import SEO from "../../Components/SEO";
 import Tab from "../../Components/StyledTab";
@@ -17,27 +16,20 @@ import NoscriptDisclaimer from "../../Components/NoscriptDisclaimer";
 import SpeedDialWrapper from "../../Components/Controls/SpeedDialWrapper";
 
 import "./Bunq.scss";
-import { useRouteMatch } from "react-router";
 
-const PaymentIDs = loadable(() => import(`./PaymentIDs/PaymentIDs`));
-const InvoiceIDs = loadable(() => import(`./InvoiceIDs/InvoiceIDs`));
-const TogetherIDs = loadable(() => import(`./TogetherIDs/TogetherIDs`));
-const Combined = loadable(() => import(`./Combined/Combined`));
-const Predictions = loadable(() => import(`./Predictions/Predictions`));
-const Images = loadable(() => import(`./Images/Images`));
-
-export const ShareContext = React.createContext(null);
+const PaymentIDs = lazy(() => import(`./PaymentIDs/PaymentIDs`));
+const InvoiceIDs = lazy(() => import(`./InvoiceIDs/InvoiceIDs`));
+const TogetherIDs = lazy(() => import(`./TogetherIDs/TogetherIDs`));
+const Combined = lazy(() => import(`./Combined/Combined`));
+const Predictions = lazy(() => import(`./Predictions/Predictions`));
+const Images = lazy(() => import(`./Images/Images`));
 
 const Bunq = () => {
-    let { type: paramTab } = useParams();
-    let match = useRouteMatch();
-
-    let params = useParams();
-    let location = useLocation();
+    const { type: paramTab } = useParams();
 
     const [bunqData, setBunqData] = useState(false);
     const [shareData, setShareData] = useState({ title: "bunq charts", url: "https://gregoryg.dev/bunq/invoices" });
-    const [tab, setTab] = useState(paramTab || "invoices");
+    const tab = paramTab || "invoices";
     const { toggleOpen } = React.useContext(DrawerContext);
 
     useEffect(() => {
@@ -50,13 +42,6 @@ const Bunq = () => {
                 console.error("Failed to get bunq data");
             });
     }, []);
-    useEffect(() => {
-        if (paramTab && tab !== paramTab) {
-            setTab(paramTab);
-        } else if (!paramTab) {
-            // history.push(`/bunq/${tab}`);
-        }
-    }, [paramTab, tab]);
 
     const onSave = () => {
         const canvas = document.getElementsByTagName("canvas")[0];
@@ -111,15 +96,17 @@ const Bunq = () => {
 
                     <NoscriptDisclaimer />
 
-                    <Switch>
-                        <Route path={`/bunq/payments/:chart?`} render={() => <PaymentIDs bunqData={bunqData} />} />
-                        <Route path={`/bunq/together/:chart?`} render={() => <TogetherIDs bunqData={bunqData} />} />
-                        <Route path={`/bunq/combined/:chart?`} render={() => <Combined bunqData={bunqData} />} />
-                        <Route path={`/bunq/predictions/:chart?`} render={() => <Predictions bunqData={bunqData} />} />
-                        <Route path={`/bunq/images/:chart?`} render={() => <Images />} />
-                        <Route path={`/bunq/invoices/:chart?`} render={() => <InvoiceIDs bunqData={bunqData} />} />
-                        <Route render={() => <InvoiceIDs bunqData={bunqData} />} />
-                    </Switch>
+                    <Suspense fallback={<div />}>
+                        <Switch>
+                            <Route path={`/bunq/payments/:chart?`} render={() => <PaymentIDs bunqData={bunqData} />} />
+                            <Route path={`/bunq/together/:chart?`} render={() => <TogetherIDs bunqData={bunqData} />} />
+                            <Route path={`/bunq/combined/:chart?`} render={() => <Combined bunqData={bunqData} />} />
+                            <Route path={`/bunq/predictions/:chart?`} render={() => <Predictions bunqData={bunqData} />} />
+                            <Route path={`/bunq/images/:chart?`} render={() => <Images />} />
+                            <Route path={`/bunq/invoices/:chart?`} render={() => <InvoiceIDs bunqData={bunqData} />} />
+                            <Route render={() => <InvoiceIDs bunqData={bunqData} />} />
+                        </Switch>
+                    </Suspense>
                 </div>
             </ShareContext.Provider>
         </div>

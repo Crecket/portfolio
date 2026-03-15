@@ -16,7 +16,7 @@ const defaultMonthlyInterval = 1;
 const defaultPercentageIncrease = 10;
 const defaultMonthsShown = 24;
 
-export default ({ invoices }) => {
+const PredictionsInvoices = ({ invoices }) => {
     const [logScale, toggleLogScale] = useState(false);
     const [monthlyInterval, setMonthlyInterval] = useState(defaultMonthlyInterval);
     const [changePercentage, setChangePercentage] = useState(defaultPercentageIncrease);
@@ -40,7 +40,7 @@ export default ({ invoices }) => {
     lastInvoices.shift();
 
     // calculate difference in change values for the other 5 months
-    let changeList = [];
+    const changeList = [];
     lastInvoices.forEach(invoice => {
         changeList.push(invoice.y - previousChange);
         previousChange = invoice.y;
@@ -140,3 +140,5 @@ export default ({ invoices }) => {
         </div>
     );
 };
+
+export default PredictionsInvoices;
