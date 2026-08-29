@@ -83,13 +83,6 @@ const projects = [
         downloadCount: 634
     },
     {
-        title: "UploadBroBot",
-        description:
-            "A personal project for a Telegram bot which helps with sharing/uploading files to different providers.",
-        url: "https://github.com/Crecket/upload-bro-bot",
-        userCount: 1000
-    },
-    {
         title: "imdb-torrent-search",
         description: "A chrome extension to view torrents for movies and series directly on IMDB.",
         url: "https://github.com/Crecket/imdb-torrent-search",
