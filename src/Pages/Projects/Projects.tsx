@@ -16,8 +16,23 @@ import imdbTorrentSearchImage from "./images/imdb-torrent-search-thumbnail.png";
 import infrastructureInsightsImage from "./images/infrastructure-insights-thumbnail.png";
 import neatoScannedImage from "./images/neato-scanned-image-thumbnail.png";
 import zkiliImage from "./images/zkili-thumbnail.png";
+import wardogsArtilleryImage from "./images/wardogs-artillery-thumbnail.png";
+import olmPetImage from "./images/olm-pet-thumbnail.png";
 
 const projects = [
+    {
+        title: "WARDOGS Artillery Calculator",
+        description:
+            "Calculator tool accounting for height, flight time ranges and real time sharing through websockets for multiple players.",
+        image: wardogsArtilleryImage,
+        url: "https://wardogs-artillery.com/"
+    },
+    {
+        title: "olm.pet",
+        description: "Collection of Oldschool Runescape related project used by thousands of players daily.",
+        image: olmPetImage,
+        url: "https://olm.pet/"
+    },
     {
         title: "bunqDesktop",
         description: "The unofficial, free and open source desktop application for the bunq API.",
@@ -41,7 +56,8 @@ const projects = [
     },
     {
         title: "bunqJSClient",
-        description: "A javascript SDK for the bunq API since no official SDK was present at the time - originally built for the web but has support for NodeJS.",
+        description:
+            "A javascript SDK for the bunq API since no official SDK was present at the time - originally built for the web but has support for NodeJS.",
         image: bunqJSClientImage,
         url: "https://github.com/bunqCommunity/bunqJSClient",
         downloadCount: 48827
